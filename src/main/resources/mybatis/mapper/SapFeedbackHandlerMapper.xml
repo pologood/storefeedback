@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="Mapper.SapFeedbackHandler">
+  <resultMap id="BaseResultMap" type="com.gome.storefeedback.entity.SapFeedbackHandler">
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result property="request" column="REQUEST" jdbcType="VARCHAR" />
+    <result property="datapakid" column="DATAPAKID" jdbcType="DOUBLE" />
+    <result property="record" column="RECORD" jdbcType="INTEGER" />
+    <result property="resultNoName" column="result_no_name" jdbcType="VARCHAR" />
+    <result property="handlerEmpNumber" column="handler_emp_number" jdbcType="VARCHAR" />
+    <result property="handlerEmpName" column="handler_emp_name" jdbcType="VARCHAR" />
+    <result property="isPush" column="is_push" jdbcType="INTEGER" />
+    <result property="isHandler" column="is_handler" jdbcType="INTEGER" />
+    <result property="handlerResult" column="handler_result" jdbcType="INTEGER" />
+    <result property="resultNoCode" column="result_no_code" jdbcType="INTEGER" />
+    <result property="resultYesOrderNum" column="result_yes_order_num" jdbcType="INTEGER" />
+    <result property="pushTime" column="push_time" jdbcType="TIMESTAMP" />
+    <result property="handlerTime" column="handler_time" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id,
+    REQUEST,
+    DATAPAKID,
+    RECORD,
+    result_no_name,
+    handler_emp_number,
+    handler_emp_name,
+    is_push,
+    is_handler,
+    handler_result,
+    result_no_code,
+    result_yes_order_num,
+    push_time,
+    handler_time
+  </sql>
+
+  <select id="selectByPK" resultMap="BaseResultMap" parameterType="map">
+    select
+    <include refid="Base_Column_List" />
+    from sapfeedback_handler
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPK" parameterType="map">
+    delete from sapfeedback_handler
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+
+<!-- 批量插入 -->
+  <insert id="batch" parameterType="list">
+    insert into sapfeedback_handler (
+    <include refid="Base_Column_List" />
+    )
+    values
+    <foreach collection="list" item="item" separator=",">
+      (
+      #{item.id,jdbcType=VARCHAR},
+      #{item.request,jdbcType=VARCHAR},
+      #{item.datapakid,jdbcType=DOUBLE},
+      #{item.record,jdbcType=INTEGER},
+      #{item.resultNoName,jdbcType=VARCHAR},
+      #{item.handlerEmpNumber,jdbcType=VARCHAR},
+      #{item.handlerEmpName,jdbcType=VARCHAR},
+      #{item.isPush,jdbcType=INTEGER},
+      #{item.isHandler,jdbcType=INTEGER},
+      #{item.handlerResult,jdbcType=INTEGER},
+      #{item.resultNoCode,jdbcType=INTEGER},
+      #{item.resultYesOrderNum,jdbcType=INTEGER},
+      #{item.pushTime, jdbcType=TIMESTAMP},
+      #{item.handlerTime,jdbcType=TIMESTAMP}
+      )
+    </foreach>
+  </insert>
+
+  <insert id="insert" parameterType="com.gome.storefeedback.entity.SapFeedbackHandler" useGeneratedKeys="true"
+    keyProperty="id">
+    insert into sapfeedback_handler (
+    <include refid="Base_Column_List" />
+    )
+    values
+    (
+    #{id,jdbcType=VARCHAR},
+    #{request,jdbcType=VARCHAR},
+    #{datapakid,jdbcType=DOUBLE},
+    #{record,jdbcType=INTEGER},
+    #{resultNoName,jdbcType=VARCHAR},
+    #{handlerEmpNumber,jdbcType=VARCHAR},
+    #{handlerEmpName,jdbcType=VARCHAR},
+    #{isPush,jdbcType=INTEGER},
+    #{isHandler,jdbcType=INTEGER},
+    #{handlerResult,jdbcType=INTEGER},
+    #{resultNoCode,jdbcType=INTEGER},
+    #{resultYesOrderNum,jdbcType=INTEGER},
+    #{pushTime, jdbcType=TIMESTAMP},
+    #{handlerTime, jdbcType=TIMESTAMP}
+    )
+  </insert>
+
+  <update id="updateByPK" parameterType="com.gome.storefeedback.entity.SapFeedbackHandler">
+    update sapfeedback_handler
+    <set>
+      <if test="request!=null">REQUEST=#{request,jdbcType=VARCHAR},</if>
+      <if test="datapakid!=null">DATAPAKID=#{datapakid,jdbcType=DOUBLE},</if>
+      <if test="record!=null">RECORD=#{record,jdbcType=INTEGER},</if>
+      <if test="resultNoName !=null">result_no_name=#{resultNoName,jdbcType=VARCHAR},</if>
+      <if test="handlerEmpNumber !=null">handler_emp_name=#{handlerEmpNumber,jdbcType=VARCHAR},</if>
+      <if test="handlerEmpName !=null">handler_emp_name=#{handlerEmpName,jdbcType=VARCHAR},</if>
+      <if test="isPush !=null">is_push=#{isPush,jdbcType=INTEGER},</if>
+      <if test="isHandler !=null">is_handler=#{isHandler,jdbcType=INTEGER},</if>
+      <if test="handlerResult !=null">handler_result=#{handlerResult,jdbcType=INTEGER},</if>
+      <if test="resultNoCode !=null">result_no_code=#{resultNoCode,jdbcType=INTEGER},</if>
+      <if test="resultYesOrderNum !=null">result_yes_order_num=#{resultYesOrderNum,jdbcType=INTEGER},</if>
+      <if test="pushTime !=null">push_time=#{pushTime,jdbcType=TIMESTAMP},</if>
+      <if test="handlerTime !=null">handler_time=#{handlerTime,jdbcType=TIMESTAMP}</if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  
+  <update id="updateSapFeedbackToHr" parameterType="java.util.List">
+  	<foreach collection="list" item="item" separator=";">
+		update zmm_ds62_tohr t
+		<set>
+			t.is_handler = #{item.isHandler,jdbcType=INTEGER},
+			t.handler_result = #{item.handlerResult,jdbcType=INTEGER}
+		</set>
+		where 1=1 
+		and t.REQUEST = #{item.request,jdbcType=VARCHAR} 
+		and t.DATAPAKID = #{item.datapakid,jdbcType=DOUBLE} 	 
+		and t.RECORD = #{item.record,jdbcType=INTEGER} 
+		and t.CALDAY = date_format(#{item.pushTime,jdbcType=TIMESTAMP},'%Y-%m-%d')
+	</foreach>
+  </update>
+
+  <select id="list" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sapfeedback_handler
+    <where>
+      <if test="request!=null">REQUEST=#{request,jdbcType=VARCHAR}</if>
+      <if test="datapakid!=null"> and DATAPAKID=#{datapakid,jdbcType=DOUBLE}</if>
+      <if test="record!=null"> and RECORD=#{record,jdbcType=INTEGER}</if>
+      <if test="resultNoName !=null"> and result_no_name=#{resultNoName,jdbcType=VARCHAR}</if>
+      <if test="handlerEmpNumber !=null"> and handler_emp_name=#{handlerEmpNumber,jdbcType=VARCHAR}</if>
+      <if test="handlerEmpName !=null"> and handler_emp_name=#{handlerEmpName,jdbcType=VARCHAR}</if>
+      <if test="isPush !=null"> and is_push=#{isPush,jdbcType=INTEGER}</if>
+      <if test="isHandler !=null"> and is_handler=#{isHandler,jdbcType=INTEGER}</if>
+      <if test="handlerResult !=null"> and handler_result=#{handlerResult,jdbcType=INTEGER}</if>
+      <if test="resultNoCode !=null"> and result_no_code=#{resultNoCode,jdbcType=INTEGER}</if>
+      <if test="resultYesOrderNum !=null"> and result_yes_order_num=#{resultYesOrderNum,jdbcType=INTEGER}</if>
+      <if test="pushTime !=null"> and push_time=#{pushTime,jdbcType=TIMESTAMP}</if>
+      <if test="handlerTime !=null"> and handler_time=#{handlerTime,jdbcType=TIMESTAMP}</if>
+    </where>
+  </select>
+</mapper>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="Mapper.FeedbackReciever">
+
+  <delete id="deleteByPrimaryKey" parameterType="map">
+    delete from feedback_reciever
+    <where>
+      <if test="null != feedbackId and '' != feedbackId">
+        feedback_id=#{feedbackId,jdbcType=VARCHAR}
+      </if>
+      <if test="null != feedbackPersonId and '' != feedbackPersonId">
+        and feedback_person_id=#{feedbackPersonId,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </delete>
+
+  <insert id="insert" parameterType="com.gome.storefeedback.entity.FeedbackReciever">
+    insert into feedback_reciever (feedback_id, feedback_person_id)
+    values
+    (#{feedbackId,jdbcType=VARCHAR}, #{feedbackPersonId,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="insertBatch" parameterType="list">
+    insert into feedback_reciever (feedback_id, feedback_person_id)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.feedbackId,jdbcType=VARCHAR},
+      #{item.feedbackPersonId,jdbcType=VARCHAR})
+    </foreach>
+  </insert>
+
+  <select id="list" parameterType="map" resultType="com.gome.storefeedback.entity.FeedbackReciever">
+    select feedback_id, feedback_person_id
+    from feedback_reciever
+    <where>
+      <if test="null != feedbackId and '' != feedbackId">
+        feedback_id=#{feedbackId,jdbcType=VARCHAR}
+      </if>
+      <if test="null != feedbackPersonId and '' != feedbackPersonId">
+        and feedback_person_id=#{feedbackPersonId,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+
+</mapper>

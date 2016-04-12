@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ns1:MT_MDM_Req xmlns:ns1="http://gome.com/GSM/MDM/Inbound">
+	<HEADER>
+		<INTERFACE_ID>MD114</INTERFACE_ID>
+		<MESSAGE_ID/>
+		<SENDER/>
+		<RECEIVER/>
+		<DTSEND/>
+	</HEADER>
+	<XML_DATA>
+		<MD114>
+			<ITEMS>
+				<ITEM>
+					<VKGRP/>
+					<BEZEI/>
+					<VKBUR/>
+					<UPDATE_FLAG/>
+				</ITEM>
+				<ITEM>
+					<VKGRP/>
+					<BEZEI/>
+					<VKBUR/>
+					<UPDATE_FLAG/>
+				</ITEM>
+			</ITEMS>
+		</MD114>
+	</XML_DATA>
+</ns1:MT_MDM_Req>

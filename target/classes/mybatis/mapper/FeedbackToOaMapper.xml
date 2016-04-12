@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="Mapper.FeedbackToOa" >
+  <resultMap id="BaseResultMap" type="com.gome.storefeedback.entity.FeedbackToOa" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="REQUEST" property="request" jdbcType="VARCHAR" />
+    <result column="DATAPAKID" property="datapakid" jdbcType="DECIMAL" />
+    <result column="RECORD" property="record" jdbcType="INTEGER" />
+    <result column="push_sts" property="pushSts" jdbcType="VARCHAR" />
+    <result column="push_time" property="pushTime" jdbcType="TIMESTAMP" />
+    <result column="dept" property="dept" jdbcType="VARCHAR" />
+    <result column="empnum" property="empnum" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="sanction_money" property="sanctionMoney" jdbcType="VARCHAR" />
+    <result column="sanction_points" property="sanctionPoints" jdbcType="VARCHAR" />
+    <result column="sanction_month" property="sanctionMonth" jdbcType="VARCHAR" />
+    <result column="insert_time" property="insertTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, REQUEST, DATAPAKID, RECORD, push_sts, push_time, dept, empnum, name, sanction_money, 
+    sanction_points, sanction_month, insert_time
+  </sql>
+  
+  <insert id="insertBatch" parameterType="list">  
+    insert into feedback_to_oa (
+    <include refid="Base_Column_List" />
+    )
+    values
+    <foreach collection="list" item="item" separator=",">
+      (
+     #{item.id,jdbcType=VARCHAR}, #{item.request,jdbcType=VARCHAR}, #{item.datapakid,jdbcType=DECIMAL}, 
+      #{item.record,jdbcType=INTEGER}, #{item.pushSts,jdbcType=VARCHAR}, #{item.pushTime,jdbcType=TIMESTAMP}, 
+      #{item.dept,jdbcType=VARCHAR}, #{item.empnum,jdbcType=VARCHAR}, #{item.name,jdbcType=VARCHAR}, 
+      #{item.sanctionMoney,jdbcType=VARCHAR}, #{item.sanctionPoints,jdbcType=VARCHAR}, #{item.sanctionMonth,jdbcType=VARCHAR}, 
+      #{item.insertTime,jdbcType=TIMESTAMP}
+      )
+    </foreach>
+</insert> 
+
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from feedback_to_oa
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from feedback_to_oa
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.gome.storefeedback.entity.FeedbackToOa" >
+    insert into feedback_to_oa (id, REQUEST, DATAPAKID, 
+      RECORD, push_sts, push_time, 
+      dept, empnum, name, 
+      sanction_money, sanction_points, sanction_month, 
+      insert_time)
+    values (#{id,jdbcType=VARCHAR}, #{request,jdbcType=VARCHAR}, #{datapakid,jdbcType=DECIMAL}, 
+      #{record,jdbcType=INTEGER}, #{pushSts,jdbcType=VARCHAR}, #{pushTime,jdbcType=TIMESTAMP}, 
+      #{dept,jdbcType=VARCHAR}, #{empnum,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{sanctionMoney,jdbcType=VARCHAR}, #{sanctionPoints,jdbcType=VARCHAR}, #{sanctionMonth,jdbcType=VARCHAR}, 
+      #{insertTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.gome.storefeedback.entity.FeedbackToOa" >
+    insert into feedback_to_oa
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="request != null" >
+        REQUEST,
+      </if>
+      <if test="datapakid != null" >
+        DATAPAKID,
+      </if>
+      <if test="record != null" >
+        RECORD,
+      </if>
+      <if test="pushSts != null" >
+        push_sts,
+      </if>
+      <if test="pushTime != null" >
+        push_time,
+      </if>
+      <if test="dept != null" >
+        dept,
+      </if>
+      <if test="empnum != null" >
+        empnum,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="sanctionMoney != null" >
+        sanction_money,
+      </if>
+      <if test="sanctionPoints != null" >
+        sanction_points,
+      </if>
+      <if test="sanctionMonth != null" >
+        sanction_month,
+      </if>
+      <if test="insertTime != null" >
+        insert_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="request != null" >
+        #{request,jdbcType=VARCHAR},
+      </if>
+      <if test="datapakid != null" >
+        #{datapakid,jdbcType=DECIMAL},
+      </if>
+      <if test="record != null" >
+        #{record,jdbcType=INTEGER},
+      </if>
+      <if test="pushSts != null" >
+        #{pushSts,jdbcType=VARCHAR},
+      </if>
+      <if test="pushTime != null" >
+        #{pushTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dept != null" >
+        #{dept,jdbcType=VARCHAR},
+      </if>
+      <if test="empnum != null" >
+        #{empnum,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sanctionMoney != null" >
+        #{sanctionMoney,jdbcType=VARCHAR},
+      </if>
+      <if test="sanctionPoints != null" >
+        #{sanctionPoints,jdbcType=VARCHAR},
+      </if>
+      <if test="sanctionMonth != null" >
+        #{sanctionMonth,jdbcType=VARCHAR},
+      </if>
+      <if test="insertTime != null" >
+        #{insertTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gome.storefeedback.entity.FeedbackToOa" >
+    update feedback_to_oa
+    <set >
+      <if test="request != null" >
+        REQUEST = #{request,jdbcType=VARCHAR},
+      </if>
+      <if test="datapakid != null" >
+        DATAPAKID = #{datapakid,jdbcType=DECIMAL},
+      </if>
+      <if test="record != null" >
+        RECORD = #{record,jdbcType=INTEGER},
+      </if>
+      <if test="pushSts != null" >
+        push_sts = #{pushSts,jdbcType=VARCHAR},
+      </if>
+      <if test="pushTime != null" >
+        push_time = #{pushTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dept != null" >
+        dept = #{dept,jdbcType=VARCHAR},
+      </if>
+      <if test="empnum != null" >
+        empnum = #{empnum,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sanctionMoney != null" >
+        sanction_money = #{sanctionMoney,jdbcType=VARCHAR},
+      </if>
+      <if test="sanctionPoints != null" >
+        sanction_points = #{sanctionPoints,jdbcType=VARCHAR},
+      </if>
+      <if test="sanctionMonth != null" >
+        sanction_month = #{sanctionMonth,jdbcType=VARCHAR},
+      </if>
+      <if test="insertTime != null" >
+        insert_time = #{insertTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gome.storefeedback.entity.FeedbackToOa" >
+    update feedback_to_oa
+    set REQUEST = #{request,jdbcType=VARCHAR},
+      DATAPAKID = #{datapakid,jdbcType=DECIMAL},
+      RECORD = #{record,jdbcType=INTEGER},
+      push_sts = #{pushSts,jdbcType=VARCHAR},
+      push_time = #{pushTime,jdbcType=TIMESTAMP},
+      dept = #{dept,jdbcType=VARCHAR},
+      empnum = #{empnum,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      sanction_money = #{sanctionMoney,jdbcType=VARCHAR},
+      sanction_points = #{sanctionPoints,jdbcType=VARCHAR},
+      sanction_month = #{sanctionMonth,jdbcType=VARCHAR},
+      insert_time = #{insertTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

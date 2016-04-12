@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="Mapper.FeedbackAppeal" >
+  <resultMap id="BaseResultMap" type="com.gome.storefeedback.entity.FeedbackAppeal" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="REQUEST" property="request" jdbcType="VARCHAR" />
+    <result column="DATAPAKID" property="datapakid" jdbcType="DECIMAL" />
+    <result column="RECORD" property="record" jdbcType="INTEGER" />
+    <result column="is_push" property="isPush" jdbcType="INTEGER" />
+    <result column="push_time" property="pushTime" jdbcType="TIMESTAMP" />
+    <result column="is_handler" property="isHandler" jdbcType="INTEGER" />
+    <result column="handler_result" property="handlerResult" jdbcType="INTEGER" />
+    <result column="handler_number" property="handlerNumber" jdbcType="VARCHAR" />
+    <result column="handler_name" property="handlerName" jdbcType="VARCHAR" />
+    <result column="handler_time" property="handlerTime" jdbcType="TIMESTAMP" />
+    <result column="appealNum" property="appealnum" jdbcType="VARCHAR" />
+    <result column="appeal_name" property="appealName" jdbcType="VARCHAR" />
+    <result column="appeal_dept" property="appealDept" jdbcType="VARCHAR" />
+    <result column="appeal_reason" property="appealReason" jdbcType="VARCHAR" />
+    <result column="appeal_time" property="appealTime" jdbcType="TIMESTAMP" />
+    <result column="appeal_model" property="appealModel" jdbcType="VARCHAR" />  
+    <result column="appeal_acccount" property="appealAcccount" jdbcType="VARCHAR" /> 
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, REQUEST, DATAPAKID, RECORD, is_push, push_time, is_handler, handler_result, handler_number, 
+    handler_name, handler_time, appealNum, appeal_name, appeal_dept, appeal_reason, appeal_time,appeal_model,appeal_acccount
+  </sql>
+  
+   <insert id="insertBatch" parameterType="list">  
+    insert into feedback_appeal (
+    <include refid="Base_Column_List" />
+    )
+    values
+    <foreach collection="list" item="item" separator=",">
+      (
+     #{item.id,jdbcType=VARCHAR}, #{item.request,jdbcType=VARCHAR}, #{item.datapakid,jdbcType=DECIMAL}, 
+      #{item.record,jdbcType=INTEGER}, #{item.isPush,jdbcType=INTEGER}, #{item.pushTime,jdbcType=TIMESTAMP}, 
+      #{item.isHandler,jdbcType=INTEGER}, #{item.handlerResult,jdbcType=INTEGER}, #{item.handlerNumber,jdbcType=VARCHAR}, 
+      #{item.handlerName,jdbcType=VARCHAR}, #{item.handlerTime,jdbcType=TIMESTAMP}, #{item.appealnum,jdbcType=VARCHAR}, 
+      #{item.appealName,jdbcType=VARCHAR}, #{item.appealDept,jdbcType=VARCHAR}, #{item.appealReason,jdbcType=VARCHAR}, 
+      #{item.appealTime,jdbcType=TIMESTAMP},#{item.appealModel,jdbcType=VARCHAR},#{item.appealAcccount,jdbcType=VARCHAR}
+      )
+    </foreach>
+</insert> 
+
+<sql id="WhereByPK">
+    where REQUEST = #{request,jdbcType=VARCHAR}
+    and DATAPAKID = #{datapakid,jdbcType=DOUBLE}
+    and
+    RECORD=#{record,jdbcType=INTEGER}
+  </sql>
+
+<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from feedback_appeal
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  
+   <resultMap id="AppealListResultMap" type="com.gome.storefeedback.entity.FeedbackAppeal" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="appealNum" property="appealnum" jdbcType="VARCHAR" />
+    <result column="appeal_name" property="appealName" jdbcType="VARCHAR" />
+    <result column="appeal_reason" property="appealReason" jdbcType="VARCHAR" />
+    <result column="appeal_model" property="appealModel" jdbcType="VARCHAR" />  
+    <result column="appeal_acccount" property="appealAcccount" jdbcType="VARCHAR" /> 
+  </resultMap>
+  <select id="findFeedbackAppealList" resultMap="AppealListResultMap" parameterType="map" >
+    select 
+    CONCAT(
+			REQUEST,
+			'#',
+			DATAPAKID,
+			'#',
+			RECORD,'#',appeal_acccount
+		) AS id,appealNum, appeal_name, appeal_reason,appeal_model,appeal_acccount
+    from feedback_appeal
+    where is_handler = 0
+    
+    <if test="handlerNumber != null" >
+      and  handler_number = #{handlerNumber,jdbcType=VARCHAR} 
+      </if>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from feedback_appeal
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.gome.storefeedback.entity.FeedbackAppeal" >
+    insert into feedback_appeal (id, REQUEST, DATAPAKID, 
+      RECORD, is_push, push_time, 
+      is_handler, handler_result, handler_number, 
+      handler_name, handler_time, appealNum, 
+      appeal_name, appeal_dept, appeal_reason, 
+      appeal_time)
+    values (#{id,jdbcType=VARCHAR}, #{request,jdbcType=VARCHAR}, #{datapakid,jdbcType=DECIMAL}, 
+      #{record,jdbcType=INTEGER}, #{isPush,jdbcType=INTEGER}, #{pushTime,jdbcType=TIMESTAMP}, 
+      #{isHandler,jdbcType=INTEGER}, #{handlerResult,jdbcType=INTEGER}, #{handlerNumber,jdbcType=VARCHAR}, 
+      #{handlerName,jdbcType=VARCHAR}, #{handlerTime,jdbcType=TIMESTAMP}, #{appealnum,jdbcType=VARCHAR}, 
+      #{appealName,jdbcType=VARCHAR}, #{appealDept,jdbcType=VARCHAR}, #{appealReason,jdbcType=VARCHAR}, 
+      #{appealTime,jdbcType=TIMESTAMP},#{item.appealModel,jdbcType=VARCHAR},#{item.appealAcccount,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.gome.storefeedback.entity.FeedbackAppeal" >
+    insert into feedback_appeal
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="request != null" >
+        REQUEST,
+      </if>
+      <if test="datapakid != null" >
+        DATAPAKID,
+      </if>
+      <if test="record != null" >
+        RECORD,
+      </if>
+      <if test="isPush != null" >
+        is_push,
+      </if>
+      <if test="pushTime != null" >
+        push_time,
+      </if>
+      <if test="isHandler != null" >
+        is_handler,
+      </if>
+      <if test="handlerResult != null" >
+        handler_result,
+      </if>
+      <if test="handlerNumber != null" >
+        handler_number,
+      </if>
+      <if test="handlerName != null" >
+        handler_name,
+      </if>
+      <if test="handlerTime != null" >
+        handler_time,
+      </if>
+      <if test="appealnum != null" >
+        appealNum,
+      </if>
+      <if test="appealName != null" >
+        appeal_name,
+      </if>
+      <if test="appealDept != null" >
+        appeal_dept,
+      </if>
+      <if test="appealReason != null" >
+        appeal_reason,
+      </if>
+      <if test="appealTime != null" >
+        appeal_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="request != null" >
+        #{request,jdbcType=VARCHAR},
+      </if>
+      <if test="datapakid != null" >
+        #{datapakid,jdbcType=DECIMAL},
+      </if>
+      <if test="record != null" >
+        #{record,jdbcType=INTEGER},
+      </if>
+      <if test="isPush != null" >
+        #{isPush,jdbcType=INTEGER},
+      </if>
+      <if test="pushTime != null" >
+        #{pushTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isHandler != null" >
+        #{isHandler,jdbcType=INTEGER},
+      </if>
+      <if test="handlerResult != null" >
+        #{handlerResult,jdbcType=INTEGER},
+      </if>
+      <if test="handlerNumber != null" >
+        #{handlerNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="handlerName != null" >
+        #{handlerName,jdbcType=VARCHAR},
+      </if>
+      <if test="handlerTime != null" >
+        #{handlerTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="appealnum != null" >
+        #{appealnum,jdbcType=VARCHAR},
+      </if>
+      <if test="appealName != null" >
+        #{appealName,jdbcType=VARCHAR},
+      </if>
+      <if test="appealDept != null" >
+        #{appealDept,jdbcType=VARCHAR},
+      </if>
+      <if test="appealReason != null" >
+        #{appealReason,jdbcType=VARCHAR},
+      </if>
+      <if test="appealTime != null" >
+        #{appealTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gome.storefeedback.entity.FeedbackAppeal" >
+    update feedback_appeal
+    <set >
+      <if test="request != null" >
+        REQUEST = #{request,jdbcType=VARCHAR},
+      </if>
+      <if test="datapakid != null" >
+        DATAPAKID = #{datapakid,jdbcType=DECIMAL},
+      </if>
+      <if test="record != null" >
+        RECORD = #{record,jdbcType=INTEGER},
+      </if>
+      <if test="isPush != null" >
+        is_push = #{isPush,jdbcType=INTEGER},
+      </if>
+      <if test="pushTime != null" >
+        push_time = #{pushTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isHandler != null" >
+        is_handler = #{isHandler,jdbcType=INTEGER},
+      </if>
+      <if test="handlerResult != null" >
+        handler_result = #{handlerResult,jdbcType=INTEGER},
+      </if>
+      <if test="handlerNumber != null" >
+        handler_number = #{handlerNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="handlerName != null" >
+        handler_name = #{handlerName,jdbcType=VARCHAR},
+      </if>
+      <if test="handlerTime != null" >
+        handler_time = #{handlerTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="appealnum != null" >
+        appealNum = #{appealnum,jdbcType=VARCHAR},
+      </if>
+      <if test="appealName != null" >
+        appeal_name = #{appealName,jdbcType=VARCHAR},
+      </if>
+      <if test="appealDept != null" >
+        appeal_dept = #{appealDept,jdbcType=VARCHAR},
+      </if>
+      <if test="appealReason != null" >
+        appeal_reason = #{appealReason,jdbcType=VARCHAR},
+      </if>
+      <if test="appealTime != null" >
+        appeal_time = #{appealTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gome.storefeedback.entity.FeedbackAppeal" >
+    update feedback_appeal
+    set REQUEST = #{request,jdbcType=VARCHAR},
+      DATAPAKID = #{datapakid,jdbcType=DECIMAL},
+      RECORD = #{record,jdbcType=INTEGER},
+      is_push = #{isPush,jdbcType=INTEGER},
+      push_time = #{pushTime,jdbcType=TIMESTAMP},
+      is_handler = #{isHandler,jdbcType=INTEGER},
+      handler_result = #{handlerResult,jdbcType=INTEGER},
+      handler_number = #{handlerNumber,jdbcType=VARCHAR},
+      handler_name = #{handlerName,jdbcType=VARCHAR},
+      handler_time = #{handlerTime,jdbcType=TIMESTAMP},
+      appealNum = #{appealnum,jdbcType=VARCHAR},
+      appeal_name = #{appealName,jdbcType=VARCHAR},
+      appeal_dept = #{appealDept,jdbcType=VARCHAR},
+      appeal_reason = #{appealReason,jdbcType=VARCHAR},
+      appeal_time = #{appealTime,jdbcType=TIMESTAMP}
+      
+      <include refid="WhereByPK" />
+  </update>
+</mapper>

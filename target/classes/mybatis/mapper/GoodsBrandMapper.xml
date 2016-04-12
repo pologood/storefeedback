@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="Mapper.GoodsBrand">
+
+  <resultMap id="BaseResultMap" type="com.gome.storefeedback.entity.GoodsBrand">
+    <id column="brand_code" property="brandCode" jdbcType="VARCHAR" />
+    <result column="cn_text" property="cnText" jdbcType="VARCHAR" />
+    <result column="en_text" property="enText" jdbcType="VARCHAR" />
+    <result column="brand_class" property="brandClass" jdbcType="VARCHAR" />
+    <result column="update_flag" property="updateFlag" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    brand_code, cn_text, en_text, brand_class, update_flag, create_time
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="map">
+    select
+    <include refid="Base_Column_List" />
+    from goods_brand
+    where brand_code = #{brandCode,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="map">
+    delete from goods_brand
+    where brand_code =
+    #{brandCode,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.gome.storefeedback.entity.GoodsBrand">
+    insert into goods_brand
+    (brand_code, cn_text, en_text,
+    brand_class,
+    update_flag, create_time
+    )
+    values (#{brandCode,jdbcType=VARCHAR}, #{cnText,jdbcType=VARCHAR},
+    #{enText,jdbcType=VARCHAR},
+    #{brandClass,jdbcType=VARCHAR}, #{updateFlag,jdbcType=VARCHAR},
+    #{createTime,jdbcType=TIMESTAMP}
+    )
+  </insert>
+
+  <!-- 批量插入 -->
+  <insert id="insertBatch" parameterType="list">
+    insert into goods_brand (
+    <include refid="Base_Column_List" />
+    )
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.brandCode,jdbcType=VARCHAR},
+      #{item.cnText,jdbcType=VARCHAR},
+      #{item.enText,jdbcType=VARCHAR},
+      #{item.brandClass,jdbcType=VARCHAR},
+      #{item.updateFlag,jdbcType=VARCHAR},
+      #{item.createTime,jdbcType=TIMESTAMP}
+      )
+    </foreach>
+  </insert>
+  <update id="update" parameterType="com.gome.storefeedback.entity.GoodsBrand">
+    update goods_brand
+    <set>
+      <if test="cnText != null">
+        cn_text = #{cnText,jdbcType=VARCHAR},
+      </if>
+      <if test="enText != null">
+        en_text = #{enText,jdbcType=VARCHAR},
+      </if>
+      <if test="brandClass != null">
+        brand_class = #{brandClass,jdbcType=VARCHAR},
+      </if>
+      <if test="updateFlag != null">
+        update_flag = #{updateFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where brand_code = #{brandCode,jdbcType=VARCHAR}
+  </update>
+
+  <select id="list" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from goods_brand
+    <where>
+      <if test="null != brandCode and '' != brandCode"> brand_code = #{brandCode}</if>
+      <if test="null != cnText and '' != cnText">and cn_text like "%"#{cnText}"%"</if>
+      <if test="null != brandClass and '' != brandClass">and brand_class like "%"#{brandClass}"%"</if>
+<!--       <if test="null != updateFlag and '' != updateFlag">and update_flag = #{updateFlag}</if>
+      <if test="null != enText and '' != enText">and en_text = #{enText}</if> -->
+    </where>
+  </select>
+
+  <select id="applist" parameterType="map" resultType="map">
+    select
+    brand_code keyValue,cn_text keyName
+    from goods_brand
+    <where>
+      <if test="null != brandCode and '' != brandCode"> brand_code = #{brandCode}</if>
+      <if test="null != cnText and '' != cnText">and cn_text like "%"#{cnText}"%"</if>
+    </where>
+  </select>
+
+</mapper>

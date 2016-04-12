@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ns1:MT_MM_Req xmlns:ns1="http://gome.com/GSM/MM/Inbound">
+	<HEADER>
+		<INTERFACE_ID>MM086</INTERFACE_ID>
+		<MESSAGE_ID/>
+		<SENDER>ECC</SENDER>
+		<RECEIVER>GSM</RECEIVER>
+		<DTSEND/>
+	</HEADER>
+	<XML_DATA>
+		<MM086>
+			<ITEMS>
+				<ITEM>
+					<ZDEPA/>
+					<ZTYPE/>
+					<ZYEAR/>
+					<ZWEEK/>
+					<ZOTYP/>
+					<ZRWJS/>
+					<CUSER/>
+					<CDATE/>
+					<DATEB/>
+					<DATEI/>
+					<ZSPZT/>
+					<MUSER/>
+					<MDATE/>
+					<ORWJS/>
+				</ITEM>
+				<ITEM>
+                    <ZDEPA/>  ZDEPA	X	CHAR	4	业务部门
+                    <ZTYPE/>  ZTYPE	X	CHAR	1	任务类别
+                    <ZYEAR/>  ZYEAR	X	CHAR	4	年份
+                    <ZWEEK/>  ZWEEK	X	CHAR	3	期数
+                    <ZOTYP/>  ZOTYP	X	CHAR	4	任务类型
+                    <ZRWJS/>  ZRWJS	　	CURR	13	周/月/年任务基数
+                    <CUSER/>  CUSER	　	CHAR	12	创建人
+                    <CDATE/>  CDATE	　	DATS	8	创建日期
+                    <DATEB/>  DATEB		DATS	8	任务开始日期
+                    <DATEI/>  DATEI		DATS	8	任务结束日期
+                    <ZSPZT/>  ZSPZT	　	CHAR	2	审批状态
+                    <MUSER/>  MUSER	　	CHAR	12	最后修改人
+                    <MDATE/>  MDATE	　	DATS	8	最后修改日期 
+                    <ORWJS/>  ORWJS	　	CURR	13	原任务基数
+				</ITEM>
+			</ITEMS>
+		</MM086>
+	</XML_DATA>
+</ns1:MT_MM_Req>

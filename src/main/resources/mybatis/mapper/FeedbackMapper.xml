@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="Mapper.Feedback">
+  <resultMap id="BaseResultMap" type="com.gome.storefeedback.entity.Feedback">
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="sponsor_id" property="sponsorId" jdbcType="VARCHAR" />
+    <result column="sponsor_employee_id" property="sponsorEmployeeId" jdbcType="VARCHAR" />
+    <result column="sponsor_employee_name" property="sponsorEmployeeName" jdbcType="VARCHAR" />
+    <result column="sponsor_company_id" property="sponsorCompanyId" jdbcType="VARCHAR" />
+    <result column="first_category" property="firstCategory" jdbcType="VARCHAR" />
+    <result column="second_category" property="secondCategory" jdbcType="VARCHAR" />
+    <result column="brand_code" property="brandCode" jdbcType="VARCHAR" />
+    <result column="goods_code" property="goodsCode" jdbcType="VARCHAR" />
+    <result column="lack_category" property="lackCategory" jdbcType="VARCHAR" />
+    <result column="anticipated_dates_sold_out" property="anticipatedDatesSoldOut" jdbcType="VARCHAR" />
+    <result column="sale_out_date" property="saleOutDate" jdbcType="INTEGER" />
+    <result column="quantity" property="quantity" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="store_code" property="storeCode" jdbcType="VARCHAR" />
+    <result column="has_return" property="hasReturn" jdbcType="INTEGER" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    id, sponsor_id, sponsor_employee_id, sponsor_employee_name, sponsor_company_id,
+    first_category,
+    second_category, brand_code, goods_code, lack_category, anticipated_dates_sold_out,
+    sale_out_date, quantity,
+    create_time, store_code,has_return
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select
+    <include refid="Base_Column_List" />
+    from feedback
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from feedback
+    where id =
+    #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.gome.storefeedback.entity.Feedback">
+    insert into feedback (id,
+    sponsor_id, sponsor_employee_id,
+    sponsor_employee_name, sponsor_company_id,
+    first_category, second_category, brand_code,
+    goods_code, lack_category,
+    anticipated_dates_sold_out,
+    sale_out_date, quantity, create_time,
+    store_code,has_return)
+    values
+    (#{id,jdbcType=VARCHAR},
+    #{sponsorId,jdbcType=VARCHAR}, #{sponsorEmployeeId,jdbcType=VARCHAR},
+    #{sponsorEmployeeName,jdbcType=VARCHAR},
+    #{sponsorCompanyId,jdbcType=VARCHAR},
+    #{firstCategory,jdbcType=VARCHAR},
+    #{secondCategory,jdbcType=VARCHAR},
+    #{brandCode,jdbcType=VARCHAR},
+    #{goodsCode,jdbcType=VARCHAR},
+    #{lackCategory,jdbcType=VARCHAR},
+    #{anticipatedDatesSoldOut,jdbcType=VARCHAR},
+    #{saleOutDate,jdbcType=INTEGER},
+    #{quantity,jdbcType=INTEGER},
+    #{createTime,jdbcType=TIMESTAMP},
+    #{storeCode,jdbcType=VARCHAR},
+    #{hasReturn,jdbcType=INTEGER})
+  </insert>
+
+  <update id="updateHasReturn" parameterType="map">
+    update feedback set has_return=
+    <if test="option != null and 'delete' == option">
+      has_return - 1
+    </if>
+    <if test="option != null and 'insert' == option">
+      has_return + 1
+    </if>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <update id="update" parameterType="com.gome.storefeedback.entity.Feedback">
+    update feedback
+    <set>
+      <if test="sponsorId != null">
+        sponsor_id = #{sponsorId,jdbcType=VARCHAR},
+      </if>
+      <if test="sponsorEmployeeId != null">
+        sponsor_employee_id = #{sponsorEmployeeId,jdbcType=VARCHAR},
+      </if>
+      <if test="sponsorEmployeeName != null">
+        sponsor_employee_name = #{sponsorEmployeeName,jdbcType=VARCHAR},
+      </if>
+      <if test="sponsorCompanyId != null">
+        sponsor_company_id = #{sponsorCompanyId,jdbcType=VARCHAR},
+      </if>
+      <if test="firstCategory != null">
+        first_category = #{firstCategory,jdbcType=VARCHAR},
+      </if>
+      <if test="secondCategory != null">
+        second_category = #{secondCategory,jdbcType=VARCHAR},
+      </if>
+      <if test="brandCode != null">
+        brand_code = #{brandCode,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsCode != null">
+        goods_code = #{goodsCode,jdbcType=VARCHAR},
+      </if>
+      <if test="lackCategory != null">
+        lack_category = #{lackCategory,jdbcType=VARCHAR},
+      </if>
+      <if test="anticipatedDatesSoldOut != null">
+        anticipated_dates_sold_out =
+        #{anticipatedDatesSoldOut,jdbcType=VARCHAR},
+      </if>
+      <if test="saleOutDate != null">
+        sale_out_date = #{saleOutDate,jdbcType=INTEGER},
+      </if>
+      <if test="quantity != null">
+        quantity = #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="storeCode != null">
+        store_code = #{storeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="hasReturn != null">
+        has_return = #{hasReturn,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <select id="listBySponsor" parameterType="map" resultType="map">
+    select f.*,gc1.class_name class_name1,gc2.class_name class_name2,gb.cn_text,g.goods_name,lc.category_name
+    from
+    feedback f
+    LEFT JOIN goods_category gc1 ON f.first_category=gc1.class_code
+    LEFT JOIN goods_category gc2 ON
+    f.second_category=gc2.class_code
+    LEFT JOIN goods_brand gb ON f.brand_code=gb.brand_code
+    LEFT JOIN goods g ON
+    f.goods_code=g.goods_code
+    LEFT JOIN lack_category lc ON f.lack_category=lc.category_code
+    <where>
+      <if test="null != storeCode and '' != storeCode">
+        f.store_code=#{storeCode}
+      </if>
+      <if test="null != sponsorId and '' != sponsorId">
+        and f.sponsor_id=#{sponsorId}
+      </if>
+      <if test="null != sponsorEmployeeId and '' != sponsorEmployeeId">
+        and f.sponsor_employee_id=#{sponsorEmployeeId}
+      </if>
+      <if test="null != id and '' != id">
+        and f.id=#{id}
+      </if>
+      <if test="null != sponsorEmployeeName and '' != sponsorEmployeeName">
+        and sponsor_employee_name like "%${sponsorEmployeeName}%"
+      </if>
+    </where>
+    ORDER BY f.create_time DESC
+  </select>
+
+  <select id="list" parameterType="map" resultType="map">
+    select
+    f.id id,
+    f.first_category firstCategory,gc1.division_name className1,
+    f.second_category
+    secondCategory,gc2.class_name className2,
+    f.brand_code
+    brandCode,gb.cn_text cnText,
+    f.goods_code goodsCode,<!-- g.goods_name
+    goodsName, -->(case when g.goods_name is null then '' else g.goods_name end) goodsName,
+    f.lack_category
+    lackCategory,lc.category_name categoryName,
+    f.store_code storeCode,store.store_name storeName,
+    f.sponsor_id sponsorId,
+    f.sponsor_employee_id sponsorEmployeeId,
+    f.sponsor_employee_name sponsorEmployeeName,
+    f.sponsor_company_id
+    sponsorCompanyId,
+    f.anticipated_dates_sold_out anticipatedDatesSoldOut,
+    f.sale_out_date
+    saleOutDate,
+    f.quantity
+    quantity,
+    f.create_time createTime,
+    f.has_return hasReturn
+    from feedback f
+    LEFT JOIN (SELECT DISTINCT division_code, division_name FROM `goods_category` WHERE division_code IS NOT NULL AND division_code !='') gc1 ON
+    f.first_category=gc1.division_code
+    LEFT JOIN goods_category gc2 ON f.second_category=gc2.class_code
+    LEFT JOIN goods_brand
+    gb ON f.brand_code=gb.brand_code
+    LEFT JOIN goods g ON f.goods_code=g.goods_code
+    LEFT JOIN lack_category lc ON
+    f.lack_category=lc.category_code
+    LEFT JOIN store ON store.store_code=f.store_code
+    <where>
+      <if test="null != storeCode and '' != storeCode">
+        f.store_code=#{storeCode}
+      </if>
+      <if test="null != sponsorId and '' != sponsorId">
+        and f.sponsor_id=#{sponsorId}
+      </if>
+      <if test="null != sponsorEmployeeId and '' != sponsorEmployeeId">
+        and f.sponsor_employee_id=#{sponsorEmployeeId}
+      </if>
+      <if test="null != id and '' != id">
+        and f.id=#{id}
+      </if>
+      <if test="null != hasReturn and 0 == hasReturn">
+        and f.has_return = 0
+      </if>
+      <if test="null != hasReturn and 1 == hasReturn">
+        and f.has_return &gt;= 1
+      </if>
+      <if test="null != sponsorEmployeeName and '' != sponsorEmployeeName">
+        and f.sponsor_employee_name like "%${sponsorEmployeeName}%"
+      </if>
+      <if test="null != startTime and '' != startTime">
+        and f.create_time &gt;= #{startTime}
+      </if>
+      <if test="null != endTime and '' != endTime">
+        and f.create_time &lt;= #{endTime}
+      </if>
+    </where>
+    ORDER BY f.create_time DESC
+  </select>
+
+  <select id="listByReciever" parameterType="map" resultType="map">
+    SELECT
+    f.id id,
+    f.first_category firstCategory,gc1.division_name className1,
+    f.second_category secondCategory,
+    gc2.class_name className2,
+    f.brand_code brandCode,gb.cn_text cnText,
+    f.goods_code goodsCode,(case when g.goods_name is null then '' else g.goods_name end) goodsName,
+    f.lack_category lackCategory,lc.category_name categoryName,
+    f.store_code storeCode,<!-- store.store_name storeName, -->
+    (case when store.store_name is null then '' else store.store_name end) storeName,
+    f.sponsor_id sponsorId,
+    f.sponsor_employee_id sponsorEmployeeId,
+    f.sponsor_employee_name sponsorEmployeeName,
+    f.sponsor_company_id
+    sponsorCompanyId,
+    f.anticipated_dates_sold_out anticipatedDatesSoldOut,
+    f.sale_out_date
+    saleOutDate,
+    f.quantity
+    quantity,
+    f.create_time createTime,
+    f.has_return hasReturn
+    FROM (SELECT ff.* FROM feedback ff
+    <where>
+      <if test="null != startTime and '' != startTime">
+        ff.create_time &gt;= #{startTime}
+      </if>
+      <if test="null != endTime and '' != endTime">
+        and ff.create_time &lt;= #{endTime}
+      </if>
+      <if test="null != feedbackPersonId and '' != feedbackPersonId">
+        and EXISTS (SELECT fr.feedback_id FROM feedback_reciever fr WHERE
+        ff.id=fr.feedback_id AND
+        fr.feedback_person_id=#{feedbackPersonId})
+      </if>
+      <if test="null != storeCode and '' != storeCode">
+        AND ff.store_code LIKE "%${storeCode}%"
+      </if>
+      <if test="null != storeName and '' != storeName">
+        AND EXISTS (SELECT store.store_code FROM store WHERE store.store_name LIKE "%${storeName}%" AND
+        store.store_code=ff.store_code)
+      </if>
+      <if test="null != goodsCode and '' != goodsCode">
+        AND ff.goods_code LIKE "%${goodsCode}%"
+      </if>
+      <if test="null != goodsName and '' != goodsName">
+        AND EXISTS (SELECT gin.goods_code FROM goods gin WHERE gin.goods_name LIKE "%${goodsName}%" AND
+        ff.goods_code =
+        gin.goods_code)
+      </if>
+      AND
+      <if test="null!=hasReturn and 0==hasReturn">
+        NOT
+      </if>
+      EXISTS (SELECT fd.feedback_id FROM feedback_record fd WHERE ff.id=fd.feedback_id AND
+      fd.feedback_person_id=#{feedbackPersonId})
+    </where>
+    ) f
+    LEFT JOIN
+    goods_brand gb ON gb.brand_code = f.brand_code
+    LEFT JOIN
+    (SELECT DISTINCT division_code, division_name FROM `goods_category` WHERE division_code IS NOT NULL AND division_code !='') gc1 ON
+    f.first_category=gc1.division_code
+    LEFT
+    JOIN goods_category gc2 ON
+    f.second_category=gc2.class_code
+    LEFT JOIN goods g ON
+    f.goods_code=g.goods_code
+    LEFT JOIN
+    lack_category lc ON f.lack_category=lc.category_code
+    LEFT JOIN store ON store.store_code=f.store_code
+    ORDER BY
+    f.create_time DESC
+  </select>
+</mapper>

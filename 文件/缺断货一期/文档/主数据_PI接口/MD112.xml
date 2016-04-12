@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ns1:MT_MDM_Req xmlns:ns1="http://gome.com/GSM/MDM/Inbound">
+	<HEADER>
+		<INTERFACE_ID>MD112</INTERFACE_ID>
+		<MESSAGE_ID/>
+		<SENDER/>
+		<RECEIVER/>
+		<DTSEND/>
+	</HEADER>
+	<XML_DATA>
+		<MD112>
+			<ITEMS>
+				<ITEM>
+					<BZIRK/>
+					<BZTXT/>
+					<UPDATE_FLAG/>
+				</ITEM>
+				<ITEM>
+					<BZIRK/>
+					<BZTXT/>
+					<UPDATE_FLAG/>
+				</ITEM>
+			</ITEMS>
+		</MD112>
+	</XML_DATA>
+</ns1:MT_MDM_Req>

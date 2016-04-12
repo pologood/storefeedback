@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="Mapper.FeedbackCheckConfig" >
+  <resultMap id="BaseResultMap" type="com.gome.storefeedback.entity.FeedbackCheckConfig" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="category_code" property="categoryCode" jdbcType="VARCHAR" />
+    <result column="category_name" property="categoryName" jdbcType="VARCHAR" />
+    <result column="brand_code" property="brandCode" jdbcType="VARCHAR" />
+    <result column="brand_name" property="brandName" jdbcType="VARCHAR" />
+    <result column="is_gmzb" property="isGmzb" jdbcType="INTEGER" />
+    <result column="org_number" property="orgNumber" jdbcType="VARCHAR" />
+    <result column="org_name" property="orgName" jdbcType="VARCHAR" />
+    <result column="emp_number" property="empNumber" jdbcType="VARCHAR" />
+    <result column="sts" property="sts" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="role_id" property="roleId" jdbcType="INTEGER" />
+    <result column="region_name" property="regionName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, category_code, category_name, brand_code, brand_name, is_gmzb, org_number, org_name, 
+    emp_number, sts, create_time, role_id, region_name
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from feedback_check_config
+    
+     where   1 = 1
+      <if test="id != null" >
+        and id = #{id,jdbcType=VARCHAR}
+      </if>
+
+      <if test="orgNumber != null" >
+        and org_number = #{orgNumber,jdbcType=VARCHAR}
+      </if>
+      <if test="empNumber != null" >
+        and emp_number = #{empNumber,jdbcType=VARCHAR}
+      </if>
+      <if test="sts != null" >
+        and sts = #{sts,jdbcType=VARCHAR}
+      </if>
+     
+      
+  </select>
+  
+  <select id="findCheckEmpList" resultMap="BaseResultMap" parameterType="map" >
+    select 
+    <include refid="Base_Column_List" />
+    from feedback_check_config
+    where   1 = 1
+      <if test="categoryCode != null" >
+        and category_code = #{categoryCode,jdbcType=VARCHAR}
+      </if>
+      <if test="brandCode != null" >
+        and brand_code = #{brandCode,jdbcType=VARCHAR}
+      </if>
+      <if test="isGmzb != null" >
+        and is_gmzb = #{isGmzb,jdbcType=INTEGER}
+      </if>
+      <if test="orgNumber != null" >
+        and org_number = #{orgNumber,jdbcType=VARCHAR}
+      </if>
+      <if test="empNumber != null and empNumber != ''" >
+        and emp_number = #{empNumber,jdbcType=VARCHAR}
+      </if>
+      <if test="sts != null" >
+        and sts = #{sts,jdbcType=VARCHAR}
+      </if>
+  </select>
+  <select id="list" resultMap="BaseResultMap" parameterType="map" >
+    select 
+    <include refid="Base_Column_List" />
+    from feedback_check_config
+   
+  </select>
+  
+  <select id="findByPage" resultMap="BaseResultMap" parameterType="map" >
+    select 
+    <include refid="Base_Column_List" />
+    from feedback_check_config
+    where   1 = 1
+      <if test="id != null" >
+        and id = #{id,jdbcType=VARCHAR}
+      </if>
+      <if test="categoryCode != null" >
+        and category_code = #{categoryCode,jdbcType=VARCHAR}
+      </if>
+      <if test="categoryName != null" >
+        and category_name = #{categoryName,jdbcType=VARCHAR}
+      </if>
+      <if test="brandCode != null" >
+        and brand_code = #{brandCode,jdbcType=VARCHAR}
+      </if>
+      <if test="brandName != null" >
+        and brand_name = #{brandName,jdbcType=VARCHAR}
+      </if>
+      <if test="isGmzb != null" >
+        and is_gmzb = #{isGmzb,jdbcType=INTEGER}
+      </if>
+      <if test="orgNumber != null" >
+        and org_number = #{orgNumber,jdbcType=VARCHAR}
+      </if>
+      <if test="orgName != null" >
+        and org_name = #{orgName,jdbcType=VARCHAR}
+      </if>
+      <if test="empNumber != null and empNumber != ''" >
+        and emp_number = #{empNumber,jdbcType=VARCHAR}
+      </if>
+      <if test="sts != null" >
+        and sts = #{sts,jdbcType=VARCHAR}
+      </if>
+      <if test="createTime != null" >
+        and create_time = #{createTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="roleId != null" >
+        and role_id = #{roleId,jdbcType=INTEGER}
+      </if>
+      <if test="regionName != null" >
+        and region_name = #{regionName,jdbcType=VARCHAR}
+      </if>
+    
+  </select>
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from feedback_check_config
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.gome.storefeedback.entity.FeedbackCheckConfig" >
+    insert into feedback_check_config (id, category_code, category_name, 
+      brand_code, brand_name, is_gmzb, 
+      org_number, org_name, emp_number, 
+      sts, create_time, role_id, region_name
+      )
+    values (#{id,jdbcType=VARCHAR}, #{categoryCode,jdbcType=VARCHAR}, #{categoryName,jdbcType=VARCHAR}, 
+      #{brandCode,jdbcType=VARCHAR}, #{brandName,jdbcType=VARCHAR}, #{isGmzb,jdbcType=INTEGER}, 
+      #{orgNumber,jdbcType=VARCHAR}, #{orgName,jdbcType=VARCHAR}, #{empNumber,jdbcType=VARCHAR}, 
+      #{sts,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{roleId,jdbcType=INTEGER},
+      #{regionName,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.gome.storefeedback.entity.FeedbackCheckConfig" >
+    insert into feedback_check_config
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="categoryCode != null" >
+        category_code,
+      </if>
+      <if test="categoryName != null" >
+        category_name,
+      </if>
+      <if test="brandCode != null" >
+        brand_code,
+      </if>
+      <if test="brandName != null" >
+        brand_name,
+      </if>
+      <if test="isGmzb != null" >
+        is_gmzb,
+      </if>
+      <if test="orgNumber != null" >
+        org_number,
+      </if>
+      <if test="orgName != null" >
+        org_name,
+      </if>
+      <if test="empNumber != null" >
+        emp_number,
+      </if>
+      <if test="sts != null" >
+        sts,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="roleId != null" >
+        role_id,
+      </if>
+      <if test="region_name != null" >
+        region_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryCode != null" >
+        #{categoryCode,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryName != null" >
+        #{categoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="brandCode != null" >
+        #{brandCode,jdbcType=VARCHAR},
+      </if>
+      <if test="brandName != null" >
+        #{brandName,jdbcType=VARCHAR},
+      </if>
+      <if test="isGmzb != null" >
+        #{isGmzb,jdbcType=INTEGER},
+      </if>
+      <if test="orgNumber != null" >
+        #{orgNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="orgName != null" >
+        #{orgName,jdbcType=VARCHAR},
+      </if>
+      <if test="empNumber != null" >
+        #{empNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="sts != null" >
+        #{sts,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="roleId != null" >
+        #{roleId,jdbcType=INTEGER},
+      </if>
+      <if test="regionName != null" >
+        #{regionName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="update" parameterType="com.gome.storefeedback.entity.FeedbackCheckConfig" >
+    update feedback_check_config
+    <set >
+      <if test="categoryCode != null" >
+        category_code = #{categoryCode,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryName != null" >
+        category_name = #{categoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="brandCode != null" >
+        brand_code = #{brandCode,jdbcType=VARCHAR},
+      </if>
+      <if test="brandName != null" >
+        brand_name = #{brandName,jdbcType=VARCHAR},
+      </if>
+      <if test="isGmzb != null" >
+        is_gmzb = #{isGmzb,jdbcType=INTEGER},
+      </if>
+      <if test="orgNumber != null" >
+        org_number = #{orgNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="orgName != null" >
+        org_name = #{orgName,jdbcType=VARCHAR},
+      </if>
+      <if test="empNumber != null" >
+        emp_number = #{empNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="sts != null" >
+        sts = #{sts,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="roleId != null" >
+        role_id = #{roleId,jdbcType=INTEGER},
+      </if>
+      <if test="regionName != null" >
+        region_name = #{regionName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.gome.storefeedback.entity.FeedbackCheckConfig" >
+    update feedback_check_config
+    <set >
+      <if test="categoryCode != null" >
+        category_code = #{categoryCode,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryName != null" >
+        category_name = #{categoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="brandCode != null" >
+        brand_code = #{brandCode,jdbcType=VARCHAR},
+      </if>
+      <if test="brandName != null" >
+        brand_name = #{brandName,jdbcType=VARCHAR},
+      </if>
+      <if test="isGmzb != null" >
+        is_gmzb = #{isGmzb,jdbcType=INTEGER},
+      </if>
+      <if test="orgNumber != null" >
+        org_number = #{orgNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="orgName != null" >
+        org_name = #{orgName,jdbcType=VARCHAR},
+      </if>
+      <if test="empNumber != null" >
+        emp_number = #{empNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="sts != null" >
+        sts = #{sts,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="roleId != null" >
+        role_id = #{roleId,jdbcType=INTEGER},
+      </if>
+      <if test="regionName != null" >
+        region_name = #{regionName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gome.storefeedback.entity.FeedbackCheckConfig" >
+    update feedback_check_config
+    set category_code = #{categoryCode,jdbcType=VARCHAR},
+      category_name = #{categoryName,jdbcType=VARCHAR},
+      brand_code = #{brandCode,jdbcType=VARCHAR},
+      brand_name = #{brandName,jdbcType=VARCHAR},
+      is_gmzb = #{isGmzb,jdbcType=INTEGER},
+      org_number = #{orgNumber,jdbcType=VARCHAR},
+      org_name = #{orgName,jdbcType=VARCHAR},
+      emp_number = #{empNumber,jdbcType=VARCHAR},
+      sts = #{sts,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      role_id = #{roleId,jdbcType=INTEGER},
+      region_name = #{regionName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

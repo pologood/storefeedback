@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+  xmlns:context="http://www.springframework.org/schema/context" xmlns:aop="http://www.springframework.org/schema/aop"
+  xmlns:jaxws="http://cxf.apache.org/jaxws"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+                        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
+                        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
+                        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
+                        http://cxf.apache.org/jaxws       
+                        http://cxf.apache.org/schemas/jaxws.xsd"
+  default-lazy-init="false">
+
+  <bean id="employeeRemoteService" class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
+    <property name="serviceUrl">
+      <value>http://${serverPath}/gsm/service/employeeRemote</value>
+    </property>
+    <property name="serviceInterface">
+      <value>com.gome.storefeedback.service.EmployeeRemoteService</value>
+    </property>
+  </bean>
+
+  <bean id="httpGoodsCategoryRemoteService" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
+    <property name="service">
+
+      <ref bean="goodsCategoryRemote" />
+    </property>
+    <property name="serviceInterface">
+      <value>com.gome.gsm.service.goods.category.GoodsCategoryRemoteService</value>
+    </property>
+  </bean>
+  <bean id="goodsCategoryRemote" class="com.gome.gsm.service.goods.category.impl.GoodsCategoryRemoteServiceImpl"></bean>
+</beans>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="Mapper.LackCategory" >
+  <resultMap id="BaseResultMap" type="com.gome.storefeedback.entity.LackCategory" >
+    <id column="category_code" property="categoryCode" jdbcType="VARCHAR" />
+    <result column="category_name" property="categoryName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    category_code, category_name
+  </sql>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from lack_category
+    where category_code = #{categoryCode,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from lack_category
+    where category_code = #{categoryCode,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.gome.storefeedback.entity.LackCategory" >
+    insert into lack_category (category_code, category_name)
+    values (#{categoryCode,jdbcType=VARCHAR}, #{categoryName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.gome.storefeedback.entity.LackCategory" >
+    insert into lack_category
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="categoryCode != null" >
+        category_code,
+      </if>
+      <if test="categoryName != null" >
+        category_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="categoryCode != null" >
+        #{categoryCode,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryName != null" >
+        #{categoryName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="com.gome.storefeedback.entity.LackCategory" >
+    update lack_category
+    <set >
+      <if test="categoryName != null" >
+        category_name = #{categoryName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where category_code = #{categoryCode,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gome.storefeedback.entity.LackCategory" >
+    update lack_category
+    set category_name = #{categoryName,jdbcType=VARCHAR}
+    where category_code = #{categoryCode,jdbcType=VARCHAR}
+  </update>
+  <select id="list" parameterType="map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from lack_category
+    <where>
+      <if test="null != categoryCode and '' != categoryCode"> category_code = #{categoryCode}</if>
+    </where>
+  </select>
+</mapper>

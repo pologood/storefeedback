@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<n1:MT_FI_Req xmlns:n1="http://gome.com/GSM/FI/Inbound">
+	<HEADER>
+		<INTERFACE_ID>FI172</INTERFACE_ID>
+		<MESSAGE_ID>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</MESSAGE_ID>
+		<SENDER>ECC</SENDER>
+		<RECEIVER>GSM</RECEIVER>
+		<DTSEND>201507161750321</DTSEND>
+	</HEADER>
+	<XML_DATA>
+		<FI172>
+			<ITEMS>
+				<ITEM>
+					<BEDAT>凭证日期 string 8</BEDAT>
+					<EBELN>采购凭证---【采购订单】 string 10</EBELN>
+					<EBELP>行项目 string 5</EBELP>
+					<MATNR>商品 string 18</MATNR>
+					<TXZ01>商品描述 string 40</TXZ01>
+					<MENGE>数量（采购订单数量）---【订单数量】 integer 13</MENGE>
+					<DABMG>到货数量（已收货数量） integer 13</DABMG>
+					<BUDAT>最近收货日期 string 8</BUDAT>
+					<EINDT>计划交货日期 string 8</EINDT>
+					<ZDABMG>在途数量 integer 13</ZDABMG>
+					<ELIKZ>交货标识---【X交货已完成；null未完成】 string 1</ELIKZ>
+					<BSART>凭证类型 string 4</BSART>
+					<WERKS>地点 string 4</WERKS>
+					<NAME1>地点描述 string 30</NAME1>
+					<LGORT>库位 string 4</LGORT>
+					<LGOBE>库位描述 string 16</LGOBE>
+				</ITEM>
+				<ITEM>
+					<BEDAT>aaaaaaaa</BEDAT>
+					<EBELN>aaaaaaaaaa</EBELN>
+					<EBELP>aaaaa</EBELP>
+					<MATNR>aaaaaaaaaaaaaaaaaa</MATNR>
+					<TXZ01>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</TXZ01>
+					<MENGE>1234567891234</MENGE>
+					<DABMG>1234567891234</DABMG>
+					<BUDAT>aaaaaaaa</BUDAT>
+					<EINDT>aaaaaaaa</EINDT>
+					<ZDABMG>1234567891234</ZDABMG>
+					<ELIKZ>a</ELIKZ>
+					<BSART>aaaa</BSART>
+					<WERKS>aaaa</WERKS>
+					<NAME1>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</NAME1>
+					<LGORT>aaaa</LGORT>
+					<LGOBE>aaaaaaaaaaaaaaaa</LGOBE>
+				</ITEM>
+			</ITEMS>
+		</FI172>
+	</XML_DATA>
+</n1:MT_FI_Req>

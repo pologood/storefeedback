@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="Mapper.LackDivision" >
+  <resultMap id="BaseResultMap" type="com.gome.storefeedback.entity.LackDivision" >
+    <id column="division_code" property="divisionCode" jdbcType="VARCHAR" />
+    <result column="category_code" property="categoryCode" jdbcType="VARCHAR" />
+    <result column="category_name" property="categoryName" jdbcType="VARCHAR" />
+    <result column="division_name" property="divisionName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    division_code, category_code, category_name, division_name
+  </sql>
+  
+  
+   <select id="lackDivisionList"  parameterType="map"  resultMap="BaseResultMap" >
+    select *    from lack_division 
+  </select>
+  
+  <select id="selectList" resultMap="BaseResultMap" parameterType="map" >
+    select *    from lack_division  
+     where 1 =1 
+      <if test="divisionCode != null" >
+        and  division_code = #{divisionCode,jdbcType=VARCHAR}
+      </if>
+    
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from lack_division
+    where division_code = #{divisionCode,jdbcType=VARCHAR}
+  </delete>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from lack_division
+    where division_code = #{divisionCode,jdbcType=VARCHAR}
+  </select>
+  <insert id="insert" parameterType="com.gome.storefeedback.entity.LackDivision" >
+    insert into lack_division (division_code,  category_code, 
+      category_name, division_name)
+    values (#{divisionCode,jdbcType=VARCHAR}, #{categoryCode,jdbcType=VARCHAR}, 
+      #{categoryName,jdbcType=VARCHAR}, #{divisionName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.gome.storefeedback.entity.LackDivision" >
+    insert into lack_division
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="divisionCode != null" >
+        division_code,
+      </if>
+     
+      <if test="categoryCode != null" >
+        category_code,
+      </if>
+      <if test="categoryName != null" >
+        category_name,
+      </if>
+      <if test="divisionName != null" >
+        division_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="divisionCode != null" >
+        #{divisionCode,jdbcType=VARCHAR},
+      </if>
+    
+      <if test="categoryCode != null" >
+        #{categoryCode,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryName != null" >
+        #{categoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="divisionName != null" >
+        #{divisionName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gome.storefeedback.entity.LackDivision" >
+    update lack_division
+    <set >
+    
+      <if test="categoryCode != null" >
+        category_code = #{categoryCode,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryName != null" >
+        category_name = #{categoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="divisionName != null" >
+        division_name = #{divisionName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where division_code = #{divisionCode,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gome.storefeedback.entity.LackDivision" >
+    update lack_division
+    set
+      category_code = #{categoryCode,jdbcType=VARCHAR},
+      category_name = #{categoryName,jdbcType=VARCHAR},
+      division_name = #{divisionName,jdbcType=VARCHAR}
+    where division_code = #{divisionCode,jdbcType=VARCHAR}
+  </update>
+</mapper>

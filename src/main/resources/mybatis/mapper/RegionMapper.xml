@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Mapper.Region">
+  <resultMap id="BaseResultMap" type="com.gome.storefeedback.entity.Region">
+    <id column="region_code" jdbcType="VARCHAR" property="region_code" />
+    <result column="region_des" jdbcType="VARCHAR" property="region_des" />
+    <result column="update_flag" jdbcType="VARCHAR" property="update_flag" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    region_code, region_des, update_flag
+  </sql>
+  <!-- 主键查询 -->
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from region
+    where region_code = #{region_code,jdbcType=VARCHAR}
+  </select>
+  <!-- 查询多个 -->
+  <select id="list" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from region
+    <where>
+      <if test="null != region_code and '' != region_code"> region_code = #{region_code}</if>
+      <if test="null != region_des and '' != region_des">and region_des like "%"#{region_des,jdbcType=VARCHAR}"%"</if>
+       <if test="null != update_flag and '' != update_flag">and update_flag = #{update_flag}</if>
+    </where>
+  </select>
+  <!-- 删除 -->
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from region
+    where region_code = #{region_code,jdbcType=VARCHAR}
+  </delete>
+  <!-- 添加 -->
+  <insert id="insert" parameterType="com.gome.storefeedback.entity.Region">
+    insert into region (region_code, region_des, update_flag
+      )
+    values (#{region_code,jdbcType=VARCHAR}, #{region_des,jdbcType=VARCHAR}, #{update_flag,jdbcType=VARCHAR}
+      )
+  </insert>
+  <!-- 批量插入 -->
+  <insert id="batchInsert" parameterType="list">
+    insert into region (<include refid="Base_Column_List" />)
+    values
+    <foreach collection="list" item="item" separator=",">
+    (#{item.region_code,jdbcType=VARCHAR}, #{item.region_des,jdbcType=VARCHAR},
+    #{item.update_flag,jdbcType=VARCHAR})
+    </foreach>
+  </insert>
+  <!-- 更新 -->
+  <update id="update" parameterType="com.gome.storefeedback.entity.Region">
+    update region
+    set region_des = #{region_des,jdbcType=VARCHAR},
+      update_flag = #{update_flag,jdbcType=VARCHAR}
+    where region_code = #{region_code,jdbcType=VARCHAR}
+  </update>
+ 
+</mapper>

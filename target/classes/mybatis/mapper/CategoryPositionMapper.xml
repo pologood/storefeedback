@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="Mapper.CategoryPositionMapper" >
+    
+  <resultMap id="BaseResultMap" type="com.gome.storefeedback.entity.CategoryPosition" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="position_code" property="positionCode" jdbcType="VARCHAR" />
+    <result column="position_desc" property="positionDesc" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="category_code" property="categoryCode" jdbcType="TIMESTAMP" />
+    <result column="goods_category_id" property="goodsCategoryId" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    id, position_code, position_desc, create_time, goods_category_id
+  </sql>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="map" >
+    select 
+    <include refid="Base_Column_List" />
+    from category_position
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="map" >
+    delete from category_position
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  
+  <insert id="insert" parameterType="com.gome.storefeedback.entity.CategoryPosition" >
+    insert into category_position (id, position_code, position_desc, 
+      create_time, goods_category_id)
+    values (#{id,jdbcType=VARCHAR}, #{positionCode,jdbcType=VARCHAR}, #{positionDesc,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{goodsCategoryId,jdbcType=VARCHAR})
+  </insert>
+  
+  <update id="update" parameterType="com.gome.storefeedback.entity.CategoryPosition" >
+    update category_position
+    <set >
+      <if test="positionCode != null" >
+        position_code = #{positionCode,jdbcType=VARCHAR},
+      </if>
+      <if test="positionDesc != null" >
+        position_desc = #{positionDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="goodsCategoryId != null" >
+        goods_category_id = #{goodsCategoryId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="findByPage" parameterType="map" resultMap="BaseResultMap">
+      select 
+      <include refid="Base_Column_List"/>
+      from category_position 
+      where goods_category_id = #{goodsCategoryId} 
+      <if test="positionCode != null and '' != positionCode">
+          and position_code like "%"#{positionCode}"%"
+      </if>
+      <if test="positionDesc != null and '' != positionDesc">
+          and position_desc like "%"#{positionDesc}"%"
+      </if>
+  </select>
+  
+  <select id="list" parameterType="map" resultMap="BaseResultMap">
+      select 
+      <include refid="Base_Column_List"/>
+      from category_position
+  </select>
+  
+  <select id="listAll" parameterType="map"  resultMap="BaseResultMap" >
+      select 
+       cp.id, cp.position_code positionCode, cp.position_desc positionDesc, cp.create_time createTime, 
+       cp.goods_category_id goodsCategoryId, gcc.category_code categoryCode, gcc.category_name categoryName
+      from category_position cp LEFT JOIN goods_category_config gcc ON cp.goods_category_id = gcc.id
+      <where>
+          <if test="categoryCode != null and '' != categoryCode">
+              gcc.category_code = #{categoryCode}
+          </if>
+      </where>
+  </select>
+  
+  <select id="findCategoryPositionNotBoos" parameterType="map"  resultMap="BaseResultMap" >
+      select 
+       cp.id, cp.position_code positionCode, cp.position_desc positionDesc, cp.create_time createTime, 
+       cp.goods_category_id goodsCategoryId, gcc.category_code categoryCode, gcc.category_name categoryName
+      from category_position cp LEFT JOIN goods_category_config gcc ON cp.goods_category_id = gcc.id
+      <where>
+          <if test="positionCode != null and '' != positionCode">
+              cp.position_code = #{positionCode}
+          </if>
+      </where>
+  </select>
+</mapper>

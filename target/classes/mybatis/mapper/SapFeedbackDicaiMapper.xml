@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="Mapper.SapFeedbackDicai">
+  <resultMap id="SapFeedbackDicaiResultMap" type="com.gome.storefeedback.entity.SapFeedbackDicai">
+    <result property="request" column="REQUEST" jdbcType="VARCHAR" />
+    <result property="datapakid" column="DATAPAKID" jdbcType="DOUBLE" />
+    <result property="record" column="RECORD" jdbcType="INTEGER" />
+    <result property="secondDivisionCode" column="SALES_GRP" jdbcType="VARCHAR" />
+    <result property="divisionCode" column="ZDEPTMNT" jdbcType="VARCHAR" />
+    <result property="regionCode" column="ZREGION" jdbcType="VARCHAR" />
+    <result property="category2Code" column="RPA_WGH2" jdbcType="VARCHAR" />
+    <result property="categoryCode" column="ZMAT_CAT" jdbcType="VARCHAR" />
+    <result property="brandCode" column="PROD_HIER" jdbcType="VARCHAR" />
+    <result property="goodsCode" column="ZARTICLE" jdbcType="VARCHAR" />
+    <result property="dataDate" column="CALDAY" jdbcType="DATE" />
+    <result property="stock" column="ZINV_QTY" jdbcType="DOUBLE" />
+    <result property="unit" column="UNIT" jdbcType="VARCHAR" />
+    <result property="saleIncome" column="ZKI01148" jdbcType="DOUBLE" />
+    <result property="saleNum" column="ZKI01153" jdbcType="DOUBLE" />
+    <result property="buyType" column="ZPUR_TYPE" jdbcType="VARCHAR" />
+    <result property="feedbackRate" column="ZRATE" jdbcType="DOUBLE" />
+    <result property="feedbackStatus" column="FLAG" jdbcType="VARCHAR" />
+    <result property="stockAmountWithTax" column="ZINV_AMB" jdbcType="DOUBLE" />
+    <result property="currency" column="CURRENCY" jdbcType="VARCHAR" />
+    <!-- <result property="empNumber" column="EMP_NUMBER" jdbcType="VARCHAR" />
+    <result property="roleId" column="ROLE_ID" jdbcType="INTEGER" /> -->
+  </resultMap>
+
+  <sql id="buyTypeDicai">
+    ZPUR_TYPE = (ZPUR_TYPE IN ('1','2','3','4','5','6','7','D','X') OR ZPUR_TYPE IS NULL)
+  </sql>
+  
+  <sql id="Base_Column_List">
+    REQUEST,
+    DATAPAKID,
+    RECORD,
+    SALES_GRP,
+    ZDEPTMNT,
+    ZREGION,
+    RPA_WGH2,
+    ZMAT_CAT,
+    PROD_HIER,
+    ZARTICLE,
+    CALDAY,
+    ZINV_QTY,
+    UNIT,
+    ZKI01148,
+    ZKI01153,
+    ZPUR_TYPE,
+    ZRATE,
+    FLAG,
+    ZINV_AMB,
+    CURRENCY
+  </sql>
+
+  <select id="findPushDiCaiByCategory" parameterType="map" resultMap="SapFeedbackDicaiResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from zmm_ds62
+    where CALDAY=#{dataDate,jdbcType=DATE}
+    and ZMAT_CAT=#{categoryCode,jdbcType=VARCHAR}
+    and
+    <include refid="buyTypeDicai"></include>
+  </select>
+
+  <select id="findPushJiCaiByCategory" parameterType="map" resultMap="SapFeedbackDicaiResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from zmm_ds62
+    where CALDAY=#{dataDate,jdbcType=DATE}
+    and ZMAT_CAT=#{categoryCode,jdbcType=VARCHAR}
+    and ZPUR_TYPE = 'W'
+  </select>
+
+  <select id="findPushSumDiCaiByCategory" parameterType="map" resultMap="SapFeedbackDicaiResultMap">
+  SELECT 
+    <include refid="Base_Column_List" />
+    <!-- sf.ZMAT_CAT as categoryCode -->
+  FROM zmm_ds62 sf
+  WHERE sf.CALDAY =#{dataDate,jdbcType=DATE}
+  AND sf.ZPUR_TYPE != 'W'
+  <if test="srcOrgType1 != null">
+    AND sf.ZDEPTMNT IN
+    <foreach collection="srcOrgType1" item="srcOrgType" open="(" separator="," close=")">
+      #{srcOrgType}
+    </foreach>
+  </if>
+  <if test="srcOrgType2 != null">
+    AND sf.SALES_GRP IN
+    <foreach collection="srcOrgType2" item="srcOrgType" open="(" separator="," close=")">
+      #{srcOrgType}
+    </foreach>
+  </if>
+  <if test="categoryCodes != null">
+    AND sf.ZMAT_CAT IN
+    <foreach collection="categoryCodes" item="categoryCode" open="(" separator="," close=")">
+      #{categoryCode}
+    </foreach>
+  </if>
+<!--   GROUP BY sf.ZMAT_CAT -->
+</select>
+
+</mapper>

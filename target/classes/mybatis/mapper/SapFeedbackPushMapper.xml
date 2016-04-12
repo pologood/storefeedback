@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="Mapper.SapFeedbackPush">
+  <resultMap id="BaseResultMap" type="com.gome.storefeedback.entity.SapFeedbackPush">
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="push_data_date" property="pushDataDate" jdbcType="DATE" />
+    <result column="push_category" property="pushCategory" jdbcType="VARCHAR" />
+    <result column="push_org" property="pushOrg" jdbcType="VARCHAR" />
+    <result column="push_position" property="pushPosition" jdbcType="VARCHAR" />
+    <result column="push_content" property="pushContent" jdbcType="VARCHAR" />
+    <result column="push_emp_id" property="pushEmpId" jdbcType="VARCHAR" />
+    <result column="push_emp_number" property="pushEmpNumber" jdbcType="VARCHAR" />
+    <result column="push_emp_name" property="pushEmpName" jdbcType="VARCHAR" />
+    <result column="push_time" property="pushTime" jdbcType="TIMESTAMP" />
+    <result column="role_id" property="roleId" jdbcType="INTEGER" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    id,
+    push_data_date,
+    push_category,
+    push_org,
+    push_position,
+    push_content,
+    push_emp_id,
+    push_emp_number,
+    push_emp_name,
+    push_time,
+    role_id
+  </sql>
+
+  <select id="selectByPK" resultMap="BaseResultMap" parameterType="map">
+    select
+    <include refid="Base_Column_List" />
+    from sapfeedback_push
+    where id = #{id}
+  </select>
+
+  <delete id="deleteByPK" parameterType="map">
+    delete from sapfeedback_push where id = #{id}
+  </delete>
+
+  <insert id="insert" parameterType="com.gome.storefeedback.entity.SapFeedbackPush">
+    insert into sapfeedback_push (
+    <include refid="Base_Column_List" />
+    ) values
+    (
+    #{id, jdbcType=VARCHAR},
+    #{pushDataDate,jdbcType=VARCHAR},
+    #{pushCategory,jdbcType=VARCHAR},
+    #{pushOrg,jdbcType=VARCHAR},
+    #{pushPosition,jdbcType=VARCHAR},
+    #{pushContent,jdbcType=VARCHAR},
+    #{pushEmpId,jdbcType=VARCHAR},
+    #{pushEmpNumber,jdbcType=VARCHAR},
+    #{pushEmpName, jdbcType=VARCHAR},
+    #{pushTime,jdbcType=TIMESTAMP},
+    #{roleId,jdbcType=INTEGER}
+    )
+  </insert>
+  <!-- 批量插入 -->
+  <insert id="batch" parameterType="list">
+    insert into sapfeedback_push (
+    <include refid="Base_Column_List" />
+    )
+    values
+    <foreach collection="list" item="item" separator=",">
+      (
+      #{item.id, jdbcType=VARCHAR},
+      #{item.pushDataDate,jdbcType=VARCHAR},
+      #{item.pushCategory,jdbcType=VARCHAR},
+      #{item.pushOrg,jdbcType=VARCHAR},
+      #{item.pushPosition,jdbcType=VARCHAR},
+      #{item.pushContent,jdbcType=VARCHAR},
+      #{item.pushEmpId,jdbcType=VARCHAR},
+      #{item.pushEmpNumber,jdbcType=VARCHAR},
+      #{item.pushEmpName,jdbcType=VARCHAR},
+      #{item.pushTime,jdbcType=TIMESTAMP},
+      #{item.roleId,jdbcType=INTEGER}
+      )
+    </foreach>
+  </insert>
+  <update id="updateByPK" parameterType="com.gome.storefeedback.entity.SapFeedbackPush">
+    update sapfeedback_push
+    <set>
+      <if test="pushDataDate != null">push_data_date =#{pushDataDate,jdbcType=DATE},      </if>
+      <if test="pushContent != null">push_content =#{pushContent=VARCHAR},      </if>
+      <if test="pushCategory != null">push_category =#{pushCategory,jdbcType=VARCHAR},      </if>
+      <if test="pushOrg != null">push_org =#{pushOrg,jdbcType=VARCHAR},     </if>
+      <if test="pushPosition != null">push_position =#{pushPosition,jdbcType=VARCHAR},     </if>
+      <if test="pushEmpId != null">push_emp_id =#{pushEmpId,jdbcType=VARCHAR},     </if>
+      <if test="pushEmpNumber != null">push_emp_number =#{pushEmpNumber,jdbcType=VARCHAR},  </if>
+      <if test="pushEmpName != null">push_emp_name =#{pushEmpName, jdbcType=VARCHAR},    </if>
+      <if test="pushTime != null">push_time =#{pushTime,jdbcType=TIMESTAMP},  </if>
+      <if test="roleId != null">role_id =#{roleId,jdbcType=INTEGER}  </if>
+    </set>
+    where id = #{id}
+  </update>
+
+  <select id="list" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sapfeedback_push
+    <where>
+      <if test="null != pushCategory and '' != pushCategory"> push_category = #{pushCategory}</if>
+      <if test="null != pushEmpId and '' != pushEmpId">and push_emp_id = #{pushEmpId}</if>
+      <if test="pushDataDate != null">and push_data_date =#{pushDataDate,jdbcType=DATE}</if>
+      <if test="null != pushEmpNumber and '' != pushEmpNumber">and push_emp_number = #{pushEmpNumber}</if>
+      <if test="null != pushEmpName and '' != pushEmpName">and push_emp_name = #{pushEmpName}</if>
+    </where>
+  </select>
+
+</mapper>

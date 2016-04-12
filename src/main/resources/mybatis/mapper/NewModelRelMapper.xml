@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gome.storefeedback.dao.impl.NewModelRelMapper" >
+  <resultMap id="BaseResultMap" type="com.gome.storefeedback.entity.NewModelRelKey" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <id column="handle_emp_id" property="handleEmpId" jdbcType="VARCHAR" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="com.gome.storefeedback.entity.NewModelRelKey" >
+    delete from t_new_model_rel
+    where id = #{id,jdbcType=VARCHAR}
+      and handle_emp_id = #{handleEmpId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.gome.storefeedback.entity.NewModelRelKey" >
+    insert into t_new_model_rel (id, handle_emp_id)
+    values (#{id,jdbcType=VARCHAR}, #{handleEmpId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.gome.storefeedback.entity.NewModelRelKey" >
+    insert into t_new_model_rel
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="handleEmpId != null" >
+        handle_emp_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="handleEmpId != null" >
+        #{handleEmpId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>

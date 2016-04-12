@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="Mapper.NewCategoryStatus" >
+  <resultMap id="BaseResultMap" type="com.gome.storefeedback.entity.NewCategoryStatus" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="table_name" property="tableName" jdbcType="VARCHAR" />
+    <result column="column_name" property="columnName" jdbcType="VARCHAR" />
+    <result column="reason_desc" property="reasonDesc" jdbcType="VARCHAR" />
+    <result column="sts" property="sts" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, table_name, column_name, reason_desc, sts
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_new_category_status
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectStatusList" resultType="list" resultMap="BaseResultMap" parameterType="map" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_new_category_status
+    where table_name = #{tableName,jdbcType=VARCHAR} and column_name =   #{columnName,jdbcType=VARCHAR} and sts = #{sts,jdbcType=VARCHAR} 
+  </select>
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_new_category_status
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.gome.storefeedback.entity.NewCategoryStatus" >
+    insert into t_new_category_status (id, table_name, column_name, 
+      reason_desc, sts)
+    values (#{id,jdbcType=VARCHAR}, #{tableName,jdbcType=VARCHAR}, #{columnName,jdbcType=VARCHAR}, 
+      #{reasonDesc,jdbcType=VARCHAR}, #{sts,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.gome.storefeedback.entity.NewCategoryStatus" >
+    insert into t_new_category_status
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="tableName != null" >
+        table_name,
+      </if>
+      <if test="columnName != null" >
+        column_name,
+      </if>
+      <if test="reasonDesc != null" >
+        reason_desc,
+      </if>
+      <if test="sts != null" >
+        sts,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="tableName != null" >
+        #{tableName,jdbcType=VARCHAR},
+      </if>
+      <if test="columnName != null" >
+        #{columnName,jdbcType=VARCHAR},
+      </if>
+      <if test="reasonDesc != null" >
+        #{reasonDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="sts != null" >
+        #{sts,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gome.storefeedback.entity.NewCategoryStatus" >
+    update t_new_category_status
+    <set >
+      <if test="tableName != null" >
+        table_name = #{tableName,jdbcType=VARCHAR},
+      </if>
+      <if test="columnName != null" >
+        column_name = #{columnName,jdbcType=VARCHAR},
+      </if>
+      <if test="reasonDesc != null" >
+        reason_desc = #{reasonDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="sts != null" >
+        sts = #{sts,jdbcType=CHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gome.storefeedback.entity.NewCategoryStatus" >
+    update t_new_category_status
+    set table_name = #{tableName,jdbcType=VARCHAR},
+      column_name = #{columnName,jdbcType=VARCHAR},
+      reason_desc = #{reasonDesc,jdbcType=VARCHAR},
+      sts = #{sts,jdbcType=CHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

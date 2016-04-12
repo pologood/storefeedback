@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="Mapper.SapOrder">
+  <resultMap id="BaseResultMap" type="com.gome.storefeedback.entity.SapOrder">
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="order_id" property="orderId" jdbcType="VARCHAR" />
+    <result column="order_date" property="orderDate" jdbcType="VARCHAR" />
+    <result column="order_content" property="orderContent" jdbcType="VARCHAR" />
+    <result column="goods_code" property="goodsCode" jdbcType="VARCHAR" />
+    <result column="goods_cn_text" property="goodsCnText" jdbcType="VARCHAR" />
+    <result column="order_num" property="orderNum" jdbcType="BIGINT" />
+    <result column="order_to_num" property="orderToNum" jdbcType="BIGINT" />
+    <result column="last_receive_date" property="lastReceiveDate" jdbcType="VARCHAR" />
+    <result column="plan_date" property="planDate" jdbcType="VARCHAR" />
+    <result column="on_the_road_num" property="onTheRoadNum" jdbcType="BIGINT" />
+    <result column="order_flag" property="orderFlag" jdbcType="VARCHAR" />
+    <result column="order_type" property="orderType" jdbcType="VARCHAR" />
+    <result column="place_id" property="placeId" jdbcType="VARCHAR" />
+    <result column="place_name" property="placeName" jdbcType="VARCHAR" />
+    <result column="stock_type_id" property="stockTypeId" jdbcType="VARCHAR" />
+    <result column="stock_type_name" property="stockTypeName" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="zcq_des" property="zcqDes" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    id,
+    order_id,
+    order_date,
+    order_content,
+    goods_code,
+    goods_cn_text,
+    order_num,
+    order_to_num,
+    last_receive_date,
+    plan_date,
+    on_the_road_num,
+    order_flag,
+    order_type,
+    place_id,
+    place_name,
+    stock_type_id,
+    stock_type_name,
+    create_time,
+    update_time,
+    zcq_des
+  </sql>
+
+  <select id="selectByPK" resultMap="BaseResultMap" parameterType="map">
+    select
+    <include refid="Base_Column_List" />
+    from sap_order
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+
+  <delete id="deleteByPK" parameterType="map">
+    delete from sap_order  where id = #{id}
+  </delete>
+
+  <insert id="insert" parameterType="com.gome.storefeedback.entity.SapOrder">
+    insert into sap_order (
+    order_id,
+    order_date,
+    order_content,
+    goods_code,
+    goods_cn_text,
+    order_num,
+    order_to_num,
+    last_receive_date,
+    plan_date,
+    on_the_road_num,
+    order_flag,
+    order_type,
+    place_id,
+    place_name,
+    stock_type_id,
+    stock_type_name,
+    create_time,
+    update_time,
+    zcq_des
+    ) values
+    (
+    #{orderId, jdbcType=VARCHAR},
+    #{orderDate,jdbcType=VARCHAR},
+    #{orderContent,jdbcType=VARCHAR},
+    #{goodsCode,
+    jdbcType=VARCHAR},
+    #{goodsCnText,jdbcType=VARCHAR},
+    #{orderNum,jdbcType=BIGINT},
+    #{orderToNum, jdbcType=BIGINT
+    },
+    #{lastReceiveDate,jdbcType=VARCHAR},
+    #{planDate,jdbcType=VARCHAR},
+    #{onTheRoadNum,jdbcType=BIGINT},
+    #{orderFlag,
+    jdbcType=VARCHAR},
+    #{orderType,jdbcType=VARCHAR},
+    #{placeId,jdbcType=VARCHAR},
+    #{placeName,jdbcType=VARCHAR},
+    #{stockTypeId,jdbcType=VARCHAR},
+    #{stockTypeName,jdbcType=VARCHAR},
+    #{createTime, jdbcType=TIMESTAMP},
+    #{updateTime,jdbcType=TIMESTAMP},
+    #{item.zcqDes,jdbcType=VARCHAR}
+    )
+  </insert>
+  <!-- 批量插入 -->
+  <insert id="batch" parameterType="list">
+    insert into sap_order (
+    order_id,
+    order_date,
+    order_content,
+    goods_code,
+    goods_cn_text,
+    order_num,
+    order_to_num,
+    last_receive_date,
+    plan_date,
+    on_the_road_num,
+    order_flag,
+    order_type,
+    place_id,
+    place_name,
+    stock_type_id,
+    stock_type_name,
+    create_time,
+    update_time,
+    zcq_des
+    )
+    values
+    <foreach collection="list" item="item" separator=",">
+      (
+      #{item.orderId, jdbcType=VARCHAR},
+      #{item.orderDate,jdbcType=VARCHAR},
+      #{item.orderContent,jdbcType=VARCHAR},
+      #{item.goodsCode, jdbcType=VARCHAR},
+      #{item.goodsCnText,jdbcType=VARCHAR},
+      #{item.orderNum,jdbcType=BIGINT},
+      #{item.orderToNum, jdbcType=BIGINT},
+      #{item.lastReceiveDate,jdbcType=VARCHAR},
+      #{item.planDate,jdbcType=VARCHAR},
+      #{item.onTheRoadNum,jdbcType=BIGINT},
+      #{item.orderFlag,jdbcType=VARCHAR},
+      #{item.orderType,jdbcType=VARCHAR},
+      #{item.placeId,jdbcType=VARCHAR},
+      #{item.placeName,jdbcType=VARCHAR},
+      #{item.stockTypeId,jdbcType=VARCHAR},
+      #{item.stockTypeName,jdbcType=VARCHAR},
+      #{item.createTime,jdbcType=TIMESTAMP},
+      #{item.updateTime,jdbcType=TIMESTAMP},
+      #{item.zcqDes,jdbcType=VARCHAR}
+      )
+    </foreach>
+  </insert>
+  <update id="updateByPK" parameterType="com.gome.storefeedback.entity.SapOrder">
+    update sap_order
+    <set>
+      <if test="orderId != null">order_id =#{orderId, jdbcType=VARCHAR},      </if>
+      <if test="orderDate != null">order_date =#{orderDate,jdbcType=VARCHAR},     </if>
+      <if test="orderContent != null">order_content =#{orderContent,jdbcType=VARCHAR},  </if>
+      <if test="goodsCode != null">goods_code =#{goodsCode, jdbcType=VARCHAR},    </if>
+      <if test="goodsCnText != null">goods_cn_text =#{goodsCnText,jdbcType=VARCHAR},   </if>
+      <if test="orderNum != null">order_num =#{orderNum,jdbcType=BIGINT},     </if>
+      <if test="orderToNum != null">order_to_num =#{orderToNum, jdbcType=BIGINT},  </if>
+      <if test="lastReceiveDate != null">last_receive_date=#{lastReceiveDate,jdbcType=VARCHAR},</if>
+      <if test="planDate != null">plan_date =#{planDate,jdbcType=VARCHAR},      </if>
+      <if test="onTheRoadNum != null">on_the_road_num =#{onTheRoadNum,jdbcType=BIGINT}, </if>
+      <if test="orderFlag != null">order_flag =#{orderFlag, jdbcType=VARCHAR},    </if>
+      <if test="orderType != null">order_type =#{orderType,jdbcType=VARCHAR},     </if>
+      <if test="placeId != null">place_id =#{placeId,jdbcType=VARCHAR},       </if>
+      <if test="placeName != null">place_name =#{placeName,jdbcType=VARCHAR},     </if>
+      <if test="stockTypeId != null">stock_type_id =#{stockTypeId,jdbcType=VARCHAR},   </if>
+      <if test="stockTypeName != null">stock_type_name =#{stockTypeName,jdbcType=VARCHAR}, </if>
+      <if test="createTime != null">create_time =#{createTime, jdbcType=TIMESTAMP},  </if>
+      <if test="updateTime != null">update_time =#{updateTime,jdbcType=TIMESTAMP},    </if>
+      <if test="zcqDes != null">zcq_des =#{zcqDes, jdbcType=VARCHAR}   </if>
+    </set>
+    where id = #{id}
+  </update>
+
+<update id="updateByOrderId" parameterType="com.gome.storefeedback.entity.SapOrder">
+    update sap_order
+    <set>
+      <if test="orderId != null">order_id =#{orderId, jdbcType=VARCHAR},      </if>
+      <if test="orderDate != null">order_date =#{orderDate,jdbcType=VARCHAR},     </if>
+      <if test="goodsCode != null">goods_code =#{goodsCode, jdbcType=VARCHAR},    </if>
+      <if test="goodsCnText != null">goods_cn_text =#{goodsCnText,jdbcType=VARCHAR},   </if>
+      <if test="orderNum != null">order_num =#{orderNum,jdbcType=BIGINT},     </if>
+      <if test="orderToNum != null">order_to_num =#{orderToNum, jdbcType=BIGINT},  </if>
+      <if test="lastReceiveDate != null">last_receive_date=#{lastReceiveDate,jdbcType=VARCHAR},</if>
+      <if test="planDate != null">plan_date =#{planDate,jdbcType=VARCHAR},      </if>
+      <if test="onTheRoadNum != null">on_the_road_num =#{onTheRoadNum,jdbcType=BIGINT}, </if>
+      <if test="orderFlag != null">order_flag =#{orderFlag, jdbcType=VARCHAR},    </if>
+      <if test="orderType != null">order_type =#{orderType,jdbcType=VARCHAR},     </if>
+      <if test="placeId != null">place_id =#{placeId,jdbcType=VARCHAR},       </if>
+      <if test="placeName != null">place_name =#{placeName,jdbcType=VARCHAR},     </if>
+      <if test="stockTypeId != null">stock_type_id =#{stockTypeId,jdbcType=VARCHAR},   </if>
+      <if test="stockTypeName != null">stock_type_name =#{stockTypeName,jdbcType=VARCHAR}, </if>
+      <if test="createTime != null">create_time =#{createTime, jdbcType=TIMESTAMP},  </if>
+      <if test="updateTime != null">update_time =#{updateTime,jdbcType=TIMESTAMP},    </if>
+      <if test="zcqDes != null">zcq_des =#{zcqDes, jdbcType=VARCHAR}   </if>
+    </set>
+    where order_id = #{orderId}
+    and order_content =#{orderContent}
+  </update>
+  
+  <select id="list" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sap_order
+    <where>
+      <if test="null != orderId and '' != orderId"> order_id = #{orderId}</if>
+      <if test="null != orderDate and '' != orderDate">and order_date = #{orderDate}</if>
+      <if test="null != orderContent and '' != orderContent">and order_content = #{orderContent}</if>
+      <if test="null != goodsCode and '' != goodsCode">and goods_code = #{goodsCode}</if>
+      <if test="null != orderFlag and '' != orderFlag">and order_flag = #{orderFlag}</if>
+      <if test="null != orderType and '' != orderType">and order_type = #{orderType}</if>
+      <if test="null != date and '' != date"><![CDATA[and order_date >= #{date}]]></if>
+    </where>
+    UNION
+	select
+	<include refid="Base_Column_List" />
+	from sap_order
+	<where>
+	   <if test="null != orderId and '' != orderId"> order_id = #{orderId}</if>
+	   <if test="null != orderContent and '' != orderContent">and order_content = #{orderContent}</if>
+       <if test="null != goodsCode and '' != goodsCode">and goods_code = #{goodsCode}</if>
+       <if test="null != orderFlag and '' != orderFlag">and order_flag = #{orderFlag}</if>
+       <if test="null != orderType and '' != orderType">and order_type = #{orderType}</if>
+	and zcq_des = 'X'
+	</where>
+  </select>
+	
+</mapper>

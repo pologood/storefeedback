@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Mapper.SecondDivision">
+  <resultMap id="BaseResultMap" type="com.gome.storefeedback.entity.SecondDivision">
+    <id column="second_division_code" jdbcType="VARCHAR" property="second_division_code" />
+    <result column="second_division_des" jdbcType="VARCHAR" property="second_division_des" />
+    <result column="first_division_code" jdbcType="VARCHAR" property="first_division_code" />
+    <result column="update_flag" jdbcType="VARCHAR" property="update_flag" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    second_division_code, second_division_des, first_division_code, update_flag
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from second_division
+    where second_division_code = #{second_division_code,jdbcType=VARCHAR}
+  </select>
+  <!-- 查询多个 -->
+  <select id="list" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from second_division
+    <where>
+      <if test="null != second_division_code and '' != second_division_code"> second_division_code = #{second_division_code}</if>
+      <if test="null != first_division_code and '' != first_division_code"> first_division_code = #{first_division_code}</if>
+      <if test="null != second_division_des and '' != second_division_des">and second_division_des like "%"#{second_division_des,jdbcType=VARCHAR}"%"</if>
+       <if test="null != update_flag and '' != update_flag">and update_flag = #{update_flag}</if>
+    </where>
+  </select>
+  <!-- 删除 -->
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from second_division
+    where second_division_code = #{second_division_code,jdbcType=VARCHAR}
+  </delete>
+  <!-- 插入 -->
+  <insert id="insert" parameterType="com.gome.storefeedback.entity.SecondDivision">
+    insert into second_division (second_division_code, second_division_des, 
+      first_division_code, update_flag)
+    values (#{second_division_code,jdbcType=VARCHAR}, #{second_division_des,jdbcType=VARCHAR}, 
+      #{first_division_code,jdbcType=VARCHAR}, #{update_flag,jdbcType=VARCHAR})
+  </insert>
+  <!-- 批量插入 -->
+  <insert id="batchInsert" parameterType="list">
+    insert into second_division (<include refid="Base_Column_List" />)
+    values
+    <foreach collection="list" item="item" separator=",">
+    (#{item.second_division_code,jdbcType=VARCHAR}, #{item.second_division_des,jdbcType=VARCHAR},
+    #{item.first_division_code,jdbcType=VARCHAR},#{item.update_flag,jdbcType=VARCHAR})
+    </foreach>
+  </insert>
+  <update id="update" parameterType="com.gome.storefeedback.entity.SecondDivision">
+    update second_division
+    set second_division_des = #{second_division_des,jdbcType=VARCHAR},
+      first_division_code = #{first_division_code,jdbcType=VARCHAR},
+      update_flag = #{update_flag,jdbcType=VARCHAR}
+    where second_division_code = #{second_division_code,jdbcType=VARCHAR}
+  </update>
+  
+</mapper>

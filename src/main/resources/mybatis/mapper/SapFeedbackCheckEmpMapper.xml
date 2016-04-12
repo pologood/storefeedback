@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="Mapper.SapFeedBackCheckEmpMapper" >
+
+	<resultMap id="BaseResultMap" type="com.gome.storefeedback.entity.SapFeedbackCheckEmp">
+	   <result property="request" column="REQUEST" jdbcType="VARCHAR" />
+	   <result property="datapakid" column="DATAPAKID" jdbcType="DOUBLE" />
+	   <result property="record" column="RECORD" jdbcType="INTEGER" />
+	   <result property="secondDivisionCode" column="SALES_GRP" jdbcType="VARCHAR" />
+	   <result property="divisionCode" column=" ZDEPTMNT" jdbcType="VARCHAR" />
+	   <result property="regionCode" column="ZREGION" jdbcType="VARCHAR" />
+	   <result property="category2Code" column="RPA_WGH2" jdbcType="VARCHAR" />
+	   <result property="categoryCode" column="ZMAT_CAT" jdbcType="VARCHAR" />
+	   <result property="brandCode" column="PROD_HIER" jdbcType="VARCHAR" />
+	   <result property="goodsCode" column="ZARTICLE" jdbcType="VARCHAR" />
+	   <result property="dataDate" column="CALDAY" jdbcType="DATE" />
+	   <result property="stock" column="ZINV_QTY" jdbcType="DOUBLE" />
+	   <result property="unit" column="UNIT" jdbcType="VARCHAR" />
+	   <result property="saleIncome" column="ZKI01148" jdbcType="DOUBLE" />
+	   <result property="saleNum" column="ZKI01153" jdbcType="DOUBLE" />
+	   <result property="buyType" column="ZPUR_TYPE" jdbcType="VARCHAR" />
+	   <result property="feedbackRate" column="ZRATE" jdbcType="DOUBLE" />
+	   <result property="feedbackStatus" column="FLAG" jdbcType="VARCHAR" />
+	   <result property="stockAmountWithTax" column="ZINV_AMB" jdbcType="DOUBLE" />
+	   <result property="currency" column="CURRENCY" jdbcType="VARCHAR" />
+	   <result property="empNumber" column="EMP_NUMBER" jdbcType="VARCHAR" />
+	 </resultMap>
+
+	<sql id="Base_Column_List" >
+		REQUEST, DATAPAKID, RECORD, SECOND_DIVISION_CODE, DIVISION_CODE, REGION_CODE, CATEGORY2_CODE, CATEGORY_CODE,
+		BRAND_CODE, GOODES_CODE, DATE_DATE, STOCK, UNIT, SALE_INCOME, SALE_NUM, BUY_TYPE, FEEDBACK_RATE,
+		FEEDBACK_STATUS, STOCKAMOUNTWITHTAX, CURRENCY, EMP_NUMBER
+	</sql>
+	
+	<insert id="insert" parameterType="map" >
+    insert into sapfeedback_check_emp (
+    	<include refid="Base_Column_List" />
+    )
+    values (
+    	#{request,jdbcType=VARCHAR},
+	    #{datapakid,jdbcType=DOUBLE},
+	    #{record,jdbcType=INTEGER},
+	    #{secondDivisionCode,jdbcType=VARCHAR},
+	    #{divisionCode,jdbcType=VARCHAR},
+	    #{regionCode,jdbcType=VARCHAR},
+	    #{category2Code,jdbcType=VARCHAR},
+	    #{categoryCode,jdbcType=VARCHAR},
+	    #{brandCode,jdbcType=VARCHAR},
+	    #{goodsCode,jdbcType=VARCHAR},
+	    #{dataDate, jdbcType=DATE},
+	    #{stock,jdbcType=DOUBLE},
+	    #{unit,jdbcType=VARCHAR},
+	    #{saleIncome,jdbcType=DOUBLE},
+	    #{saleNum,jdbcType=DOUBLE},
+	    #{buyType,jdbcType=VARCHAR},
+	    #{feedbackRate,jdbcType=DOUBLE},
+	    #{feedbackStatus,jdbcType=VARCHAR},
+	    #{stockAmountWithTax,jdbcType=DOUBLE},
+	    #{currency, jdbcType=VARCHAR},
+	    #{empNumber, jdbcType=VARCHAR}
+    )
+  </insert>
+  
+  <insert id="batchInsert" parameterType="java.util.List" >
+    insert into sapfeedback_check_emp (
+    	<include refid="Base_Column_List" />
+    )
+    values 
+    <foreach collection="list" item="item" separator=",">
+    (
+    	#{item.request,jdbcType=VARCHAR},
+	    #{item.datapakid,jdbcType=DOUBLE},
+	    #{item.record,jdbcType=INTEGER},
+	    #{item.secondDivisionCode,jdbcType=VARCHAR},
+	    #{item.divisionCode,jdbcType=VARCHAR},
+	    #{item.regionCode,jdbcType=VARCHAR},
+	    #{item.category2Code,jdbcType=VARCHAR},
+	    #{item.categoryCode,jdbcType=VARCHAR},
+	    #{item.brandCode,jdbcType=VARCHAR},
+	    #{item.goodsCode,jdbcType=VARCHAR},
+	    #{item.dataDate, jdbcType=DATE},
+	    #{item.stock,jdbcType=DOUBLE},
+	    #{item.unit,jdbcType=VARCHAR},
+	    #{item.saleIncome,jdbcType=DOUBLE},
+	    #{item.saleNum,jdbcType=DOUBLE},
+	    #{item.buyType,jdbcType=VARCHAR},
+	    #{item.feedbackRate,jdbcType=DOUBLE},
+	    #{item.feedbackStatus,jdbcType=VARCHAR},
+	    #{item.stockAmountWithTax,jdbcType=DOUBLE},
+	    #{item.currency, jdbcType=VARCHAR},
+	    #{item.empNumber, jdbcType=VARCHAR}
+    )
+    </foreach>
+  </insert>
+  
+  <select id="findByEmp" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sapfeedback_check_emp
+    <where>
+      <if test="empNumber!=null">EMP_NUMBER=#{empNumber,jdbcType=VARCHAR}</if>
+    </where>
+  </select>
+  
+  <select id="list" resultType="map">
+    select
+    distinct EMP_NUMBER as 'empNumber', DIVISION_CODE as 'divisionCode',count(REQUEST) as 'checkCount'
+    from sapfeedback_check_emp
+    GROUP BY EMP_NUMBER
+  </select>
+  
+  <delete id="truncate">
+  	truncate table sapfeedback_check_emp
+  </delete>
+  
+</mapper>

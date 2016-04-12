@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Mapper.Store">
+  <resultMap id="BaseResultMap" type="com.gome.storefeedback.entity.Store">
+    <id column="store_code" jdbcType="VARCHAR" property="store_code" />
+    <result column="store_name" jdbcType="VARCHAR" property="store_name" />
+    <result column="sale_org" jdbcType="VARCHAR" property="sale_org" />
+    <result column="company_code" jdbcType="VARCHAR" property="company_code" />
+    <result column="second_division_code" jdbcType="VARCHAR" property="second_division_code" />
+    <result column="second_division_des" jdbcType="VARCHAR" property="second_division_des" />
+    <result column="division_code" jdbcType="VARCHAR" property="division_code" />
+    <result column="division_des" jdbcType="VARCHAR" property="division_des" />
+    <result column="store_address" jdbcType="VARCHAR" property="store_address" />
+    <result column="store_tel" jdbcType="VARCHAR" property="store_tel" />
+    <result column="update_flag" jdbcType="VARCHAR" property="update_flag" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    store_code, store_name, sale_org, company_code, second_division_code, second_division_des, 
+    division_code, division_des, store_address, store_tel, update_flag
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from store
+    where store_code = #{store_code,jdbcType=VARCHAR}
+  </select>
+  <!-- 查询多个 -->
+  <select id="list" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from store
+    <where>
+      <if test="null != store_code and '' != store_code"> store_code = #{store_code}</if>
+      <if test="null != sale_org and '' != sale_org"> sale_org = #{sale_org}</if>
+      <if test="null != company_code and '' != company_code"> company_code = #{company_code}</if>
+      <if test="null != second_division_code and '' != second_division_code"> second_division_code = #{second_division_code}</if>
+      <if test="null != division_code and '' != division_code"> division_code = #{division_code}</if>
+      <if test="null != store_name and '' != store_name">and store_name like "%"#{store_name,jdbcType=VARCHAR}"%"</if>
+      <if test="null != second_division_des and '' != second_division_des">and second_division_des like "%"#{second_division_des,jdbcType=VARCHAR}"%"</if>
+      <if test="null != division_des and '' != division_des">and division_des like "%"#{division_des,jdbcType=VARCHAR}"%"</if>
+      <if test="null != store_address and '' != store_address">and store_address like "%"#{store_address,jdbcType=VARCHAR}"%"</if>
+       <if test="null != update_flag and '' != update_flag">and update_flag = #{update_flag}</if>
+       <if test="null != store_tel and '' != store_tel">and store_tel = #{store_tel}</if>
+    </where>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from store
+    where store_code = #{store_code,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.gome.storefeedback.entity.Store">
+    insert into store (store_code, store_name, sale_org, 
+      company_code, second_division_code, second_division_des, 
+      division_code, division_des, store_address, 
+      store_tel, update_flag)
+    values (#{store_code,jdbcType=VARCHAR}, #{store_name,jdbcType=VARCHAR}, #{sale_org,jdbcType=VARCHAR}, 
+      #{company_code,jdbcType=VARCHAR}, #{second_division_code,jdbcType=VARCHAR}, #{second_division_des,jdbcType=VARCHAR}, 
+      #{division_code,jdbcType=VARCHAR}, #{division_des,jdbcType=VARCHAR}, #{store_address,jdbcType=VARCHAR}, 
+      #{store_tel,jdbcType=VARCHAR}, #{update_flag,jdbcType=VARCHAR})
+  </insert>
+  <!-- 批量插入 -->
+   <insert id="batchInsert" parameterType="list">
+    insert into store (<include refid="Base_Column_List" />)
+    values
+    <foreach collection="list" item="item" separator=",">
+    (#{item.store_code,jdbcType=VARCHAR}, #{item.store_name,jdbcType=VARCHAR},
+    #{item.sale_org,jdbcType=VARCHAR},
+    #{item.company_code,jdbcType=VARCHAR}, #{item.second_division_code,jdbcType=VARCHAR}, #{item.second_division_des,jdbcType=VARCHAR}, 
+    #{item.division_code,jdbcType=VARCHAR}, #{item.division_des,jdbcType=VARCHAR}, #{item.store_address,jdbcType=VARCHAR}, 
+    #{item.store_tel,jdbcType=VARCHAR}, #{item.update_flag,jdbcType=VARCHAR})
+    </foreach>
+  </insert>
+  <insert id="insertSelective" parameterType="com.gome.storefeedback.entity.Store">
+    insert into store
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="store_code != null">
+        store_code,
+      </if>
+      <if test="store_name != null">
+        store_name,
+      </if>
+      <if test="sale_org != null">
+        sale_org,
+      </if>
+      <if test="company_code != null">
+        company_code,
+      </if>
+      <if test="second_division_code != null">
+        second_division_code,
+      </if>
+      <if test="second_division_des != null">
+        second_division_des,
+      </if>
+      <if test="division_code != null">
+        division_code,
+      </if>
+      <if test="division_des != null">
+        division_des,
+      </if>
+      <if test="store_address != null">
+        store_address,
+      </if>
+      <if test="store_tel != null">
+        store_tel,
+      </if>
+      <if test="update_flag != null">
+        update_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="store_code != null">
+        #{store_code,jdbcType=VARCHAR},
+      </if>
+      <if test="store_name != null">
+        #{store_name,jdbcType=VARCHAR},
+      </if>
+      <if test="sale_org != null">
+        #{sale_org,jdbcType=VARCHAR},
+      </if>
+      <if test="company_code != null">
+        #{company_code,jdbcType=VARCHAR},
+      </if>
+      <if test="second_division_code != null">
+        #{second_division_code,jdbcType=VARCHAR},
+      </if>
+      <if test="second_division_des != null">
+        #{second_division_des,jdbcType=VARCHAR},
+      </if>
+      <if test="division_code != null">
+        #{division_code,jdbcType=VARCHAR},
+      </if>
+      <if test="division_des != null">
+        #{division_des,jdbcType=VARCHAR},
+      </if>
+      <if test="store_address != null">
+        #{store_address,jdbcType=VARCHAR},
+      </if>
+      <if test="store_tel != null">
+        #{store_tel,jdbcType=VARCHAR},
+      </if>
+      <if test="update_flag != null">
+        #{update_flag,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="update" parameterType="com.gome.storefeedback.entity.Store">
+    update store
+    set store_name = #{store_name,jdbcType=VARCHAR},
+      sale_org = #{sale_org,jdbcType=VARCHAR},
+      company_code = #{company_code,jdbcType=VARCHAR},
+      second_division_code = #{second_division_code,jdbcType=VARCHAR},
+      second_division_des = #{second_division_des,jdbcType=VARCHAR},
+      division_code = #{division_code,jdbcType=VARCHAR},
+      division_des = #{division_des,jdbcType=VARCHAR},
+      store_address = #{store_address,jdbcType=VARCHAR},
+      store_tel = #{store_tel,jdbcType=VARCHAR},
+      update_flag = #{update_flag,jdbcType=VARCHAR}
+    where store_code = #{store_code,jdbcType=VARCHAR}
+  </update>
+</mapper>

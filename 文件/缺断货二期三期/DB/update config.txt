@@ -1,0 +1,29 @@
+UPDATE feedback_push_category_position_config t SET is_gmzb=NULL  ,org_name = NULL;
+ 
+UPDATE feedback_push_category_position_config t SET is_gmzb=1 ,org_name = ' 集团总部' where org_number ='GMZB';
+
+UPDATE feedback_push_category_position_config t SET is_gmzb=2 ,org_name = (SELECT sss.division_desc FROM division sss WHERE sss.division_code=t.org_number) WHERE t.org_number = (SELECT s.division_code FROM division s WHERE s.division_code=t.org_number);
+
+UPDATE feedback_push_category_position_config t SET is_gmzb=3 ,org_name = (SELECT sss.second_division_des FROM second_division sss WHERE sss.second_division_code=t.org_number) WHERE t.org_number = (SELECT sd.second_division_code FROM second_division sd WHERE sd.second_division_code =t.org_number);
+
+UPDATE feedback_push_category_position_config t SET is_gmzb=4 ,org_name = (SELECT sss.store_name FROM store sss WHERE sss.store_code=t.org_number) WHERE t.org_number = (SELECT s.store_code FROM store s WHERE s.store_code =t.org_number);
+
+UPDATE feedback_push_category_position_config t
+SET is_gmzb = 5,
+ org_name = (
+	SELECT
+		sss.region_des
+	FROM
+		region sss
+	WHERE
+		sss.region_code = t.org_number
+)
+WHERE
+	t.org_number = (
+		SELECT
+			s.region_code
+		FROM
+			region s
+		WHERE
+			s.region_code = t.org_number
+	);

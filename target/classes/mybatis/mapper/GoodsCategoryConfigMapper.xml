@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="Mapper.GoodsCategoryConfigMapper" >
+    
+  <resultMap id="BaseResultMap" type="com.gome.storefeedback.entity.GoodsCategoryConfig" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="category_code" property="categoryCode" jdbcType="VARCHAR" />
+    <result column="category_name" property="categoryName" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    id, category_code, category_name, create_time
+  </sql>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="map" >
+    select 
+    <include refid="Base_Column_List" />
+    from goods_category_config
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="map" >
+    delete from goods_category_config
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  
+  <insert id="insert" parameterType="com.gome.storefeedback.entity.GoodsCategoryConfig" >
+    insert into goods_category_config (id, category_code, category_name, 
+      create_time)
+    values (#{id,jdbcType=VARCHAR}, #{categoryCode,jdbcType=VARCHAR}, #{categoryName,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  
+  <update id="update" parameterType="com.gome.storefeedback.entity.GoodsCategoryConfig" >
+    update goods_category_config
+    <set >
+      <if test="categoryCode != null" >
+        category_code = #{categoryCode,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryName != null" >
+        category_name = #{categoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="findByPage" parameterType="map" resultMap="BaseResultMap">
+      select 
+      <include refid="Base_Column_List"/>
+      from goods_category_config 
+      <where>
+          <if test="categoryCode != null and '' != categoryCode">
+              category_code like "%"#{categoryCode}"%"
+          </if>
+          <if test="categoryName != null and '' != categoryName">
+              and category_name like "%"#{categoryName}"%"
+          </if>
+      </where>
+  </select>
+   
+  <select id="list" parameterType="map" resultMap="BaseResultMap">
+      select 
+      <include refid="Base_Column_List"/>
+      from goods_category_config
+  </select>
+</mapper>

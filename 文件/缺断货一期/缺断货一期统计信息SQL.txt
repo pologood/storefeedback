@@ -1,0 +1,38 @@
+SELECT 
+s.division_des as '一级分部' ,s.second_division_des as '二级分部',s.store_name as '门店',
+ld.division_name as '品类',gb.cn_text as '品牌', g.goods_name as '商品',
+DATE_FORMAT(f.create_time,'%Y-%m-%d') as '反馈日期',
+f.id as '记录ID' ,f.sponsor_employee_name as '反馈人' ,f.quantity as '数量',f.create_time as '反馈时间',f.has_return as '反馈结果',
+f.* FROM feedback f 
+LEFT JOIN store s ON s.store_code=f.store_code 
+LEFT JOIN lack_division ld ON ld.division_code=f.first_category 
+LEFT JOIN goods_brand gb ON gb.brand_code = f.brand_code
+LEFT JOIN goods g ON g.goods_code=f.goods_code
+WHERE f.create_time >= '2015-08-04 00:00:00' AND f.create_time < '2015-08-05 00:00:00' limit 1000000 ;
+
+
+
+
+SELECT 
+DATE_FORMAT(frd.feedback_time,'%Y-%m-%d') as '回执日期',
+frd.id AS '回执ID' ,frd.feedback_person_employee_id AS '回执人员工编号',frd.feedback_person_employee_name AS '回执人姓名' ,frd.feedback_content AS '回执内容' ,frd.feedback_time AS '回执时间',frd.feedback_id AS '缺断货记录ID'
+FROM feedback_record frd 
+WHERE frd.feedback_time >= '2015-08-04 00:00:00' AND frd.feedback_time < '2015-08-05 00:00:00' limit 1000000 ;
+
+
+
+
+SELECT 
+s.division_des as '一级分部' ,s.second_division_des as '二级分部',s.store_name as '门店',
+ld.division_name as '品类',gb.cn_text as '品牌', g.goods_name as '商品',
+DATE_FORMAT(f.create_time,'%Y-%m-%d') as '反馈日期',
+f.id as '记录ID' ,f.sponsor_employee_name as '反馈人' ,f.quantity as '数量',f.create_time as '反馈时间',f.has_return as '反馈结果',
+DATE_FORMAT(frd.feedback_time,'%Y-%m-%d') as '回执日期',
+frd.id AS '回执ID' ,frd.feedback_person_employee_id AS '回执人员工编号',frd.feedback_person_employee_name AS '回执人姓名' ,frd.feedback_content AS '回执内容' ,frd.feedback_time AS '回执时间',frd.feedback_id AS '缺断货记录ID',
+f.* FROM feedback f 
+LEFT JOIN store s ON s.store_code=f.store_code 
+LEFT JOIN lack_division ld ON ld.division_code=f.first_category 
+LEFT JOIN goods_brand gb ON gb.brand_code = f.brand_code
+LEFT JOIN goods g ON g.goods_code=f.goods_code
+LEFT JOIN feedback_record frd  ON frd.feedback_id=f.id
+WHERE f.create_time >= '2015-08-04 00:00:00' AND f.create_time < '2015-08-05 00:00:00' limit 1000000 ;

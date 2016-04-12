@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 反馈数据URL
+	http://10.128.11.6:50000/sap/xi/adapter_plain?namespace=http://gome.com/GSM/COMMON/
+	Outbound&interface=SI_FEEDBACK_Out&service=BC_GSM&party=&agency=&scheme=&
+	QOS=EO&sap-user=GSMUSER&sap-password=GSMUSER&sap-client=001&sap-language=EN
+-->
+<ns0:MT_FEEDBACK_Out xmlns:ns0="http://gome.com/GSM/COMMON/Outbound">
+   <HEADER>
+      <INTERFACE_ID>COMMON</INTERFACE_ID> <!--//标志为返回信息 FEEDBACK-->
+      <MESSAGE_ID/> <!--//32位GUID 唯一标志这条数据-->
+      <SENDER>GSM</SENDER>
+      <RECEIVER>ECC</RECEIVER>
+      <DTSEND/> <!--//17日期到毫秒-->
+   </HEADER>
+   <DETAIL>
+      <INTERFACE_O><!--MM086</INTERFACE_O> //Request 对应的<HEADER><INTERFACE_ID/></HEADER>-->
+      <MESSAGE_O/> <!--//Request 对应的<HEADER><MESSAGE_ID/></HEADER>-->
+      <RESULT/><!--S/F-->
+      <DETAILS>
+         <KEY/>
+         <MESSAGE/>
+      </DETAILS>
+   </DETAIL>
+</ns0:MT_FEEDBACK_Out>

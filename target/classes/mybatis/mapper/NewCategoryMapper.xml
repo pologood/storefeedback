@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="Mapper.NewCategory" >
+  <resultMap id="BaseResultMap" type="com.gome.storefeedback.entity.NewCategory" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="report_employee_id" property="reportEmployeeId" jdbcType="VARCHAR" />
+    <result column="report_company_id" property="reportCompanyId" jdbcType="VARCHAR" />
+    <result column="report_employee_name" property="reportEmployeeName" jdbcType="VARCHAR" />
+    <result column="category_code" property="categoryCode" jdbcType="VARCHAR" />
+    <result column="category_desc" property="categoryDesc" jdbcType="VARCHAR" />
+    <result column="model_code" property="modelCode" jdbcType="VARCHAR" />
+    <result column="model_desc" property="modelDesc" jdbcType="VARCHAR" />
+    <result column="main_desc" property="mainDesc" jdbcType="VARCHAR" />
+    <result column="dealer" property="dealer" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="is_push" property="isPush" jdbcType="CHAR" />
+    <result column="is_handle" property="isHandle" jdbcType="CHAR" />
+    <result column="is_import" property="isImport" jdbcType="CHAR" />
+    <result column="not_import_desc" property="notImportDesc" jdbcType="VARCHAR" />
+    <result column="not_import_code" property="notImportCode" jdbcType="VARCHAR" />
+    <result column="googs_code" property="googsCode" jdbcType="VARCHAR" />
+    <result column="Handle_employee_id" property="handleEmployeeId" jdbcType="VARCHAR" />
+    <result column="Handle_employee_name" property="handleEmployeeName" jdbcType="VARCHAR" />
+    <result column="handle_company_id" property="handleCompanyId" jdbcType="VARCHAR" />
+    <result column="handle_time" property="handleTime" jdbcType="TIMESTAMP" />
+    <result column="import_time" property="importTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, report_employee_id, report_company_id, report_employee_name, category_code, category_desc, 
+    model_code, model_desc, main_desc, dealer, create_time, is_push, is_handle, is_import, 
+    not_import_desc, not_import_code, googs_code, Handle_employee_id, Handle_employee_name, 
+    handle_company_id, handle_time, import_time
+  </sql>
+  
+   <select id="selectCategorycount" resultType="int" parameterType="map">
+    select 
+    count(1)
+    from t_new_category
+    where category_code = #{ ,jdbcType=VARCHAR}
+  </select>
+  
+   <select id="selectModelcount" resultType="int" parameterType="map">
+    select 
+    count(1)
+    from t_new_Model
+    where categoryCode = #{categoryCode,jdbcType=VARCHAR} 
+    and  model_code = #{modelCode,jdbcType=VARCHAR}
+  </select> 
+  
+  <select id="selectList" resultType="list" resultMap="BaseResultMap" parameterType="map" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_new_category
+    where report_company_id = #{reportCompanyId,jdbcType=VARCHAR} and is_handle != #{isHandle,jdbcType=VARCHAR};
+  </select>
+  
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_new_category
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_new_category
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.gome.storefeedback.entity.NewCategory" >
+    insert into t_new_category (id, report_employee_id, report_company_id, 
+      report_employee_name, category_code, category_desc, 
+      model_code, model_desc, main_desc, 
+      dealer, create_time, is_push, 
+      is_handle, is_import, not_import_desc, 
+      not_import_code, googs_code, Handle_employee_id, 
+      Handle_employee_name, handle_company_id, handle_time, 
+      import_time)
+    values (#{id,jdbcType=VARCHAR}, #{reportEmployeeId,jdbcType=VARCHAR}, #{reportCompanyId,jdbcType=VARCHAR}, 
+      #{reportEmployeeName,jdbcType=VARCHAR}, #{categoryCode,jdbcType=VARCHAR}, #{categoryDesc,jdbcType=VARCHAR}, 
+      #{modelCode,jdbcType=VARCHAR}, #{modelDesc,jdbcType=VARCHAR}, #{mainDesc,jdbcType=VARCHAR}, 
+      #{dealer,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{isPush,jdbcType=CHAR}, 
+      #{isHandle,jdbcType=CHAR}, #{isImport,jdbcType=CHAR}, #{notImportDesc,jdbcType=VARCHAR}, 
+      #{notImportCode,jdbcType=VARCHAR}, #{googsCode,jdbcType=VARCHAR}, #{handleEmployeeId,jdbcType=VARCHAR}, 
+      #{handleEmployeeName,jdbcType=VARCHAR}, #{handleCompanyId,jdbcType=VARCHAR}, #{handleTime,jdbcType=TIMESTAMP}, 
+      #{importTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.gome.storefeedback.entity.NewCategory" >
+    insert into t_new_category
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="reportEmployeeId != null" >
+        report_employee_id,
+      </if>
+      <if test="reportCompanyId != null" >
+        report_company_id,
+      </if>
+      <if test="reportEmployeeName != null" >
+        report_employee_name,
+      </if>
+      <if test="categoryCode != null" >
+        category_code,
+      </if>
+      <if test="categoryDesc != null" >
+        category_desc,
+      </if>
+      <if test="modelCode != null" >
+        model_code,
+      </if>
+      <if test="modelDesc != null" >
+        model_desc,
+      </if>
+      <if test="mainDesc != null" >
+        main_desc,
+      </if>
+      <if test="dealer != null" >
+        dealer,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="isPush != null" >
+        is_push,
+      </if>
+      <if test="isHandle != null" >
+        is_handle,
+      </if>
+      <if test="isImport != null" >
+        is_import,
+      </if>
+      <if test="notImportDesc != null" >
+        not_import_desc,
+      </if>
+      <if test="notImportCode != null" >
+        not_import_code,
+      </if>
+      <if test="googsCode != null" >
+        googs_code,
+      </if>
+      <if test="handleEmployeeId != null" >
+        Handle_employee_id,
+      </if>
+      <if test="handleEmployeeName != null" >
+        Handle_employee_name,
+      </if>
+      <if test="handleCompanyId != null" >
+        handle_company_id,
+      </if>
+      <if test="handleTime != null" >
+        handle_time,
+      </if>
+      <if test="importTime != null" >
+        import_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="reportEmployeeId != null" >
+        #{reportEmployeeId,jdbcType=VARCHAR},
+      </if>
+      <if test="reportCompanyId != null" >
+        #{reportCompanyId,jdbcType=VARCHAR},
+      </if>
+      <if test="reportEmployeeName != null" >
+        #{reportEmployeeName,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryCode != null" >
+        #{categoryCode,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryDesc != null" >
+        #{categoryDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="modelCode != null" >
+        #{modelCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modelDesc != null" >
+        #{modelDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="mainDesc != null" >
+        #{mainDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="dealer != null" >
+        #{dealer,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isPush != null" >
+        #{isPush,jdbcType=CHAR},
+      </if>
+      <if test="isHandle != null" >
+        #{isHandle,jdbcType=CHAR},
+      </if>
+      <if test="isImport != null" >
+        #{isImport,jdbcType=CHAR},
+      </if>
+      <if test="notImportDesc != null" >
+        #{notImportDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="notImportCode != null" >
+        #{notImportCode,jdbcType=VARCHAR},
+      </if>
+      <if test="googsCode != null" >
+        #{googsCode,jdbcType=VARCHAR},
+      </if>
+      <if test="handleEmployeeId != null" >
+        #{handleEmployeeId,jdbcType=VARCHAR},
+      </if>
+      <if test="handleEmployeeName != null" >
+        #{handleEmployeeName,jdbcType=VARCHAR},
+      </if>
+      <if test="handleCompanyId != null" >
+        #{handleCompanyId,jdbcType=VARCHAR},
+      </if>
+      <if test="handleTime != null" >
+        #{handleTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="importTime != null" >
+        #{importTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gome.storefeedback.entity.NewCategory" >
+    update t_new_category
+    <set >
+      <if test="reportEmployeeId != null" >
+        report_employee_id = #{reportEmployeeId,jdbcType=VARCHAR},
+      </if>
+      <if test="reportCompanyId != null" >
+        report_company_id = #{reportCompanyId,jdbcType=VARCHAR},
+      </if>
+      <if test="reportEmployeeName != null" >
+        report_employee_name = #{reportEmployeeName,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryCode != null" >
+        category_code = #{categoryCode,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryDesc != null" >
+        category_desc = #{categoryDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="modelCode != null" >
+        model_code = #{modelCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modelDesc != null" >
+        model_desc = #{modelDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="mainDesc != null" >
+        main_desc = #{mainDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="dealer != null" >
+        dealer = #{dealer,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isPush != null" >
+        is_push = #{isPush,jdbcType=CHAR},
+      </if>
+      <if test="isHandle != null" >
+        is_handle = #{isHandle,jdbcType=CHAR},
+      </if>
+      <if test="isImport != null" >
+        is_import = #{isImport,jdbcType=CHAR},
+      </if>
+      <if test="notImportDesc != null" >
+        not_import_desc = #{notImportDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="notImportCode != null" >
+        not_import_code = #{notImportCode,jdbcType=VARCHAR},
+      </if>
+      <if test="googsCode != null" >
+        googs_code = #{googsCode,jdbcType=VARCHAR},
+      </if>
+      <if test="handleEmployeeId != null" >
+        Handle_employee_id = #{handleEmployeeId,jdbcType=VARCHAR},
+      </if>
+      <if test="handleEmployeeName != null" >
+        Handle_employee_name = #{handleEmployeeName,jdbcType=VARCHAR},
+      </if>
+      <if test="handleCompanyId != null" >
+        handle_company_id = #{handleCompanyId,jdbcType=VARCHAR},
+      </if>
+      <if test="handleTime != null" >
+        handle_time = #{handleTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="importTime != null" >
+        import_time = #{importTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gome.storefeedback.entity.NewCategory" >
+    update t_new_category
+    set report_employee_id = #{reportEmployeeId,jdbcType=VARCHAR},
+      report_company_id = #{reportCompanyId,jdbcType=VARCHAR},
+      report_employee_name = #{reportEmployeeName,jdbcType=VARCHAR},
+      category_code = #{categoryCode,jdbcType=VARCHAR},
+      category_desc = #{categoryDesc,jdbcType=VARCHAR},
+      model_code = #{modelCode,jdbcType=VARCHAR},
+      model_desc = #{modelDesc,jdbcType=VARCHAR},
+      main_desc = #{mainDesc,jdbcType=VARCHAR},
+      dealer = #{dealer,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      is_push = #{isPush,jdbcType=CHAR},
+      is_handle = #{isHandle,jdbcType=CHAR},
+      is_import = #{isImport,jdbcType=CHAR},
+      not_import_desc = #{notImportDesc,jdbcType=VARCHAR},
+      not_import_code = #{notImportCode,jdbcType=VARCHAR},
+      googs_code = #{googsCode,jdbcType=VARCHAR},
+      Handle_employee_id = #{handleEmployeeId,jdbcType=VARCHAR},
+      Handle_employee_name = #{handleEmployeeName,jdbcType=VARCHAR},
+      handle_company_id = #{handleCompanyId,jdbcType=VARCHAR},
+      handle_time = #{handleTime,jdbcType=TIMESTAMP},
+      import_time = #{importTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

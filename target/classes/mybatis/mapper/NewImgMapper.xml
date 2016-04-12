@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="Mapper.NewImg" >
+  <resultMap id="BaseResultMap" type="com.gome.storefeedback.entity.NewImg" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="category_model_id" property="categoryModelId" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="img_desc" property="imgDesc" jdbcType="VARCHAR" />
+    <result column="sts" property="sts" jdbcType="CHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.gome.storefeedback.entity.NewImg" extends="BaseResultMap" >
+    <result column="img_info" property="imgInfo" jdbcType="LONGVARBINARY" />
+  </resultMap> 
+  <sql id="Base_Column_List" >
+    id, category_model_id, type, img_desc, sts
+  </sql>
+  <sql id="Blob_Column_List" >
+    img_info
+  </sql>
+  
+   <select id="findImgList" resultType="list" resultMap="ResultMapWithBLOBs" parameterType="map" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_new_img
+    where type = #{type,jdbcType=VARCHAR} and category_model_id =  #{categoryModelId,jdbcType=VARCHAR} 
+  </select>
+  
+  
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_new_img
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_new_img
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.gome.storefeedback.entity.NewImg" >
+    insert into t_new_img (id, category_model_id, type, 
+      img_desc, sts, img_info
+      )
+    values (#{id,jdbcType=VARCHAR}, #{categoryModelId,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
+      #{imgDesc,jdbcType=VARCHAR}, #{sts,jdbcType=CHAR}, #{imgInfo,jdbcType=LONGVARBINARY}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.gome.storefeedback.entity.NewImg" >
+    insert into t_new_img
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="categoryModelId != null" >
+        category_model_id,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="imgDesc != null" >
+        img_desc,
+      </if>
+      <if test="sts != null" >
+        sts,
+      </if>
+      <if test="imgInfo != null" >
+        img_info,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryModelId != null" >
+        #{categoryModelId,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="imgDesc != null" >
+        #{imgDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="sts != null" >
+        #{sts,jdbcType=CHAR},
+      </if>
+      <if test="imgInfo != null" >
+        #{imgInfo,jdbcType=LONGVARBINARY},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gome.storefeedback.entity.NewImg" >
+    update t_new_img
+    <set >
+      <if test="categoryModelId != null" >
+        category_model_id = #{categoryModelId,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="imgDesc != null" >
+        img_desc = #{imgDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="sts != null" >
+        sts = #{sts,jdbcType=CHAR},
+      </if>
+      <if test="imgInfo != null" >
+        img_info = #{imgInfo,jdbcType=LONGVARBINARY},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.gome.storefeedback.entity.NewImg" >
+    update t_new_img
+    set category_model_id = #{categoryModelId,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      img_desc = #{imgDesc,jdbcType=VARCHAR},
+      sts = #{sts,jdbcType=CHAR},
+      img_info = #{imgInfo,jdbcType=LONGVARBINARY}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gome.storefeedback.entity.NewImg" >
+    update t_new_img
+    set category_model_id = #{categoryModelId,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      img_desc = #{imgDesc,jdbcType=VARCHAR},
+      sts = #{sts,jdbcType=CHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

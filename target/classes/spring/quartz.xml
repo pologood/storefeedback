@@ -1,0 +1,248 @@
+﻿﻿<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:mvc="http://www.springframework.org/schema/mvc"
+  xmlns:context="http://www.springframework.org/schema/context" xmlns:aop="http://www.springframework.org/schema/aop"
+  xmlns:p="http://www.springframework.org/schema/p" xmlns:tx="http://www.springframework.org/schema/tx" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="
+		http://www.springframework.org/schema/beans
+	    http://www.springframework.org/schema/beans/spring-beans.xsd
+	    http://www.springframework.org/schema/context
+	   	http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/aop
+	    http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+	<!-- 
+		| CronExpression 表达式的说明
+		| Cron 表达式包括以下 7 个字段：
+		| 秒
+		| 分
+		| 小时
+		| 月内日期
+		| 月
+		| 周内日期
+		| 年（可选字段）
+		| 特殊字符
+		| 
+		| Cron 触发器利用一系列特殊字符，如下所示：
+		| 反斜线（/）字符表示增量值。例如，在秒字段中“5/15”代表从第 5 秒开始，每 15 秒一次。
+		| 
+		| 问号（?）字符和字母 L 字符只有在月内日期和周内日期字段中可用。问号表示这个字段不包含具体值。所以，如果指定月内日期，可以在周内日期字段中插入“?”，表示周内日期值无关紧要。字母 L 字符是 last 的缩写。放在月内日期字段中，表示安排在当月最后一天执行。在周内日期字段中，如果“L”单独存在，就等于“7”，否则代表当月内周内日期的最后一个实例。所以“0L”表示安排在当月的最后一个星期日执行。
+		
+		| 在月内日期字段中的字母（W）字符把执行安排在最靠近指定值的工作日。把“1W”放在月内日期字段中，表示把执行安排在当月的第一个工作日内。
+		
+		| 井号（#）字符为给定月份指定具体的工作日实例。把“MON#2”放在周内日期字段中，表示把任务安排在当月的第二个星期一。
+		
+		| 星号（*）字符是通配字符，表示该字段可以接受任何可能的值。
+		| 字段 允许值 允许的特殊字符 
+		| 秒 0-59 , - * / 
+		| 分 0-59 , - * / 
+		| 小时 0-23 , - * / 
+		| 日期 1-31 , - * ? / L W C 
+		| 月份 1-12 或者 JAN-DEC , - * / 
+		| 星期 1-7 或者 SUN-SAT , - * ? / L C # 
+		| 年（可选） 留空, 1970-2099 , - * /
+		| 表达式意义 
+		| "0 0 12 * * ?" 每天中午12点触发 
+		| "0 15 10 ? * *" 每天上午10:15触发 
+		| "0 15 10 * * ?" 每天上午10:15触发 
+		| "0 15 10 * * ? *" 每天上午10:15触发 
+		| "0 15 10 * * ? 2005" 2005年的每天上午10:15触发 
+		| "0 * 14 * * ?" 在每天下午2点到下午2:59期间的每1分钟触发 
+		| "0 0/5 14 * * ?" 在每天下午2点到下午2:55期间的每5分钟触发 
+		| "0 0/5 14,18 * * ?" 在每天下午2点到2:55期间和下午6点到6:55期间的每5分钟触发 
+		| "0 0-5 14 * * ?" 在每天下午2点到下午2:05期间的每1分钟触发 
+		| "0 10,44 14 ? 3 WED" 每年三月的星期三的下午2:10和2:44触发 
+		| "0 15 10 ? * MON-FRI" 周一至周五的上午10:15触发 
+		| "0 15 10 15 * ?" 每月15日上午10:15触发 
+		| "0 15 10 L * ?" 每月最后一日的上午10:15触发 
+		| "0 15 10 ? * 6L" 每月的最后一个星期五上午10:15触发 
+		| "0 15 10 ? * 6L 2002-2005" 2002年至2005年的每月的最后一个星期五上午10:15触发 
+		| "0 15 10 ? * 6#3" 每月的第三个星期五上午10:15触发 
+		| 每天早上6点
+		| 0 6 * * *
+		| 每两个小时
+		| 0 */2 * * * 
+		| 晚上11点到早上8点之间每两个小时，早上八点
+		| 0 23-7/2，8 * * *
+		| 每个月的4号和每个礼拜的礼拜一到礼拜三的早上11点
+		| 0 11 4 * 1-3 
+		| 1月1日早上4点
+		| 0 4 1 1 *
+	 	+ -->
+    
+  <bean id="sapFeedbackPushJob" class="com.gome.storefeedback.job.SapFeedbackPushJob">
+  </bean>
+  <bean id="sapFeedbackCheckPushDisplayJob" class="com.gome.storefeedback.job.SapFeedbackCheckPushDisplayJob"></bean>
+  <bean id="checkSapFeedbackPushJob" class="com.gome.storefeedback.job.CheckSapFeedbackPushJob"></bean>
+  <bean id="sapFeedbackCheckPushToHrJob" class="com.gome.storefeedback.job.SapFeedbackCheckPushToHrJob"></bean>
+  <bean id="sapFeedbackWithEmpJob" class="com.gome.storefeedback.job.SapFeedbackWithEmpJob"></bean>
+  <bean id="hrScanByTimeJob" class="com.gome.storefeedback.job.HrScanByTimeJob"></bean>
+
+<!-- 使用MethodInvokingJobDetailFactoryBean，任务类可以不实现Job接口，通过targetMethod指定调用方法-->
+  <bean id="sapFeedbackPushScheduledJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+    <property name="targetObject">
+      <ref bean="sapFeedbackPushJob"></ref>
+    </property>
+    <property name="targetMethod">
+      <value>execute</value>
+    </property>
+    <!--false表示等上一个任务执行完后再开启新的任务-->
+    <property name="concurrent">
+      <value>false</value>
+    </property>
+  </bean>
+  <!--  调度触发器 -->
+  <bean id="sapFeedbackPushTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+    <property name="jobDetail">
+      <ref bean="sapFeedbackPushScheduledJob" />
+    </property>
+    <property name="cronExpression">
+<!-- 			<value>1 * * * * ?</value> --> 
+<!--  			<value>1 10 * * * ?</value> -->
+      <value>0 0 10 * * ?</value>
+    </property>
+  </bean>
+  
+  
+  <!-- 用于关联BW推送的考核数据，关联相关员工,每次BW考核表更新(周五上午11点)之后执行 -->
+  <!-- sapFeedbackCheckPushDisplayJob -->
+  <bean id="sapFeedbackCheckPushDisplayScheduledJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+    <property name="targetObject">
+      <ref bean="sapFeedbackCheckPushDisplayJob"></ref>
+    </property>
+    <property name="targetMethod">
+      <value>execute</value>
+    </property>
+    <!--false表示等上一个任务执行完后再开启新的任务-->
+    <property name="concurrent">
+      <value>false</value>
+    </property>
+  </bean>
+  <bean id="sapFeedbackCheckPushDisplayTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+    <property name="jobDetail">
+      <ref bean="sapFeedbackCheckPushDisplayScheduledJob" />
+    </property>
+    <property name="cronExpression">
+      <value>0 0 10 ? * FRI</value>
+    </property>
+  </bean>
+  
+  
+  <!-- 每天(周五除外)给相关员工推送考核通知 -->
+  <!-- checkSapFeedbackPushJob -->
+  <bean id="checkSapFeedbackPushScheduledJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+    <property name="targetObject">
+      <ref bean="checkSapFeedbackPushJob"></ref>
+    </property>
+    <property name="targetMethod">
+      <value>execute</value>
+    </property>
+    <!--false表示等上一个任务执行完后再开启新的任务-->
+    <property name="concurrent">
+      <value>false</value>
+    </property>
+  </bean>
+  <bean id="checkSapFeedbackPushTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+    <property name="jobDetail">
+      <ref bean="checkSapFeedbackPushScheduledJob" />
+    </property>
+    <property name="cronExpression">
+      <value>0 0 10 ? * SUN-THU,SAT</value>
+<!--       <value>0 0 10 ? * SUN,MON,TUE,WED,THU,SAT</value> -->
+    </property>
+  </bean>
+  
+  
+  <!-- 每月(1号9点)推送 HR 一次业务人员考核结果 -->
+  <!-- sapFeedbackCheckPushToHrJob -->
+  <bean id="sapFeedbackCheckPushToHrScheduledJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+    <property name="targetObject">
+      <ref bean="sapFeedbackCheckPushToHrJob"></ref>
+    </property>
+    <property name="targetMethod">
+      <value>execute</value>
+    </property>
+    <!--false表示等上一个任务执行完后再开启新的任务-->
+    <property name="concurrent">
+      <value>false</value>
+    </property>
+  </bean>
+  <bean id="sapFeedbackCheckPushToHrTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+    <property name="jobDetail">
+      <ref bean="sapFeedbackCheckPushToHrScheduledJob" />
+    </property>
+    <property name="cronExpression">
+      <value>0 0 9 1 * ?</value>
+      <!-- <value>0 55 15 * * ?</value> -->
+    </property>
+  </bean>
+  
+  
+  <!-- 用于关联BW推送的缺断货数据，关联相关员工，显示员工对应的缺断货信息(每天8点50) -->
+  <!-- sapFeedbackWithEmpJob -->
+  <bean id="sapFeedbackWithEmpScheduledJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+    <property name="targetObject">
+      <ref bean="sapFeedbackWithEmpJob"></ref>
+    </property>
+    <property name="targetMethod">
+      <value>execute</value>
+    </property>
+    <!--false表示等上一个任务执行完后再开启新的任务-->
+    <property name="concurrent">
+      <value>false</value>
+    </property>
+  </bean>
+  <bean id="sapFeedbackWithEmpTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+    <property name="jobDetail">
+      <ref bean="sapFeedbackWithEmpScheduledJob" />
+    </property>
+    <property name="cronExpression">
+<!-- 			<value>1 * * * * ?</value> --> 
+<!--  			<value>1 10 * * * ?</value> -->
+      <value>0 50 8 * * ?</value>
+    </property>
+  </bean>
+  
+  
+  
+  <!-- 用于定期(每天10点)扫描考核推送失败人员表hr_scan_bytime-->
+  <!-- hrScanByTimeJob -->
+  <bean id="hrScanByTimeScheduledJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+    <property name="targetObject">
+      <ref bean="hrScanByTimeJob"></ref>
+    </property>
+    <property name="targetMethod">
+      <value>execute</value>
+    </property>
+    <!--false表示等上一个任务执行完后再开启新的任务-->
+    <property name="concurrent">
+      <value>false</value>
+    </property>
+  </bean>
+  <bean id="hrScanByTimeTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+    <property name="jobDetail">
+      <ref bean="hrScanByTimeScheduledJob" />
+    </property>
+    <property name="cronExpression">
+      <value>0 0 10 * * ?</value>
+    </property>
+  </bean>
+  
+  
+  
+<!-- 调度工厂 -->
+  <bean autowire="no" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+    <property name="triggers">
+      <list>
+        <ref bean="sapFeedbackPushTrigger" />
+        <ref bean="sapFeedbackCheckPushDisplayTrigger" />
+        <ref bean="checkSapFeedbackPushTrigger" />
+        <ref bean="sapFeedbackCheckPushToHrTrigger" />
+        <ref bean="sapFeedbackWithEmpTrigger" />
+        <ref bean="hrScanByTimeTrigger" /> 
+      </list>
+    </property>
+  </bean>
+  
+  <bean id="schedulerFactoryBean" class="org.springframework.scheduling.quartz.SchedulerFactoryBean" />
+  
+</beans>

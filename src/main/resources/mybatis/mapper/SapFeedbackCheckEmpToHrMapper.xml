@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="Mapper.SapFeedbackCheckEmpToHrMapper" >
+ 
+  <select id="getEmpCheck" resultType="com.gome.storefeedback.entity.CheckSapFeedbackEmpCount">
+    SELECT t.EMP_NUMBER as empNumber,#{month} as sanctionMonth,COUNT(t.EMP_NUMBER)*15*(-1)+(SELECT count(*) from zmm_ds62_tohr zt where zt.EMP_NUMBER = t.EMP_NUMBER AND zt.is_handler = 0 AND 
+    <![CDATA[
+		zt.CALDAY >= #{startDay} and zt.CALDAY <= #{endDay}
+	]]>
+	)*20*(-1) as sanctionMoney,'' as sanctionPoints
+	from zmm_ds62_check_display t
+	where
+	<![CDATA[
+		t.CALDAY >= #{startDay} and t.CALDAY <= #{endDay}
+	]]>
+	<!-- 1——red(确认或申诉拒绝); 2——没颜色(未操作);3——yellow(申诉但未审批);4——green(申诉同意) -->
+	and t.handler_result in (1,2)
+	GROUP BY t.EMP_NUMBER
+	
+	UNION 
+	<!-- 在考核表中没有的emp_number在缺断货表中查 -->
+	SELECT
+	zt.EMP_NUMBER AS empNumber,
+	#{month} AS sanctionMonth,
+	count(zt.EMP_NUMBER) * 20 AS sanctionMoney,
+	'' AS sanctionPoints
+	FROM
+		zmm_ds62_tohr zt
+	WHERE
+		zt.EMP_NUMBER NOT IN (
+			SELECT
+				EMP_NUMBER
+			FROM
+				zmm_ds62_check_display m
+			WHERE
+				<![CDATA[
+					m.CALDAY >= #{startDay} and m.CALDAY <= #{endDay}
+				]]>
+			AND m.handler_result IN (1, 2)
+		)
+	AND zt.is_handler = 0
+	AND
+	<![CDATA[
+		zt.CALDAY >= #{startDay} and zt.CALDAY <= #{endDay}
+	]]>
+	GROUP BY
+		zt.EMP_NUMBER
+  </select>
+  
+  
+  <!-- 把 HR 返回的为被HR接收的数据  批量插入推送HR定时扫描表格 -->
+  <insert id="batchInsert" parameterType="java.util.List">
+    insert into hr_scan_bytime (
+    	EMP_NUMBER,MONTH,FLAG
+    )
+    values
+    <foreach collection="list" item="item" separator=",">
+      (
+      #{item.empNumber,jdbcType=VARCHAR},
+      #{item.sanctionMonth,jdbcType=VARCHAR},
+      0
+      )
+    </foreach>
+  </insert>
+  
+  <delete id="deleteFlag">
+    delete from hr_scan_bytime
+  </delete>
+  
+  
+  <select id="getEmpByHr" resultType="com.gome.storefeedback.entity.CheckSapFeedbackEmpCount">
+    SELECT t.EMP_NUMBER as empNumber,t.month as sanctionMonth
+    from hr_scan_bytime t
+	where t.flag = 0
+  </select>
+  
+  <update id="updateByPK" parameterType="com.gome.storefeedback.entity.SapFeedback">
+    update hr_scan_bytime
+    <set>
+      flag = 1
+    </set>
+    where EMP_NUMBER = #{empNumber,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="getEmpByEmpNumber" parameterType="map" resultType="com.gome.storefeedback.entity.CheckSapFeedbackEmpCount">
+    SELECT t.EMP_NUMBER as empNumber,#{month} as sanctionMonth,COUNT(t.EMP_NUMBER)*15+(SELECT count(*) from zmm_ds62_tohr zt where zt.EMP_NUMBER = #{empNumber,jdbcType=VARCHAR} AND zt.is_handler = 0 AND 
+    <![CDATA[
+		zt.CALDAY >= #{startDay} and zt.CALDAY <= #{endDay}
+	]]>
+	)*20 as sanctionMoney,'' as sanctionPoints
+	from zmm_ds62_check_display t
+	where
+	<![CDATA[
+		t.CALDAY >= #{startDay} and t.CALDAY <= #{endDay}
+	]]>
+	and t.EMP_NUMBER = #{empNumber,jdbcType=VARCHAR}
+	<!-- 1——red(确认或申诉拒绝); 2——没颜色(未操作);3——yellow(申诉但未审批);4——green(申诉同意) -->
+	and t.handler_result in (1,2)
+	GROUP BY t.EMP_NUMBER
+  </select>
+  
+  <delete id="deleteByEmpNumber" parameterType="list">
+    delete from hr_scan_bytime 
+    where EMP_NUMBER NOT IN 
+    <foreach collection="empNumbers" item="empNumber" open="(" separator="," close=")">
+      #{empNumber}
+    </foreach>
+  </delete>
+  
+</mapper>

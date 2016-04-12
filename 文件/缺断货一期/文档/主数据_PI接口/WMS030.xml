@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	以下部分 WMS 是一致的 
+	<ns1:MT_WMS_Req xmlns:ns1="http://gome.com/GSM/WMS/Inbound">
+		MT_WMS_Req 中 WMS
+		http://gome.com/GSM/WMS/Inbound 中 WMS
+	<HEADER><INTERFACE_ID>WMS030</INTERFACE_ID></HEADER>中 WMS
+	<XML_DATA><WMS030></WMS030></XML_DATA>中 WMS
+-->
+<ns1:MT_WMS_Req xmlns:ns1="http://gome.com/GSM/WMS/Inbound">
+	<HEADER>
+		<INTERFACE_ID>WMS030</INTERFACE_ID> <!--//标志为对应的接口ID-->
+		<MESSAGE_ID/> <!--//32位GUID 唯一标志这条数据-->
+		<SENDER>ECC</SENDER> <!--//SAP系统-->
+		<RECEIVER>GSM</RECEIVER>
+		<DTSEND/> <!--//17日期到毫秒-->
+	</HEADER>
+	<XML_DATA>
+		<WMS030><!--//对应的接口ID-->
+			<ITEMS>
+				<ITEM>
+					<ZWERKS/>
+					<ZTEXT40/>
+					<CITY/>
+					<CONDUCTADDRESS/>
+					<UPDATE_FLAG/>
+				</ITEM>
+				<ITEM>
+					<ZWERKS/>
+					<ZTEXT40/>
+					<CITY/>
+					<CONDUCTADDRESS/>
+					<UPDATE_FLAG/>
+				</ITEM>
+			</ITEMS>
+		</WMS030>
+	</XML_DATA>
+</ns1:MT_WMS_Req>

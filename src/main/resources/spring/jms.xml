@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+                        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
+                        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
+                        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
+                        http://cxf.apache.org/jaxws       
+                        http://cxf.apache.org/schemas/jaxws.xsd"
+	default-lazy-init="false">
+
+	   
+  <!-- jms -->
+  <bean id="jmsConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
+    <property name="brokerURL" value="${mq.url}" />
+    <property name="useAsyncSend" value="true" />
+  </bean>
+  <bean id="pooledJmsConnectionFactory" class="org.apache.activemq.pool.PooledConnectionFactory" destroy-method="stop">
+    <property name="connectionFactory" ref="jmsConnectionFactory" />
+    <property name="maxConnections" value="${mq.maxJmsConnections}" />
+    <property name="maximumActive" value="${mq.maxJmsActive}" />
+  </bean>
+  <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+    <property name="connectionFactory" ref="pooledJmsConnectionFactory" />
+  </bean>
+    <!-- jms -->
+    
+        <!-- 日志消息 -->
+  <bean id="gomeLogQueue" class="org.apache.activemq.command.ActiveMQQueue">
+    <constructor-arg value="wl.gome.log.queue" />
+  </bean>
+  <bean id="logMessageSender" class="com.gome.storefeedback.jms.LogMessageSender">
+    <property name="jmsTemplate" ref="jmsTemplate"></property>
+    <property name="queue" ref="gomeLogQueue"></property>
+  </bean>
+  
+          <!-- Sap缺断货消息推送 -->
+  <bean id="sapFeedbackPushQueue" class="org.apache.activemq.command.ActiveMQQueue">
+    <constructor-arg value="gsm.message.push.queue" />
+  </bean>
+  <bean id="sapFeedbackPushSender" class="com.gome.storefeedback.jms.SapFeedbackPushSender">
+    <property name="jmsTemplate" ref="jmsTemplate"></property>
+    <property name="queue" ref="sapFeedbackPushQueue"></property>
+  </bean>
+  
+      <!-- 发送PI接口消息 start-->
+  <bean id="sendGSMStorefeedbackDataBackQueue" class="org.apache.activemq.command.ActiveMQQueue">
+    <constructor-arg value="gsm.storefeedback.dataBack.push.queue" />
+  </bean>
+  
+  <bean id="dataBackSender" class="com.gome.storefeedback.jms.DataBackSender">
+    <property name="jmsTemplate" ref="jmsTemplate"></property>
+    <property name="queue" ref="sendGSMStorefeedbackDataBackQueue"></property>
+  </bean>
+    <bean id="dataBackListener" class="com.gome.storefeedback.jms.DataBackListener">
+  </bean>
+  
+  <bean id="dataBackConsumer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+    <property name="connectionFactory" ref="pooledJmsConnectionFactory" />
+    <property name="destination" ref="sendGSMStorefeedbackDataBackQueue" />
+    <property name="messageListener" ref="dataBackListener" />
+  </bean>
+ <!-- 发送PI接口消息 end-->
+ 
+<!-- 发送缺断货反馈消息 start -->
+  <bean id="sendGSMStorefeedbackFeedbackMessageQueue" class="org.apache.activemq.command.ActiveMQQueue">
+    <constructor-arg value="gsm.storefeedback.feedbackmessage.push.queue" />
+  </bean>
+  
+  <bean id="feedbackMessageSender" class="com.gome.storefeedback.jms.FeedbackMessageSender">
+    <property name="jmsTemplate" ref="jmsTemplate"></property>
+    <property name="queue" ref="sendGSMStorefeedbackFeedbackMessageQueue"></property>
+  </bean>
+    <bean id="feedbackMessageListener" class="com.gome.storefeedback.jms.FeedbackMessageListener">
+  </bean>
+  
+  <bean id="feedbackMessageConsumer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+    <property name="connectionFactory" ref="pooledJmsConnectionFactory" />
+    <property name="destination" ref="sendGSMStorefeedbackFeedbackMessageQueue" />
+    <property name="messageListener" ref="feedbackMessageListener" />
+  </bean>
+  <!-- 发送缺断货反馈消息 end-->
+  
+  <!-- 发送[insert]缺断货反馈start -->
+  <bean id="sendGSMFeedbackInsertQueue" class="org.apache.activemq.command.ActiveMQQueue">
+    <constructor-arg value="gsm.storefeedback.feedback.insert.push.queue" />
+  </bean>
+  
+  <bean id="feedbackInsertSender" class="com.gome.storefeedback.jms.FeedbackInsertSender">
+    <property name="jmsTemplate" ref="jmsTemplate"></property>
+    <property name="queue" ref="sendGSMFeedbackInsertQueue"></property>
+  </bean>
+    <bean id="feedbackInsertListener" class="com.gome.storefeedback.jms.FeedbackInsertListener">
+  </bean>
+  
+  <bean id="feedbackInsertConsumer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+    <property name="connectionFactory" ref="pooledJmsConnectionFactory" />
+    <property name="destination" ref="sendGSMFeedbackInsertQueue" />
+    <property name="messageListener" ref="feedbackInsertListener" />
+  </bean>
+  <!-- 发送[insert]缺断货反馈  end-->
+  
+    <!-- 发送[insert]缺断货回执start -->
+  <bean id="sendGSMFeedbackRecordInsertQueue" class="org.apache.activemq.command.ActiveMQQueue">
+    <constructor-arg value="gsm.storefeedback.feedbackrecord.insert.push.queue" />
+  </bean>
+  
+  <bean id="feedbackRecordInsertSender" class="com.gome.storefeedback.jms.FeedbackRecordInsertSender">
+    <property name="jmsTemplate" ref="jmsTemplate"></property>
+    <property name="queue" ref="sendGSMFeedbackRecordInsertQueue"></property>
+  </bean>
+    <bean id="feedbackRecordInsertListener" class="com.gome.storefeedback.jms.FeedbackRecordInsertListener">
+  </bean>
+  
+  <bean id="feedbackRecordInsertConsumer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+    <property name="connectionFactory" ref="pooledJmsConnectionFactory" />
+    <property name="destination" ref="sendGSMFeedbackRecordInsertQueue" />
+    <property name="messageListener" ref="feedbackRecordInsertListener" />
+  </bean>
+  <!-- 发送[insert]缺断货回执  end-->
+</beans>

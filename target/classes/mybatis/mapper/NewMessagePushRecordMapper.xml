@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="Mapper.NewMessagePushRecord" >
+  <resultMap id="BaseResultMap" type="com.gome.storefeedback.entity.NewMessagePushRecord" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="TINYINT" />
+    <result column="notification_id" property="notificationId" jdbcType="VARCHAR" />
+    <result column="notification_employee_id" property="notificationEmployeeId" jdbcType="VARCHAR" />
+    <result column="notification_employee_name" property="notificationEmployeeName" jdbcType="VARCHAR" />
+    <result column="notification_time" property="notificationTime" jdbcType="TIMESTAMP" />
+    <result column="report_id" property="reportId" jdbcType="VARCHAR" />
+    <result column="report_emp_id" property="reportEmpId" jdbcType="VARCHAR" />
+    <result column="report_emp_name" property="reportEmpName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, title, content, type, notification_id, notification_employee_id, notification_employee_name, 
+    notification_time, report_id, report_emp_id, report_emp_name
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_new_message_push_record
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_new_message_push_record
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.gome.storefeedback.entity.NewMessagePushRecord" >
+    insert into t_new_message_push_record (id, title, content, 
+      type, notification_id, notification_employee_id, 
+      notification_employee_name, notification_time, 
+      report_id, report_emp_id, report_emp_name
+      )
+    values (#{id,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
+      #{type,jdbcType=TINYINT}, #{notificationId,jdbcType=VARCHAR}, #{notificationEmployeeId,jdbcType=VARCHAR}, 
+      #{notificationEmployeeName,jdbcType=VARCHAR}, #{notificationTime,jdbcType=TIMESTAMP}, 
+      #{reportId,jdbcType=VARCHAR}, #{reportEmpId,jdbcType=VARCHAR}, #{reportEmpName,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.gome.storefeedback.entity.NewMessagePushRecord" >
+    insert into t_new_message_push_record
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="notificationId != null" >
+        notification_id,
+      </if>
+      <if test="notificationEmployeeId != null" >
+        notification_employee_id,
+      </if>
+      <if test="notificationEmployeeName != null" >
+        notification_employee_name,
+      </if>
+      <if test="notificationTime != null" >
+        notification_time,
+      </if>
+      <if test="reportId != null" >
+        report_id,
+      </if>
+      <if test="reportEmpId != null" >
+        report_emp_id,
+      </if>
+      <if test="reportEmpName != null" >
+        report_emp_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=TINYINT},
+      </if>
+      <if test="notificationId != null" >
+        #{notificationId,jdbcType=VARCHAR},
+      </if>
+      <if test="notificationEmployeeId != null" >
+        #{notificationEmployeeId,jdbcType=VARCHAR},
+      </if>
+      <if test="notificationEmployeeName != null" >
+        #{notificationEmployeeName,jdbcType=VARCHAR},
+      </if>
+      <if test="notificationTime != null" >
+        #{notificationTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="reportId != null" >
+        #{reportId,jdbcType=VARCHAR},
+      </if>
+      <if test="reportEmpId != null" >
+        #{reportEmpId,jdbcType=VARCHAR},
+      </if>
+      <if test="reportEmpName != null" >
+        #{reportEmpName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gome.storefeedback.entity.NewMessagePushRecord" >
+    update t_new_message_push_record
+    <set >
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=TINYINT},
+      </if>
+      <if test="notificationId != null" >
+        notification_id = #{notificationId,jdbcType=VARCHAR},
+      </if>
+      <if test="notificationEmployeeId != null" >
+        notification_employee_id = #{notificationEmployeeId,jdbcType=VARCHAR},
+      </if>
+      <if test="notificationEmployeeName != null" >
+        notification_employee_name = #{notificationEmployeeName,jdbcType=VARCHAR},
+      </if>
+      <if test="notificationTime != null" >
+        notification_time = #{notificationTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="reportId != null" >
+        report_id = #{reportId,jdbcType=VARCHAR},
+      </if>
+      <if test="reportEmpId != null" >
+        report_emp_id = #{reportEmpId,jdbcType=VARCHAR},
+      </if>
+      <if test="reportEmpName != null" >
+        report_emp_name = #{reportEmpName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gome.storefeedback.entity.NewMessagePushRecord" >
+    update t_new_message_push_record
+    set title = #{title,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
+      type = #{type,jdbcType=TINYINT},
+      notification_id = #{notificationId,jdbcType=VARCHAR},
+      notification_employee_id = #{notificationEmployeeId,jdbcType=VARCHAR},
+      notification_employee_name = #{notificationEmployeeName,jdbcType=VARCHAR},
+      notification_time = #{notificationTime,jdbcType=TIMESTAMP},
+      report_id = #{reportId,jdbcType=VARCHAR},
+      report_emp_id = #{reportEmpId,jdbcType=VARCHAR},
+      report_emp_name = #{reportEmpName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

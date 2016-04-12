@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="Mapper.FeedbackMessagePushRecord">
+
+  <resultMap id="BaseResultMap" type="com.gome.storefeedback.entity.FeedbackMessagePushRecord">
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="TINYINT" />
+    <result column="notification_id" property="notificationId" jdbcType="VARCHAR" />
+    <result column="notification_employee_id" property="notificationEmployeeId" jdbcType="VARCHAR" />
+    <result column="notification_employee_name" property="notificationEmployeeName" jdbcType="VARCHAR" />
+    <!-- 发送人 -->
+    <result column="send_id" property="sendId" jdbcType="VARCHAR" />
+    <result column="send_employee_id" property="sendEmployeeId" jdbcType="VARCHAR" />
+    <result column="send_employee_name" property="sendEmployeeName" jdbcType="VARCHAR" />
+
+    <result column="notification_time" property="notificationTime" jdbcType="TIMESTAMP" />
+    <result column="feedback_id" property="feedbackId" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    id, title, content, type, notification_id, notification_employee_id,
+    notification_employee_name,
+    notification_time,send_id,send_employee_id,send_employee_name,feedback_id
+  </sql>
+ <!-- 主键查询 -->
+  <select id="findRecordById" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select
+    <include refid="Base_Column_List" />
+    from feedback_message_push_record
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  
+  <!-- 根据条件查找 -->
+  <!-- 分页查询 -->
+  <select id="findRecordByParam" resultMap="BaseResultMap" parameterType="map">
+    select
+    <include refid="Base_Column_List" />
+    from feedback_message_push_record
+    <where>
+      <if test="title != null and '' !=title">
+        <!-- 一些字段使用模糊查询 -->
+       <!-- and title = #{title,jdbcType=VARCHAR} -->
+        and title like CONCAT(CONCAT('%',#{title,jdbcType=VARCHAR}),'%')
+      </if>
+      <if test="content != null and '' !=content">
+       <!-- and content = #{content,jdbcType=VARCHAR} -->
+        and content like CONCAT(CONCAT('%',#{content,jdbcType=VARCHAR}),'%')
+      </if>
+      <if test="type != null and '' !=type">
+        and type = #{type,jdbcType=TINYINT}
+      </if>
+      <if test="notificationId != null and '' !=notificationId">
+        and notification_id = #{notificationId,jdbcType=VARCHAR}
+      </if>
+      <if test="notificationEmployeeId != null and '' !=notificationEmployeeId">
+        and notification_employee_id = #{notificationEmployeeId,jdbcType=VARCHAR}
+      </if>
+      <if test="notificationEmployeeName != null and '' !=notificationEmployeeName">
+        and notification_employee_name = #{notificationEmployeeName,jdbcType=VARCHAR}
+      </if>
+      <!-- 发送人 -->
+      <if test="sendId != null and '' !=sendId">
+        and send_id = #{sendId,jdbcType=VARCHAR}
+      </if>
+      <if test="sendEmployeeId != null and '' != sendEmployeeId">
+        and send_employee_id = #{sendEmployeeId,jdbcType=VARCHAR}
+      </if>
+      <if test="sendEmployeeName != null and '' != sendEmployeeName">
+        and send_employee_name = #{sendEmployeeName,jdbcType=VARCHAR}
+      </if>
+      <if test="notificationTime != null and '' !=notificationTime">
+        and notification_time = #{notificationTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="feedbackId != null and '' !=feedbackId">
+        and feedback_id = #{feedbackId,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+  <!-- 根据主键删除 -->
+  <delete id="deleteRecordByPrimaryKey" parameterType="java.lang.String">
+    delete from feedback_message_push_record
+    where id =
+    #{id,jdbcType=VARCHAR}
+  </delete>
+  <!-- 添加 -->
+  <insert id="insertRecord" parameterType="com.gome.storefeedback.entity.FeedbackMessagePushRecord">
+    insert into
+    feedback_message_push_record (id, title, content,
+    type,
+    notification_id, notification_employee_id,
+    notification_employee_name,
+    notification_time,send_id,send_employee_id,send_employee_name,feedback_id
+    )
+    values (#{id,jdbcType=VARCHAR},
+    #{title,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR},
+    #{type,jdbcType=TINYINT}, #{notificationId,jdbcType=VARCHAR},
+    #{notificationEmployeeId,jdbcType=VARCHAR},
+    #{notificationEmployeeName,jdbcType=VARCHAR},
+    #{notificationTime,jdbcType=TIMESTAMP},
+    #{sendId,jdbcType=VARCHAR}, #{sendEmployeeId,jdbcType=VARCHAR},
+    #{sendEmployeeName,jdbcType=VARCHAR},#{feedbackId,jdbcType=VARCHAR}
+    )
+  </insert>
+  <!-- 修改 -->
+  <update id="updateRecord" parameterType="com.gome.storefeedback.entity.FeedbackMessagePushRecord">
+    update
+    feedback_message_push_record
+    set title =#{title,jdbcType=VARCHAR},
+    content = #{content,jdbcType=VARCHAR},
+    type = #{type,jdbcType=TINYINT},
+    notification_id
+    =#{notificationId,jdbcType=VARCHAR},
+    notification_employee_id = #{notificationEmployeeId,jdbcType=VARCHAR},
+    notification_employee_name = #{notificationEmployeeName,jdbcType=VARCHAR},
+    send_id = #{sendId,jdbcType=VARCHAR},
+    send_employee_id = #{sendEmployeeId,jdbcType=VARCHAR},
+    send_employee_name = #{sendEmployeeName,jdbcType=VARCHAR},
+    notification_time = #{notificationTime,jdbcType=TIMESTAMP},
+    feedback_id = #{feedbackId,jdbcType=VARCHAR}
+    where id =
+    #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

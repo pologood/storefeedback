@@ -1,0 +1,21 @@
+Request URL:http://10.128.11.6:50000/sap/xi/adapter_plain?namespace=http://gome.com/GSM/COMMON/Outbound&interface=SI_FEEDBACK_Out&service=BC_GSM&party=&agency=&scheme=&QOS=EO&sap-user=GSMUSER&sap-password=GSMUSER&sap-client=001&sap-language=EN
+Request Method:POST
+
+<ns0:MT_FEEDBACK_Out xmlns:ns0="http://gome.com/GSM/COMMON/Outbound">
+  <HEADER>
+    <INTERFACE_ID>COMMON</INTERFACE_ID>
+    <MESSAGE_ID>D834CA06B9EEF4E2F2D9BEE1FDF6F077</MESSAGE_ID>
+    <SENDER>GSM</SENDER>
+    <RECEIVER>ECC</RECEIVER>
+    <DTSEND>20150210140000111</DTSEND>
+  </HEADER>
+  <DETAIL>
+    <INTERFACE_O>MM086</INTERFACE_O>
+    <MESSAGE_O>D834CA06B9EEF4E2F2D9BEE1FDF6F0CE</MESSAGE_O>
+    <RESULT>S</RESULT>
+    <DETAILS>
+      <KEY>KEY</KEY>
+      <MESSAGE>MESSAGE</MESSAGE>
+    </DETAILS>
+  </DETAIL>
+</ns0:MT_FEEDBACK_Out>

@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="Mapper.FeedbackPushCategoryPositionConfig">
+
+  <resultMap id="BaseResultMap" type="com.gome.storefeedback.entity.FeedbackPushCategoryPositionConfig">
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="category_code" property="categoryCode" jdbcType="VARCHAR" />
+    <result column="category_name" property="categoryName" jdbcType="VARCHAR" />
+    <result column="src_org_type" property="srcOrgType" jdbcType="INTEGER" />
+    <result column="src_org_number" property="srcOrgNumber" jdbcType="VARCHAR" />
+    <result column="src_org_name" property="srcOrgName" jdbcType="VARCHAR" />
+    <result column="is_gmzb" property="isGMZB" jdbcType="INTEGER" />
+    <result column="org_number" property="orgNumber" jdbcType="VARCHAR" />
+    <result column="org_name" property="orgName" jdbcType="VARCHAR" />
+    <result column="position_code" property="positionCode" jdbcType="VARCHAR" />
+    <result column="position_desc" property="positionDesc" jdbcType="VARCHAR" />
+    <result column="position" property="position" jdbcType="VARCHAR" />
+    <result column="role_id" property="roleId" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    id,
+    category_code,
+    category_name,
+    src_org_type,
+    src_org_number,
+    src_org_name,
+    is_gmzb,
+    org_number,
+    org_name,
+    position_code,
+    position_desc,
+    position,
+    role_id,
+    create_time
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="map">
+    select
+    <include refid="Base_Column_List" />
+    from feedback_push_category_position_config
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="map">
+    delete from feedback_push_category_position_config
+    where id =
+    #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.gome.storefeedback.entity.FeedbackPushCategoryPositionConfig">
+    insert
+    into feedback_push_category_position_config (
+    <include refid="Base_Column_List" />
+    )
+    values (
+    #{id,jdbcType=VARCHAR},
+    #{categoryCode,jdbcType=VARCHAR},
+    #{categoryName,jdbcType=VARCHAR},
+    #{srcOrgType,jdbcType=INTEGER},
+    #{srcOrgNumber,jdbcType=VARCHAR},
+    #{srcOrgName,jdbcType=VARCHAR},
+    #{isGMZB,jdbcType=INTEGER},
+    #{orgNumber,jdbcType=VARCHAR},
+    #{orgName,jdbcType=VARCHAR},
+    #{positionCode,jdbcType=VARCHAR},
+    #{positionDesc,jdbcType=VARCHAR},
+    #{position,jdbcType=VARCHAR},
+    #{roleId,jdbcType=INTEGER},
+    #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+
+  <update id="update" parameterType="com.gome.storefeedback.entity.FeedbackPushCategoryPositionConfig">
+    update feedback_push_category_position_config
+    <set>
+      <if test="categoryCode != null">
+        category_code = #{categoryCode,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryName != null">
+        category_name = #{categoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="srcOrgType != null">
+        src_org_type = #{srcOrgType,jdbcType=INTEGER},
+      </if>
+      <if test="srcOrgNumber != null">
+        src_org_number = #{srcOrgNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="srcOrgName != null">
+        src_org_name = #{srcOrgName,jdbcType=VARCHAR},
+      </if>
+      <if test="isGMZB != null">
+        is_gmzb = #{isGMZB,jdbcType=INTEGER},
+      </if>
+      <if test="orgNumber != null">
+        org_number = #{orgNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="orgName != null">
+        org_name = #{orgName,jdbcType=VARCHAR},
+      </if>
+      <if test="positionCode != null">
+        position_code = #{positionCode,jdbcType=VARCHAR},
+      </if>
+      <if test="positionDesc != null">
+        position_desc = #{positionDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null">
+        position = #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="roleId != null">
+        role_id = #{roleId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP}
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <select id="list" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from feedback_push_category_position_config
+    <where>
+      <if test="categoryCode != null and '' != categoryCode">
+        and category_code like "%"#{categoryCode}"%"
+      </if>
+      <if test="categoryName != null and '' != categoryName">
+        and category_name like "%"#{categoryName}"%"
+      </if>
+      
+      <if test="srcOrgType != null and '' != srcOrgType">
+        and src_org_type = #{srcOrgType,jdbcType=INTEGER}
+      </if>
+      <if test="srcOrgNumber != null and '' != srcOrgNumber">
+        and src_org_number = #{srcOrgNumber,jdbcType=VARCHAR}
+      </if>
+      <if test="srcOrgName != null and '' != srcOrgName">
+        and src_org_name = #{srcOrgName,jdbcType=VARCHAR}
+      </if>
+      
+      <if test="isGMZB != null and '' != isGMZB">
+        and is_gmzb = #{isGMZB,jdbcType=INTEGER}
+      </if>
+      <if test="orgNumber != null and '' != orgNumber">
+        and org_number = #{orgNumber,jdbcType=VARCHAR}
+      </if>
+      <if test="orgName != null and '' != orgName">
+        and org_name = #{orgName,jdbcType=VARCHAR}
+      </if>
+      <if test="positionCode != null and '' != positionCode">
+        and position_code like "%"#{positionCode}"%"
+      </if>
+      <if test="positionDesc != null and '' != positionDesc">
+        and position_desc like "%"#{positionDesc}"%"
+      </if>
+      <if test="position != null and '' != position">
+        and position = #{position}
+      </if>
+      <if test="roleId != null and '' != roleId">
+        and role_id = #{roleId}
+      </if>
+    </where>
+  </select>
+
+  <select id="pushlist" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from feedback_push_category_position_config
+    <where>
+      <if test="categoryCode != null and '' != categoryCode">
+        and category_code = #{categoryCode}
+      </if>
+      
+      <if test="srcOrgType != null and '' != srcOrgType">
+        and src_org_type = #{srcOrgType,jdbcType=INTEGER}
+      </if>
+      <if test="srcOrgNumber != null and '' != srcOrgNumber">
+        and src_org_number = #{srcOrgNumber,jdbcType=VARCHAR}
+      </if>
+      <if test="srcOrgName != null and '' != srcOrgName">
+        and src_org_name = #{srcOrgName,jdbcType=VARCHAR}
+      </if>
+      
+      <if test="isGMZB != null and '' != isGMZB">
+        and is_gmzb = #{isGMZB,jdbcType=INTEGER}
+      </if>
+      <if test="orgNumber != null and '' != orgNumber">
+        and org_number = #{orgNumber,jdbcType=VARCHAR}
+      </if>
+      <if test="positionCode != null and '' != positionCode">
+        and position_code like "%"#{positionCode}"%"
+      </if>
+      <if test="position != null and '' != position">
+        and position = #{position}
+      </if>
+      <if test="roleId != null and '' != roleId">
+        and role_id = #{roleId}
+      </if>
+    </where>
+  </select>
+  
+  <select id="findPushCategoryPosition" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from feedback_push_category_position_config
+    <where>
+    	role_id not in (11111100,10110100)
+      <if test="categoryCode != null and '' != categoryCode">
+        and category_code = #{categoryCode}
+      </if>
+      
+      <if test="srcOrgType != null and '' != srcOrgType">
+        and src_org_type = #{srcOrgType,jdbcType=INTEGER}
+      </if>
+      <if test="srcOrgNumber != null and '' != srcOrgNumber">
+        and src_org_number = #{srcOrgNumber,jdbcType=VARCHAR}
+      </if>
+      <if test="srcOrgName != null and '' != srcOrgName">
+        and src_org_name = #{srcOrgName,jdbcType=VARCHAR}
+      </if>
+      
+      <if test="isGMZB != null and '' != isGMZB">
+        and is_gmzb = #{isGMZB,jdbcType=INTEGER}
+      </if>
+      <if test="orgNumber != null and '' != orgNumber">
+        and org_number = #{orgNumber,jdbcType=VARCHAR}
+      </if>
+      <if test="positionCode != null and '' != positionCode">
+        and position_code like "%"#{positionCode}"%"
+      </if>
+      <if test="position != null and '' != position">
+        and position = #{position}
+      </if>
+      <if test="roleId != null and '' != roleId">
+        and role_id = #{roleId}
+      </if>
+    </where>
+  </select>
+  
+   <select id="checkCategoryPosition" parameterType="map" resultMap="BaseResultMap">
+   	delete from feedback_push_category_position_config
+    where category_code = #{categoryCode,jdbcType=VARCHAR}
+        and src_org_number = #{srcOrgNumber,jdbcType=VARCHAR}
+        and org_number = #{orgNumber,jdbcType=VARCHAR}
+        and position_code = #{positionCode,jdbcType=VARCHAR}
+        <!-- and role_id = #{roleId,jdbcType=INTEGER} -->
+  </select>
+
+  <select id="findOrgPageByCategory" parameterType="map" resultType="map">
+    SELECT DISTINCT src_org_number AS srcOrgNumber,src_org_name AS srcOrgName
+    FROM feedback_push_category_position_config
+    WHERE category_code =#{categoryCode}
+    <if test="orgNumber != null and '' != orgNumber">
+        and org_number = #{orgNumber,jdbcType=VARCHAR}
+      </if>
+  </select>
+  
+  <select id="findRoleId" parameterType="map" resultType="int">
+        SELECT DISTINCT(role_id) FROM feedback_push_category_position_config
+  </select>
+  
+  
+
+</mapper>

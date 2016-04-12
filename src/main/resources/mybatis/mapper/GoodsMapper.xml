@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="Mapper.Goods">
+
+  <resultMap id="BaseResultMap" type="com.gome.storefeedback.entity.Goods">
+    <id column="goods_code" property="goodsCode" jdbcType="VARCHAR" />
+    <result column="goods_barcode" property="goodsBarcode" jdbcType="VARCHAR" />
+    <result column="goods_name" property="goodsName" jdbcType="VARCHAR" />
+    <result column="specifications_model" property="specificationsModel" jdbcType="VARCHAR" />
+    <result column="goods_category" property="goodsCategory" jdbcType="VARCHAR" />
+    <result column="goods_brand" property="goodsBrand" jdbcType="VARCHAR" />
+    <result column="extended_warranty_price_floor" property="extendedWarrantyPriceFloor" jdbcType="VARCHAR" />
+    <result column="extended_warranty_price_cap" property="extendedWarrantyPriceCap" jdbcType="VARCHAR" />
+    <result column="output_tax_rate" property="outputTaxRate" jdbcType="VARCHAR" />
+    <result column="units_of_measurement" property="unitsOfMeasurement" jdbcType="VARCHAR" />
+    <result column="unit_of_measure_text" property="unitOfMeasureText" jdbcType="VARCHAR" />
+    <result column="whether_business_gifts" property="whetherBusinessGifts" jdbcType="TINYINT" />
+    <result column="lot_id" property="lotId" jdbcType="VARCHAR" />
+    <result column="product_attributes" property="productAttributes" jdbcType="VARCHAR" />
+    <result column="goods_class" property="goodsClass" jdbcType="VARCHAR" />
+    <result column="place_of_origin" property="placeOfOrigin" jdbcType="VARCHAR" />
+    <result column="goods_weight" property="goodsWeight" jdbcType="VARCHAR" />
+    <result column="goods_height" property="goodsHeight" jdbcType="VARCHAR" />
+    <result column="category_level1" property="categoryLevel1" jdbcType="VARCHAR" />
+    <result column="category_level2" property="categoryLevel2" jdbcType="VARCHAR" />
+    <result column="category_level3" property="categoryLevel3" jdbcType="VARCHAR" />
+    <result column="selling" property="selling" jdbcType="VARCHAR" />
+    <result column="update_flag" property="updateFlag" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    goods_code, goods_barcode, goods_name, specifications_model, goods_category,
+    goods_brand,
+    extended_warranty_price_floor, extended_warranty_price_cap, output_tax_rate, units_of_measurement,
+    unit_of_measure_text, whether_business_gifts, lot_id, product_attributes, goods_class,
+    place_of_origin, goods_weight,
+    goods_height, category_level1, category_level2, category_level3,
+    selling, update_flag, create_time
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="map">
+    select
+    <include refid="Base_Column_List" />
+    from goods
+    where goods_code = #{goodsCode,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="map">
+    delete from goods
+    where goods_code =
+    #{goodsCode,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.gome.storefeedback.entity.Goods">
+    insert into goods (goods_code,
+    goods_barcode, goods_name,
+    specifications_model, goods_category, goods_brand,
+    extended_warranty_price_floor, extended_warranty_price_cap,
+    output_tax_rate, units_of_measurement, unit_of_measure_text,
+    whether_business_gifts, lot_id, product_attributes,
+    goods_class, place_of_origin, goods_weight,
+    goods_height, category_level1, category_level2,
+    category_level3, selling,
+    update_flag,
+    create_time)
+    values (#{goodsCode,jdbcType=VARCHAR}, #{goodsBarcode,jdbcType=VARCHAR},
+    #{goodsName,jdbcType=VARCHAR},
+    #{specificationsModel,jdbcType=VARCHAR}, #{goodsCategory,jdbcType=VARCHAR},
+    #{goodsBrand,jdbcType=VARCHAR},
+    #{extendedWarrantyPriceFloor,jdbcType=VARCHAR},
+    #{extendedWarrantyPriceCap,jdbcType=VARCHAR},
+    #{outputTaxRate,jdbcType=VARCHAR},
+    #{unitsOfMeasurement,jdbcType=VARCHAR}, #{unitOfMeasureText,jdbcType=VARCHAR},
+    #{whetherBusinessGifts,jdbcType=TINYINT}, #{lotId,jdbcType=VARCHAR}, #{productAttributes,jdbcType=VARCHAR},
+    #{goodsClass,jdbcType=VARCHAR}, #{placeOfOrigin,jdbcType=VARCHAR}, #{goodsWeight,jdbcType=VARCHAR},
+    #{goodsHeight,jdbcType=VARCHAR}, #{categoryLevel1,jdbcType=VARCHAR}, #{categoryLevel2,jdbcType=VARCHAR},
+    #{categoryLevel3,jdbcType=VARCHAR}, #{selling,jdbcType=VARCHAR}, #{updateFlag,jdbcType=VARCHAR},
+    #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+    
+  <!-- 批量插入 -->
+  <insert id="batchInsert" parameterType="list">
+    insert into goods (
+    <include refid="Base_Column_List" />
+    )
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.goodsCode,jdbcType=VARCHAR}, #{item.goodsBarcode,jdbcType=VARCHAR},
+      #{item.goodsName,jdbcType=VARCHAR},
+      #{item.specificationsModel,jdbcType=VARCHAR}, #{item.goodsCategory,jdbcType=VARCHAR},
+      #{item.goodsBrand,jdbcType=VARCHAR},
+      #{item.extendedWarrantyPriceFloor,jdbcType=VARCHAR},
+      #{item.extendedWarrantyPriceCap,jdbcType=VARCHAR},
+      #{item.outputTaxRate,jdbcType=VARCHAR},
+      #{item.unitsOfMeasurement,jdbcType=VARCHAR}, #{item.unitOfMeasureText,jdbcType=VARCHAR},
+      #{item.whetherBusinessGifts,jdbcType=TINYINT}, #{item.lotId,jdbcType=VARCHAR}, #{item.productAttributes,jdbcType=VARCHAR},
+      #{item.goodsClass,jdbcType=VARCHAR}, #{item.placeOfOrigin,jdbcType=VARCHAR}, #{item.goodsWeight,jdbcType=VARCHAR},
+      #{item.goodsHeight,jdbcType=VARCHAR}, #{item.categoryLevel1,jdbcType=VARCHAR}, #{item.categoryLevel2,jdbcType=VARCHAR},
+      #{item.categoryLevel3,jdbcType=VARCHAR}, #{item.selling,jdbcType=VARCHAR}, #{item.updateFlag,jdbcType=VARCHAR},
+      #{item.createTime,jdbcType=TIMESTAMP})
+    </foreach>
+  </insert>
+  <update id="update" parameterType="com.gome.storefeedback.entity.Goods">
+    update goods
+    <set>
+      <if test="goodsBarcode != null">
+        goods_barcode = #{goodsBarcode,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsName != null">
+        goods_name = #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="specificationsModel != null">
+        specifications_model = #{specificationsModel,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsCategory != null">
+        goods_category = #{goodsCategory,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsBrand != null">
+        goods_brand = #{goodsBrand,jdbcType=VARCHAR},
+      </if>
+      <if test="extendedWarrantyPriceFloor != null">
+        extended_warranty_price_floor =
+        #{extendedWarrantyPriceFloor,jdbcType=VARCHAR},
+      </if>
+      <if test="extendedWarrantyPriceCap != null">
+        extended_warranty_price_cap =
+        #{extendedWarrantyPriceCap,jdbcType=VARCHAR},
+      </if>
+      <if test="outputTaxRate != null">
+        output_tax_rate = #{outputTaxRate,jdbcType=VARCHAR},
+      </if>
+      <if test="unitsOfMeasurement != null">
+        units_of_measurement = #{unitsOfMeasurement,jdbcType=VARCHAR},
+      </if>
+      <if test="unitOfMeasureText != null">
+        unit_of_measure_text = #{unitOfMeasureText,jdbcType=VARCHAR},
+      </if>
+      <if test="whetherBusinessGifts != null">
+        whether_business_gifts = #{whetherBusinessGifts,jdbcType=TINYINT},
+      </if>
+      <if test="lotId != null">
+        lot_id = #{lotId,jdbcType=VARCHAR},
+      </if>
+      <if test="productAttributes != null">
+        product_attributes = #{productAttributes,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsClass != null">
+        goods_class = #{goodsClass,jdbcType=VARCHAR},
+      </if>
+      <if test="placeOfOrigin != null">
+        place_of_origin = #{placeOfOrigin,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsWeight != null">
+        goods_weight = #{goodsWeight,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsHeight != null">
+        goods_height = #{goodsHeight,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryLevel1 != null">
+        category_level1 = #{categoryLevel1,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryLevel2 != null">
+        category_level2 = #{categoryLevel2,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryLevel3 != null">
+        category_level3 = #{categoryLevel3,jdbcType=VARCHAR},
+      </if>
+      <if test="selling != null">
+        selling = #{selling,jdbcType=VARCHAR},
+      </if>
+      <if test="updateFlag != null">
+        update_flag = #{updateFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where goods_code = #{goodsCode,jdbcType=VARCHAR}
+  </update>
+
+
+  <select id="list3" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from goods
+    <where>
+      <if test="null != goodsCode and '' != goodsCode"> goods_code = #{goodsCode}</if>
+      <if test="null != goodsBarcode and '' != goodsBarcode">and goods_barcode = #{goodsBarcode}</if>
+      <if test="null != goodsName and '' != goodsName">and goods_name = #{goodsName}</if>
+      <!-- 
+      <if test="null != goodsBrand and '' != goodsBrand">and goods_brand = #{goodsBrand}</if>
+      <if test="null != goodsCategory and '' != goodsCategory">and goods_category = #{goodsCategory}</if>
+      <if test="null != goodsClass and '' != goodsClass">and goods_class = #{goodsClass}</if>
+      <if test="null != categoryLevel1 and '' != categoryLevel1">and category_level1 = #{categoryLevel1}</if>
+      <if test="null != categoryLevel2 and '' != categoryLevel2">and category_level2 = #{categoryLevel2}</if>
+      <if test="null != categoryLevel3 and '' != categoryLevel3">and category_level3 = #{categoryLevel3}</if> 
+      -->
+    </where>
+  </select>
+
+  <select id="list" parameterType="map" resultType="map">
+    SELECT
+    gb.brand_class brandClass,
+    gc1.class_name categoryLevel1Name,
+    gc2.class_name categoryLevel2Name,
+    gc3.class_name
+    categoryLevel3Name,
+    g.goods_code goodsCode,
+    g.goods_barcode goodsBarcode,
+    g.goods_name goodsName,
+    g.specifications_model specificationsModel,
+    g.goods_category goodsCategory,
+    g.goods_brand goodsBrand,
+    g.extended_warranty_price_floor extendedWarrantyPriceFloor,
+    g.extended_warranty_price_cap extendedWarrantyPriceCap,
+    g.output_tax_rate outputTaxRate,
+    g.units_of_measurement unitsOfMeasurement,
+    g.unit_of_measure_text unitOfMeasureText,
+    g.whether_business_gifts whetherBusinessGifts,
+    g.lot_id lotId,
+    g.product_attributes productAttributes,
+    g.goods_class
+    goodsClass,
+    g.place_of_origin placeOfOrigin,
+    g.goods_weight goodsWeight,
+    g.goods_height goodsHeight,
+    g.category_level1
+    categoryLevel1,
+    g.category_level2 categoryLevel2,
+    g.category_level3 categoryLevel3,
+    g.selling selling,
+    g.update_flag
+    updateFlag,
+    g.create_time createTime
+    FROM goods g
+    LEFT JOIN goods_brand gb
+    ON
+    g.goods_brand=gb.brand_code
+    LEFT JOIN
+    goods_category gc1
+    ON
+    g.category_level1=gc1.class_code
+    LEFT JOIN goods_category
+    gc2
+    ON g.category_level2=gc2.class_code
+    LEFT JOIN
+    goods_category gc3
+    ON g.category_level3=gc3.class_code
+    <where>
+      <if test="null != goodsCode and '' != goodsCode"> goods_code = #{goodsCode}</if>
+      <if test="null != goodsBarcode and '' != goodsBarcode">and goods_barcode = #{goodsBarcode}</if>
+      <if test="null != goodsName and '' != goodsName">and goods_name like "%"#{goodsName}"%"</if>
+    </where>
+  </select>
+
+  <select id="list2" parameterType="map" resultType="map">
+    select goods_code keyValue ,goods_name keyName
+    from goods
+    <where>
+      <if test="null != goodsBrand and '' != goodsBrand"> goods_brand = #{goodsBrand}</if>
+      <if test="null != goodsCategory and '' != goodsCategory">and goods_category = #{goodsCategory}</if>
+      <if test="null != categoryLevel1 and '' != categoryLevel1">and category_level1 = #{categoryLevel1}</if>
+      <if test="null != categoryLevel2 and '' != categoryLevel2">and category_level2 = #{categoryLevel2}</if>
+      <if test="null != categoryLevel3 and '' != categoryLevel3">and category_level3 = #{categoryLevel3}</if>
+      <if test="null != goodsName and '' != goodsName">and goods_name like "%"#{goodsName}"%"</if>
+    </where>
+  </select>
+  
+    <select id="goodsInfo" parameterType="map" resultType="map">
+        SELECT 
+            g.goods_code goodsCode,g.goods_name goodsName,
+            ld.category_code categoryCode,ld.category_name categoryName,
+            ld.division_code divisionCode,ld.division_name divisionName,
+            gb.brand_code goodsBrand,gb.cn_text cnText
+        FROM goods g
+        LEFT JOIN goods_category gc ON g.goods_category=gc.class_code
+        LEFT JOIN lack_division ld ON gc.division_code=ld.division_code
+        LEFT JOIN goods_brand gb ON g.goods_brand=gb.brand_code
+        WHERE g.goods_code= #{goodsCode}
+    </select>
+  
+</mapper>

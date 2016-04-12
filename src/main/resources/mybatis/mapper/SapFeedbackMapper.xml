@@ -1,0 +1,1283 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="Mapper.SapFeedback">
+  <resultMap id="BaseResultMap" type="com.gome.storefeedback.entity.SapFeedback">
+    <result property="request" column="REQUEST" jdbcType="VARCHAR" />
+    <result property="datapakid" column="DATAPAKID" jdbcType="DOUBLE" />
+    <result property="record" column="RECORD" jdbcType="INTEGER" />
+    <result property="secondDivisionCode" column="SALES_GRP" jdbcType="VARCHAR" />
+    <result property="divisionCode" column="ZDEPTMNT" jdbcType="VARCHAR" />
+    <result property="regionCode" column="ZREGION" jdbcType="VARCHAR" />
+    <result property="category2Code" column="RPA_WGH2" jdbcType="VARCHAR" />
+    <result property="categoryCode" column="ZMAT_CAT" jdbcType="VARCHAR" />
+    <result property="brandCode" column="PROD_HIER" jdbcType="VARCHAR" />
+    <result property="goodsCode" column="ZARTICLE" jdbcType="VARCHAR" />
+    <result property="dataDate" column="CALDAY" jdbcType="DATE" />
+    <result property="stock" column="ZINV_QTY" jdbcType="DOUBLE" />
+    <result property="unit" column="UNIT" jdbcType="VARCHAR" />
+    <result property="saleIncome" column="ZKI01148" jdbcType="DOUBLE" />
+    <result property="saleNum" column="ZKI01153" jdbcType="DOUBLE" />
+    <result property="buyType" column="ZPUR_TYPE" jdbcType="VARCHAR" />
+    <result property="feedbackRate" column="ZRATE" jdbcType="DOUBLE" />
+    <result property="feedbackStatus" column="FLAG" jdbcType="VARCHAR" />
+    <result property="stockAmountWithTax" column="ZINV_AMB" jdbcType="DOUBLE" />
+    <result property="currency" column="CURRENCY" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    REQUEST,
+    DATAPAKID,
+    RECORD,
+    SALES_GRP,
+    ZDEPTMNT,
+    ZREGION,
+    RPA_WGH2,
+    ZMAT_CAT,
+    PROD_HIER,
+    ZARTICLE,
+    CALDAY,
+    ZINV_QTY,
+    UNIT,
+    ZKI01148,
+    ZKI01153,
+    ZPUR_TYPE,
+    ZRATE,
+    FLAG,
+    ZINV_AMB,
+    CURRENCY
+  </sql>
+  
+    
+  <sql id="buyTypeDicai">
+    (ZPUR_TYPE IN ('1','2','3','4','5','6','7','D','X') OR ZPUR_TYPE IS NULL)
+  </sql>
+
+  <sql id="WhereByPK">
+    where REQUEST = #{request,jdbcType=VARCHAR}
+    and DATAPAKID = #{datapakid,jdbcType=DOUBLE}
+    and
+    RECORD=#{record,jdbcType=INTEGER}
+  </sql>
+
+  <select id="selectByPK" resultMap="BaseResultMap" parameterType="map">
+    select
+    <include refid="Base_Column_List" />
+    from zmm_ds62
+    <include refid="WhereByPK" />
+  </select>
+
+  <delete id="deleteByPK" parameterType="map">
+    delete from zmm_ds62
+    <include refid="WhereByPK" />
+  </delete>
+
+<!-- 批量插入 -->
+  <insert id="batch" parameterType="list">
+    insert into zmm_ds62 (
+    <include refid="Base_Column_List" />
+    )
+    values
+    <foreach collection="list" item="item" separator=",">
+      (
+      #{item.request,jdbcType=VARCHAR},
+      #{item.datapakid,jdbcType=DOUBLE},
+      #{item.record,jdbcType=INTEGER},
+      #{item.secondDivisionCode,jdbcType=VARCHAR},
+      #{item.divisionCode,jdbcType=VARCHAR},
+      #{item.regionCode,jdbcType=VARCHAR},
+      #{item.category2Code,jdbcType=VARCHAR},
+      #{item.categoryCode,jdbcType=VARCHAR},
+      #{item.brandCode,jdbcType=VARCHAR},
+      #{item.goodsCode,jdbcType=VARCHAR},
+      #{item.stockType,jdbcType=VARCHAR},
+      #{item.dataDate, jdbcType=DATE},
+      #{item.stock,jdbcType=DOUBLE},
+      #{item.unit,jdbcType=VARCHAR},
+      #{item.saleIncome,jdbcType=DOUBLE},
+      #{item.saleNum,jdbcType=DOUBLE},
+      #{item.buyType,jdbcType=VARCHAR},
+      #{item.feedbackRate,jdbcType=DOUBLE},
+      #{item.feedbackStatus,jdbcType=VARCHAR},
+      #{item.stockAmountWithTax,jdbcType=DOUBLE},
+      #{item.currency, jdbcType=VARCHAR}
+      )
+    </foreach>
+  </insert>
+  
+  
+  <insert id="insertIntoHr" parameterType="java.util.List">
+    insert into zmm_ds62_tohr (
+    	<include refid="Base_Column_List" />,IS_HANDLER,HANDLER_RESULT,EMP_NUMBER,ROLE_ID
+    )
+    values 
+    <foreach collection="list" item="item" separator=",">
+    (
+    	#{item.request,jdbcType=VARCHAR},
+	    #{item.datapakid,jdbcType=DOUBLE},
+	    #{item.record,jdbcType=INTEGER},
+	    #{item.secondDivisionCode,jdbcType=VARCHAR},
+	    #{item.divisionCode,jdbcType=VARCHAR},
+	    #{item.regionCode,jdbcType=VARCHAR},
+	    #{item.category2Code,jdbcType=VARCHAR},
+	    #{item.categoryCode,jdbcType=VARCHAR},
+	    #{item.brandCode,jdbcType=VARCHAR},
+	    #{item.goodsCode,jdbcType=VARCHAR},
+	    #{item.dataDate, jdbcType=DATE},
+	    #{item.stock,jdbcType=DOUBLE},
+	    #{item.unit,jdbcType=VARCHAR},
+	    #{item.saleIncome,jdbcType=DOUBLE},
+	    #{item.saleNum,jdbcType=DOUBLE},
+	    #{item.buyType,jdbcType=VARCHAR},
+	    #{item.feedbackRate,jdbcType=DOUBLE},
+	    #{item.feedbackStatus,jdbcType=VARCHAR},
+	    #{item.stockAmountWithTax,jdbcType=DOUBLE},
+	    #{item.currency, jdbcType=VARCHAR},
+	    0,
+	    0,
+	    #{item.empNumber, jdbcType=VARCHAR},
+	    #{item.roleId, jdbcType=INTEGER}
+    )
+    </foreach>
+  </insert>
+  
+
+  <insert id="insert" parameterType="com.gome.storefeedback.entity.SapFeedback">
+    insert into zmm_ds62 (
+    <include refid="Base_Column_List" />
+    )
+    values
+    (
+    #{request,jdbcType=VARCHAR},
+    #{datapakid,jdbcType=DOUBLE},
+    #{record,jdbcType=INTEGER},
+    #{secondDivisionCode,jdbcType=VARCHAR},
+    #{divisionCode,jdbcType=VARCHAR},
+    #{regionCode,jdbcType=VARCHAR},
+    #{category2Code,jdbcType=VARCHAR},
+    #{categoryCode,jdbcType=VARCHAR},
+    #{brandCode,jdbcType=VARCHAR},
+    #{goodsCode,jdbcType=VARCHAR},
+    #{stockType,jdbcType=VARCHAR},
+    #{dataDate, jdbcType=DATE},
+    #{stock,jdbcType=DOUBLE},
+    #{unit,jdbcType=VARCHAR},
+    #{saleIncome,jdbcType=DOUBLE},
+    #{saleNum,jdbcType=DOUBLE},
+    #{buyType,jdbcType=VARCHAR},
+    #{feedbackRate,jdbcType=DOUBLE},
+    #{feedbackStatus,jdbcType=VARCHAR},
+    #{stockAmountWithTax,jdbcType=DOUBLE},
+    #{currency, jdbcType=VARCHAR}
+    )
+  </insert>
+
+  <update id="updateByPK" parameterType="com.gome.storefeedback.entity.SapFeedback">
+    update zmm_ds62
+    <set>
+      <if test="request!=null">REQUEST=#{request,jdbcType=VARCHAR},</if>
+      <if test="datapakid!=null">DATAPAKID=#{datapakid,jdbcType=DOUBLE},</if>
+      <if test="record!=null">RECORD=#{record,jdbcType=INTEGER},</if>
+      <if test="secondDivisionCode!=null">SALES_GRP=#{secondDivisionCode,jdbcType=VARCHAR},</if>
+      <if test="divisionCode!=null">ZDEPTMNT=#{divisionCode,jdbcType=VARCHAR},</if>
+      <if test="regionCode!=null">ZREGION=#{regionCode,jdbcType=VARCHAR},</if>
+      <if test="category2Code!=null">RPA_WGH2=#{category2Code,jdbcType=VARCHAR},</if>
+      <if test="categoryCode!=null">ZMAT_CAT=#{categoryCode,jdbcType=VARCHAR},</if>
+      <if test="brandCode!=null">PROD_HIER=#{brandCode,jdbcType=VARCHAR},</if>
+      <if test="goodsCode!=null">ZARTICLE=#{goodsCode,jdbcType=VARCHAR},</if>
+      <if test="dataDate!=null">CALDAY=#{dataDate,jdbcType=DATE},</if>
+      <if test="stock!=null">ZINV_QTY=#{stock,jdbcType=DOUBLE},</if>
+      <if test="unit!=null">UNIT=#{unit,jdbcType=VARCHAR},</if>
+      <if test="saleIncome!=null">ZKI01148=#{saleIncome,jdbcType=DOUBLE},</if>
+      <if test="saleNum!=null">ZKI01153=#{saleNum,jdbcType=DOUBLE},</if>
+      <if test="buyType!=null">ZPUR_TYPE=#{buyType,jdbcType=VARCHAR},</if>
+      <if test="feedbackRate!=null">ZRATE=#{feedbackRate,jdbcType=DOUBLE},</if>
+      <if test="feedbackStatus!=null">FLAG=#{feedbackStatus,jdbcType=VARCHAR},</if>
+      <if test="stockAmountWithTax!=null">ZINV_AMB=#{stockAmountWithTax,jdbcType=DOUBLE},</if>
+      <if test="currency!=null">CURRENCY=#{currency,jdbcType=VARCHAR}</if>
+    </set>
+    <include refid="WhereByPK" />
+  </update>
+
+  <select id="list" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from zmm_ds62
+    <where>
+      <if test="request!=null">REQUEST=#{request,jdbcType=VARCHAR}</if>
+      <if test="datapakid!=null"> and DATAPAKID=#{datapakid,jdbcType=DOUBLE}</if>
+      <if test="record!=null"> and RECORD=#{record,jdbcType=INTEGER}</if>
+      <if test="secondDivisionCode!=null"> and SALES_GRP=#{secondDivisionCode,jdbcType=VARCHAR}</if>
+      <if test="divisionCode!=null"> and ZDEPTMNT=#{divisionCode,jdbcType=VARCHAR}</if>
+      <if test="regionCode!=null"> and ZREGION=#{regionCode,jdbcType=VARCHAR}</if>
+      <if test="category2Code!=null"> and RPA_WGH2=#{category2Code,jdbcType=VARCHAR}</if>
+      <if test="categoryCode!=null"> and ZMAT_CAT=#{categoryCode,jdbcType=VARCHAR}</if>
+      <if test="brandCode!=null"> and PROD_HIER=#{brandCode,jdbcType=VARCHAR}</if>
+      <if test="goodsCode!=null"> and ZARTICLE=#{goodsCode,jdbcType=VARCHAR}</if>
+      <if test="dataDate!=null"> and CALDAY=#{dataDate,jdbcType=DATE}</if>
+      <if test="stock!=null"> and ZINV_QTY=#{stock,jdbcType=DOUBLE}</if>
+      <if test="unit!=null"> and UNIT=#{unit,jdbcType=VARCHAR}</if>
+      <if test="saleIncome!=null"> and ZKI01148=#{saleIncome,jdbcType=DOUBLE}</if>
+      <if test="saleNum!=null"> and ZKI01153=#{saleNum,jdbcType=DOUBLE}</if>
+      
+      <if test="buyType != null">
+        <if test="buyType == '1' "> and ZPUR_TYPE = 'W' </if>
+        <if test="buyType == '0' ">       
+            and <include refid="buyTypeDicai"></include>
+        </if>
+      </if>
+      
+      <if test="feedbackRate!=null"> and ZRATE=#{feedbackRate,jdbcType=DOUBLE}</if>
+      <if test="feedbackStatus!=null"> and FLAG=#{feedbackStatus,jdbcType=VARCHAR}</if>
+      <if test="stockAmountWithTax!=null"> and ZINV_AMB=#{stockAmountWithTax,jdbcType=DOUBLE}</if>
+      <if test="currency!=null"> and CURRENCY=#{currency,jdbcType=VARCHAR}</if>
+    </where>
+  </select>
+
+
+
+  <resultMap id="CateGroySumResultMap" type="com.gome.storefeedback.entity.CateGroySum">
+    <result property="categoryCode" column="categoryCode" jdbcType="VARCHAR" />
+    <result property="jcnum" column="jcnum" jdbcType="VARCHAR" />
+    <result property="dcnum" column=" dcnum" jdbcType="VARCHAR" />
+    <result property="categoryName" column="categoryName" jdbcType="VARCHAR" />
+    <result property="feedbackNum" column="feedbackNum" jdbcType="VARCHAR" />
+  </resultMap>
+  
+   <select id="categorySum" parameterType="map" resultType="map">
+   <if test="buy_type_auth_role != null">
+    <!-- 总部领导 -->
+    <if test="buy_type_auth_role == '11111100'.toString() ">
+      <!-- SELECT t.categoryCode,t.feedbackNum, l.division_name AS categoryName FROM (
+      SELECT
+      sf.ZMAT_CAT as
+      categoryCode,floor(COUNT(DISTINCT(sf.PROD_HIER))) as feedbackNum
+      FROM zmm_ds62 sf
+      WHERE sf.CALDAY =#{dataDate,jdbcType=DATE}
+      GROUP BY sf.ZMAT_CAT) t
+      INNER JOIN lack_division l
+      ON t.categoryCode=l.division_code
+      ORDER BY t.categoryCode -->
+      
+       SELECT
+	m.categoryCode,
+	m.num1 AS jcnum,
+	m.num2 AS dcnum,
+	l.division_name AS categoryName
+   FROM
+	(
+		SELECT
+			t.categoryCode,
+			t.feedbackNum AS num1,
+			n.feedbackNum AS num2
+		FROM
+			(
+				SELECT
+					sf.ZMAT_CAT AS categoryCode,
+					floor(
+						COUNT(DISTINCT(sf.PROD_HIER))
+					) AS feedbackNum
+				FROM
+					zmm_ds62 sf
+				LEFT JOIN sapfeedback_handler sfh ON sfh.REQUEST = sf.REQUEST
+				AND sfh.DATAPAKID = sf.DATAPAKID
+				AND sfh.RECORD = sf.RECORD
+				WHERE
+					sf.CALDAY  = #{dataDate,jdbcType=DATE}
+					<if test="categoryCodes != null">
+			        AND sf.ZMAT_CAT IN
+			        <foreach collection="categoryCodes" item="categoryCode" open="(" separator="," close=")">
+			          #{categoryCode}
+			        </foreach>
+			      </if>
+				AND sf.ZPUR_TYPE = 'W'
+				<!-- AND sfh.is_handler IS NULL -->
+				GROUP BY
+					sf.ZMAT_CAT
+			) t
+		LEFT JOIN (
+			SELECT
+				sf.ZMAT_CAT AS categoryCode,
+				floor(
+					COUNT(DISTINCT(sf.PROD_HIER))
+				) AS feedbackNum
+			FROM
+				zmm_ds62 sf
+			LEFT JOIN sapfeedback_handler sfh ON sfh.REQUEST = sf.REQUEST
+			AND sfh.DATAPAKID = sf.DATAPAKID
+			AND sfh.RECORD = sf.RECORD
+			WHERE
+				sf.CALDAY  =#{dataDate,jdbcType=DATE}
+				<if test="categoryCodes != null">
+			        AND sf.ZMAT_CAT IN
+			        <foreach collection="categoryCodes" item="categoryCode" open="(" separator="," close=")">
+			          #{categoryCode}
+			        </foreach>
+			      </if>
+			AND sf.ZPUR_TYPE != 'W'
+			<!-- AND sfh.is_handler IS NULL -->
+			GROUP BY
+				sf.ZMAT_CAT
+		) n ON t.categoryCode = n.categoryCode
+	) m
+  INNER JOIN lack_division l ON m.categoryCode = l.division_code 
+
+    </if>
+     <!-- 分部领导 -->
+    <if test="buy_type_auth_role == '10110100'.toString() ">
+      SELECT t.categoryCode,t.dcnum, l.division_name AS categoryName FROM (
+        SELECT  sf.ZMAT_CAT as  categoryCode,
+        floor(COUNT(DISTINCT(sf.PROD_HIER)))  AS dcnum
+        FROM zmm_ds62 sf
+        WHERE sf.CALDAY =#{dataDate,jdbcType=DATE}
+        <if test="categoryCodes != null">
+			        AND sf.ZMAT_CAT IN
+			        <foreach collection="categoryCodes" item="categoryCode" open="(" separator="," close=")">
+			          #{categoryCode}
+			        </foreach>
+			      </if>
+        AND sf.ZPUR_TYPE !='W'
+        <if test="srcOrgType1 != null">
+          AND sf.ZDEPTMNT IN
+          <foreach collection="srcOrgType1" item="srcOrgType" open="(" separator="," close=")">
+            #{srcOrgType}
+          </foreach>
+        </if>
+        <if test="srcOrgType2 != null">
+          AND sf.SALES_GRP IN
+          <foreach collection="srcOrgType2" item="srcOrgType" open="(" separator="," close=")">
+            #{srcOrgType}
+          </foreach>
+        </if>
+        GROUP BY sf.ZMAT_CAT) t
+      INNER JOIN lack_division l
+      ON t.categoryCode=l.division_code
+      ORDER BY t.categoryCode
+    </if>
+    <!-- 总部业务 -->
+    <if test="buy_type_auth_role == '11001110'.toString() ">
+   <!--  SELECT t.categoryCode,t.feedbackNum, l.division_name AS categoryName FROM (
+      SELECT sf.ZMAT_CAT as categoryCode,
+      floor(COUNT(DISTINCT(sf.PROD_HIER))) as feedbackNum
+      FROM zmm_ds62 sf
+      LEFT JOIN sapfeedback_handler sfh
+      ON sfh.REQUEST=sf.REQUEST
+      AND sfh.DATAPAKID=sf.DATAPAKID
+      AND sfh.RECORD=sf.RECORD
+      WHERE sf.CALDAY =#{dataDate,jdbcType=DATE}
+      <if test="categoryCodes != null">
+        AND sf.ZMAT_CAT IN
+        <foreach collection="categoryCodes" item="categoryCode" open="(" separator="," close=")">
+          #{categoryCode}
+        </foreach>
+      </if>
+      AND sfh.is_handler IS NULL
+      GROUP BY sf.ZMAT_CAT) t
+      INNER JOIN lack_division l
+      ON t.categoryCode=l.division_code
+      ORDER BY
+      t.categoryCode -->
+           SELECT
+	m.categoryCode,
+	m.num1 AS jcnum,
+	m.num2 AS dcnum,
+	l.division_name AS categoryName
+   FROM
+	(
+		SELECT
+			t.categoryCode,
+			t.feedbackNum AS num1,
+			n.feedbackNum AS num2
+		FROM
+			(
+				SELECT
+					sf.ZMAT_CAT AS categoryCode,
+					floor(
+						COUNT(DISTINCT(sf.PROD_HIER))
+					) AS feedbackNum
+				FROM
+					zmm_ds62 sf
+				LEFT JOIN sapfeedback_handler sfh ON sfh.REQUEST = sf.REQUEST
+				AND sfh.DATAPAKID = sf.DATAPAKID
+				AND sfh.RECORD = sf.RECORD
+				WHERE
+					sf.CALDAY  = #{dataDate,jdbcType=DATE}
+				<if test="categoryCodes != null">
+			        AND sf.ZMAT_CAT IN
+			        <foreach collection="categoryCodes" item="categoryCode" open="(" separator="," close=")">
+			          #{categoryCode}
+			        </foreach>
+			      </if>
+				AND sf.ZPUR_TYPE = 'W'
+				<!-- AND sfh.is_handler IS NULL -->
+				GROUP BY
+					sf.ZMAT_CAT
+			) t
+		LEFT JOIN (
+			SELECT
+				sf.ZMAT_CAT AS categoryCode,
+				floor(
+					COUNT(DISTINCT(sf.PROD_HIER))
+				) AS feedbackNum
+			FROM
+				zmm_ds62 sf
+			LEFT JOIN sapfeedback_handler sfh ON sfh.REQUEST = sf.REQUEST
+			AND sfh.DATAPAKID = sf.DATAPAKID
+			AND sfh.RECORD = sf.RECORD
+			WHERE
+				sf.CALDAY  =#{dataDate,jdbcType=DATE}
+			<if test="categoryCodes != null">
+		        AND sf.ZMAT_CAT IN
+		        <foreach collection="categoryCodes" item="categoryCode" open="(" separator="," close=")">
+		          #{categoryCode}
+		        </foreach>
+		      </if>
+			AND sf.ZPUR_TYPE != 'W'
+			<!-- AND sfh.is_handler IS NULL -->
+			GROUP BY
+				sf.ZMAT_CAT
+		) n ON t.categoryCode = n.categoryCode
+	) m
+  INNER JOIN lack_division l ON m.categoryCode = l.division_code
+    </if>
+    <!-- 分部业务 -->
+    <if test="buy_type_auth_role == '10100001'.toString() ">
+      SELECT t.categoryCode,t.dcnum, l.division_name AS categoryName FROM (
+      SELECT sf.ZMAT_CAT as categoryCode,
+      floor(COUNT(DISTINCT(sf.PROD_HIER))) as dcnum
+      FROM zmm_ds62 sf
+      LEFT JOIN sapfeedback_handler sfh
+      ON sfh.REQUEST=sf.REQUEST
+      AND sfh.DATAPAKID=sf.DATAPAKID
+      AND sfh.RECORD=sf.RECORD
+      WHERE sf.CALDAY =#{dataDate,jdbcType=DATE}
+      AND sf.ZPUR_TYPE !='W'
+      <if test="categoryCodes != null">
+        AND sf.ZMAT_CAT IN
+        <foreach collection="categoryCodes" item="categoryCode" open="(" separator="," close=")">
+          #{categoryCode}
+        </foreach>
+      </if>
+      <if test="srcOrgType1 != null">
+        AND sf.ZDEPTMNT IN
+        <foreach collection="srcOrgType1" item="srcOrgType" open="(" separator="," close=")">
+          #{srcOrgType}
+        </foreach>
+      </if>
+      <if test="srcOrgType2 != null">
+        AND sf.SALES_GRP IN
+        <foreach collection="srcOrgType2" item="srcOrgType" open="(" separator="," close=")">
+          #{srcOrgType}
+        </foreach>
+      </if>
+      <!-- AND sfh.is_handler IS NULL -->
+      GROUP BY sf.ZMAT_CAT) t
+      INNER JOIN lack_division l
+      ON t.categoryCode=l.division_code
+      ORDER BY t.categoryCode
+    </if>
+  </if>
+</select>
+
+  <select id="brandSum" parameterType="map" resultType="map">
+  <if test="buy_type_auth_role !=null ">
+    <!-- 总部领导 分部领导 -->
+    <if test="buy_type_auth_role == '11111100'.toString() or buy_type_auth_role == '10110100'.toString()">
+    SELECT t.categoryCode,t.brandCode,t.feedbackNum, gb.cn_text AS brandName FROM (
+      SELECT sf.PROD_HIER AS brandCode,sf.ZMAT_CAT AS categoryCode,
+      floor(COUNT(DISTINCT(sf.ZARTICLE))) AS feedbackNum
+      FROM zmm_ds62 sf
+      
+      WHERE sf.CALDAY =#{dataDate,jdbcType=DATE}
+      AND NOT EXISTS (
+				SELECT
+					*
+				FROM
+					sapfeedback_handler sfh
+				WHERE
+					sfh.REQUEST = sf.REQUEST
+				AND sfh.DATAPAKID = sf.DATAPAKID
+				AND sfh.RECORD = sf.RECORD
+			)
+        <if test="buyType != null">
+          <if test="buyType == '1'.toString() ">
+            and sf.ZPUR_TYPE='W'
+            <if test="categoryCode!=null ">and sf.ZMAT_CAT= #{categoryCode,jdbcType=VARCHAR}</if>
+          </if>
+          <if test="buyType == '0'.toString() ">
+            AND sf.ZPUR_TYPE !='W'
+            <if test="categoryCode!=null ">and sf.ZMAT_CAT= #{categoryCode,jdbcType=VARCHAR}</if>
+             <!-- 分部领导 -->
+              <if test="buy_type_auth_role == '10110100'.toString()">
+                <if test="srcOrgType1 != null">
+                  AND sf.ZDEPTMNT IN
+                  <foreach collection="srcOrgType1" item="srcOrgType" open="(" separator="," close=")">
+                    #{srcOrgType}
+                  </foreach>
+                </if>
+                <if test="srcOrgType2 != null">
+                  AND sf.SALES_GRP IN
+                  <foreach collection="srcOrgType2" item="srcOrgType" open="(" separator="," close=")">
+                    #{srcOrgType}
+                  </foreach>
+                </if>
+              </if>
+          </if>
+        </if>
+        GROUP BY sf.PROD_HIER) t
+      INNER JOIN goods_brand gb
+      ON t.brandCode=gb.brand_code
+      ORDER BY t.feedbackNum DESC
+    </if>
+    <!-- 总部业务 分部业务 -->
+  <if test="buy_type_auth_role == '11001110'.toString() or buy_type_auth_role == '10100001'.toString()">
+    SELECT t.categoryCode,t.brandCode,t.feedbackNum, gb.cn_text AS brandName FROM (
+    SELECT sf.PROD_HIER AS  brandCode,sf.ZMAT_CAT AS categoryCode,
+    floor(COUNT(DISTINCT(sf.ZARTICLE))) AS feedbackNum
+    FROM zmm_ds62 sf
+    <!-- LEFT JOIN sapfeedback_handler sfh
+    ON sfh.REQUEST=sf.REQUEST
+    AND sfh.DATAPAKID=sf.DATAPAKID
+    AND sfh.RECORD=sf.RECORD -->
+    WHERE sf.CALDAY =#{dataDate,jdbcType=DATE}
+    AND NOT EXISTS (
+				SELECT
+					*
+				FROM
+					sapfeedback_handler sfh
+				WHERE
+					sfh.REQUEST = sf.REQUEST
+				AND sfh.DATAPAKID = sf.DATAPAKID
+				AND sfh.RECORD = sf.RECORD
+			)
+    <if test="buyType != null">
+      <if test="buyType == '1'.toString() ">
+        and sf.ZPUR_TYPE='W'
+        <if test="categoryCode!=null ">and sf.ZMAT_CAT= #{categoryCode,jdbcType=VARCHAR}</if>
+      </if>
+      <if test="buyType == '0'.toString() ">
+        AND sf.ZPUR_TYPE !='W'
+        <if test="categoryCode!=null ">and sf.ZMAT_CAT= #{categoryCode,jdbcType=VARCHAR}</if>
+        <!-- 总部业务 分部业务 -->
+        <if test="buy_type_auth_role == '10100001'.toString()">
+          <if test="srcOrgType1 != null">
+            AND sf.ZDEPTMNT IN
+            <foreach collection="srcOrgType1" item="srcOrgType" open="(" separator="," close=")">
+              #{srcOrgType}
+            </foreach>
+          </if>
+          <if test="srcOrgType2 != null">
+            AND sf.SALES_GRP IN
+            <foreach collection="srcOrgType2" item="srcOrgType" open="(" separator="," close=")">
+              #{srcOrgType}
+            </foreach>
+          </if>
+        </if>
+      </if>
+    </if>
+    <!-- AND sfh.is_handler IS NULL -->
+    GROUP BY sf.PROD_HIER) t
+    INNER JOIN goods_brand gb
+    ON t.brandCode=gb.brand_code
+    ORDER BY
+    t.feedbackNum DESC
+  </if>
+  </if>
+  </select>
+
+  <select id="goodsSum" parameterType="map" resultType="map">
+    <if test="buy_type_auth_role !=null ">
+ <!-- 总部领导 分部领导 -->
+      <if test="buy_type_auth_role == '11111100'.toString() or buy_type_auth_role == '10110100'.toString()">
+        select * from (SELECT CONCAT(t.REQUEST,'#',t.DATAPAKID,'#',t.RECORD) AS id,t.dataDate,
+        t.goodsCode,t.categoryCode,t.brandCode,t.feedbackNum, g.goods_name AS goodsName,
+       <!--  <if test="isHandler != null" > '1' AS is_handler</if> -->
+        <if test="isHandler == null" > '2' AS is_handler</if>
+         FROM (
+        SELECT
+        sf.REQUEST,sf.DATAPAKID,sf.RECORD,sf.CALDAY AS dataDate,
+        sf.ZARTICLE AS goodsCode,sf.PROD_HIER AS brandCode ,sf.ZMAT_CAT AS categoryCode,
+        FORMAT(CASE SUM(sf.ZKI01153) WHEN 0 THEN 100 ELSE (SUM(sf.ZINV_QTY))/(SUM(sf.ZKI01153))*100 END,2) AS feedbackNum
+        FROM zmm_ds62  sf 
+				<!-- LEFT JOIN sapfeedback_handler sfh ON sfh.REQUEST = sf.REQUEST
+				AND sfh.DATAPAKID = sf.DATAPAKID
+		AND sfh.RECORD = sf.RECORD -->
+        WHERE sf.CALDAY =#{dataDate,jdbcType=DATE}
+        <!-- AND NOT EXISTS (
+			SELECT
+				*
+			FROM
+				sapfeedback_handler sfh
+			WHERE
+				sfh.REQUEST = sf.REQUEST
+			AND sfh.DATAPAKID = sf.DATAPAKID
+			AND sfh.RECORD = sf.RECORD
+		) -->
+         <!-- <if test="isHandler != null" > AND sfh.is_handler IS NOt NULL</if>
+        <if test="isHandler == null" > AND sfh.is_handler IS NULL</if> -->
+        <if test="buyType!=null">
+          <if test="buyType == '1'.toString() ">
+            and sf.ZPUR_TYPE='W'
+            <if test="categoryCode != null ">and sf.ZMAT_CAT= #{categoryCode,jdbcType=VARCHAR}</if>
+            <if test="brandCode != null ">and sf.PROD_HIER=#{brandCode,jdbcType=VARCHAR}</if>
+          </if>
+          <if test="buyType == '0'.toString() ">
+            AND sf.ZPUR_TYPE !='W'
+            <if test="categoryCode != null ">and sf.ZMAT_CAT= #{categoryCode,jdbcType=VARCHAR}</if>
+            <if test="brandCode != null ">and sf.PROD_HIER=#{brandCode,jdbcType=VARCHAR}</if>
+            <if test="buy_type_auth_role == '10110100'.toString()  or  buy_type_auth_role == '10100001'.toString()">
+              <if test="srcOrgType1 != null">
+                AND sf.ZDEPTMNT IN
+                <foreach collection="srcOrgType1" item="srcOrgType" open="(" separator="," close=")">
+                  #{srcOrgType}
+                </foreach>
+              </if>
+              <if test="srcOrgType2 != null">
+                AND sf.SALES_GRP IN
+                <foreach collection="srcOrgType2" item="srcOrgType" open="(" separator="," close=")">
+                  #{srcOrgType}
+                </foreach>
+              </if>
+            </if>
+          </if>
+        </if>
+        GROUP BY sf.ZARTICLE) t
+        LEFT JOIN goods g
+        ON t.goodsCode=g.goods_code
+        <!-- ORDER BY is_handler ASC, CONVERT(t.feedbackNum,DECIMAL) DESC -->
+        
+        UNION
+        
+        SELECT CONCAT(t.REQUEST,'#',t.DATAPAKID,'#',t.RECORD) AS id,t.dataDate,
+        t.goodsCode,t.categoryCode,t.brandCode,t.feedbackNum, g.goods_name AS goodsName,
+       <!--  <if test="isHandler != null" > '1' AS is_handler</if> -->
+        <if test="isHandler == null" > '2' AS is_handler</if>
+         FROM (
+        SELECT
+        sf.REQUEST,sf.DATAPAKID,sf.RECORD,sf.CALDAY AS dataDate,
+        sf.ZARTICLE AS goodsCode,sf.PROD_HIER AS brandCode ,sf.ZMAT_CAT AS categoryCode,
+        FORMAT(CASE SUM(sf.ZKI01153) WHEN 0 THEN 100 ELSE (SUM(sf.ZINV_QTY))/(SUM(sf.ZKI01153))*100 END,2) AS feedbackNum
+        FROM zmm_ds62  sf ,sapfeedback_handler sfh 
+				<!-- LEFT JOIN sapfeedback_handler sfh ON sfh.REQUEST = sf.REQUEST
+				AND sfh.DATAPAKID = sf.DATAPAKID
+		AND sfh.RECORD = sf.RECORD -->
+        WHERE sf.CALDAY =#{dataDate,jdbcType=DATE}
+        AND sfh.REQUEST = sf.REQUEST
+			AND sfh.DATAPAKID = sf.DATAPAKID
+			AND sfh.RECORD = sf.RECORD
+        <if test="buyType!=null">
+          <if test="buyType == '1'.toString() ">
+            and sf.ZPUR_TYPE='W'
+            <if test="categoryCode != null ">and sf.ZMAT_CAT= #{categoryCode,jdbcType=VARCHAR}</if>
+            <if test="brandCode != null ">and sf.PROD_HIER=#{brandCode,jdbcType=VARCHAR}</if>
+          </if>
+          <if test="buyType == '0'.toString() ">
+            AND sf.ZPUR_TYPE !='W'
+            <if test="categoryCode != null ">and sf.ZMAT_CAT= #{categoryCode,jdbcType=VARCHAR}</if>
+            <if test="brandCode != null ">and sf.PROD_HIER=#{brandCode,jdbcType=VARCHAR}</if>
+            <if test="buy_type_auth_role == '10110100'.toString()  or  buy_type_auth_role == '10100001'.toString()">
+              <if test="srcOrgType1 != null">
+                AND sf.ZDEPTMNT IN
+                <foreach collection="srcOrgType1" item="srcOrgType" open="(" separator="," close=")">
+                  #{srcOrgType}
+                </foreach>
+              </if>
+              <if test="srcOrgType2 != null">
+                AND sf.SALES_GRP IN
+                <foreach collection="srcOrgType2" item="srcOrgType" open="(" separator="," close=")">
+                  #{srcOrgType}
+                </foreach>
+              </if>
+            </if>
+          </if>
+        </if>
+        GROUP BY sf.ZARTICLE) t
+        LEFT JOIN goods g
+        ON t.goodsCode=g.goods_code
+        <!-- ORDER BY is_handler ASC, CONVERT(t.feedbackNum,DECIMAL) DESC -->
+        ) n
+        ORDER BY CONVERT(n.feedbackNum,DECIMAL) DESC
+      </if>
+<!-- 总部业务 分部业务 -->
+      <if test="buy_type_auth_role == '11001110'.toString() or buy_type_auth_role == '10100001'.toString()">
+        select * from (SELECT
+			CONCAT(
+				t.REQUEST,
+				'#',
+				t.DATAPAKID,
+				'#',
+				t.RECORD
+			) AS id,
+			t.dataDate,
+			t.goodsCode,
+			t.categoryCode,
+			t.brandCode,
+			t.feedbackNum,
+			g.goods_name AS goodsName,
+        <if test="isHandler == null" > '2' AS is_handler</if>
+		FROM
+			(
+				SELECT
+					sf.REQUEST,
+					sf.DATAPAKID,
+					sf.RECORD,
+					sf.CALDAY AS dataDate,
+					sf.ZARTICLE AS goodsCode,
+					sf.PROD_HIER AS brandCode,
+					sf.ZMAT_CAT AS categoryCode,
+					FORMAT(
+						CASE SUM(sf.ZKI01153)
+						WHEN 0 THEN
+							100
+						ELSE
+							(SUM(sf.ZINV_QTY)) / (SUM(sf.ZKI01153)) * 100
+						END,
+						2
+					) AS feedbackNum
+				FROM
+					zmm_ds62 sf
+				<!-- LEFT JOIN sapfeedback_handler sfh ON sfh.REQUEST = sf.REQUEST
+				AND sfh.DATAPAKID = sf.DATAPAKID
+		AND sfh.RECORD = sf.RECORD -->
+        WHERE sf.CALDAY =#{dataDate,jdbcType=DATE}
+         <!-- AND NOT EXISTS (
+			SELECT
+				*
+			FROM
+				sapfeedback_handler sfh
+			WHERE
+				sfh.REQUEST = sf.REQUEST
+			AND sfh.DATAPAKID = sf.DATAPAKID
+			AND sfh.RECORD = sf.RECORD
+		) -->
+		
+        <if test="buyType!=null">
+          <if test="buyType == '1'.toString() ">
+            and sf.ZPUR_TYPE='W'
+            <if test="categoryCode != null ">and sf.ZMAT_CAT= #{categoryCode,jdbcType=VARCHAR}</if>
+            <if test="brandCode != null ">and sf.PROD_HIER=#{brandCode,jdbcType=VARCHAR}</if>
+          </if>
+          <if test="buyType == '0'.toString() ">
+            AND sf.ZPUR_TYPE !='W'
+            <if test="categoryCode != null ">and sf.ZMAT_CAT= #{categoryCode,jdbcType=VARCHAR}</if>
+            <if test="brandCode != null ">and sf.PROD_HIER=#{brandCode,jdbcType=VARCHAR}</if>
+            <if test="buy_type_auth_role == '10110100'.toString()  or  buy_type_auth_role == '10100001'.toString()">
+              <if test="srcOrgType1 != null">
+                AND sf.ZDEPTMNT IN
+                <foreach collection="srcOrgType1" item="srcOrgType" open="(" separator="," close=")">
+                  #{srcOrgType}
+                </foreach>
+              </if>
+              <if test="srcOrgType2 != null">
+                AND sf.SALES_GRP IN
+                <foreach collection="srcOrgType2" item="srcOrgType" open="(" separator="," close=")">
+                  #{srcOrgType}
+                </foreach>
+              </if>
+            </if>
+          </if>
+        </if>
+        GROUP BY sf.ZARTICLE) t
+        LEFT JOIN goods g
+        ON t.goodsCode=g.goods_code
+        
+        <!-- UNION
+        
+        SELECT
+			CONCAT(
+				t.REQUEST,
+				'#',
+				t.DATAPAKID,
+				'#',
+				t.RECORD
+			) AS id,
+			t.dataDate,
+			t.goodsCode,
+			t.categoryCode,
+			t.brandCode,
+			t.feedbackNum,
+			g.goods_name AS goodsName,
+			is_handler
+		FROM
+			(
+				SELECT
+					sf.REQUEST,
+					sf.DATAPAKID,
+					sf.RECORD,
+					sf.CALDAY AS dataDate,
+					sf.ZARTICLE AS goodsCode,
+					sf.PROD_HIER AS brandCode,
+					sf.ZMAT_CAT AS categoryCode,
+					FORMAT(
+						CASE SUM(sf.ZKI01153)
+						WHEN 0 THEN
+							100
+						ELSE
+							(SUM(sf.ZINV_QTY)) / (SUM(sf.ZKI01153)) * 100
+						END,
+						2
+					) AS feedbackNum,
+		sfh.is_handler
+				FROM
+					zmm_ds62 sf
+				LEFT JOIN sapfeedback_handler sfh ON sfh.REQUEST = sf.REQUEST
+				AND sfh.DATAPAKID = sf.DATAPAKID
+		AND sfh.RECORD = sf.RECORD
+        WHERE sf.CALDAY =#{dataDate,jdbcType=DATE}
+        <if test="buyType!=null">
+          <if test="buyType == '1'.toString() ">
+            and sf.ZPUR_TYPE='W'
+            <if test="categoryCode != null ">and sf.ZMAT_CAT= #{categoryCode,jdbcType=VARCHAR}</if>
+            <if test="brandCode != null ">and sf.PROD_HIER=#{brandCode,jdbcType=VARCHAR}</if>
+          </if>
+          <if test="buyType == '0'.toString() ">
+            AND sf.ZPUR_TYPE !='W'
+            <if test="categoryCode != null ">and sf.ZMAT_CAT= #{categoryCode,jdbcType=VARCHAR}</if>
+            <if test="brandCode != null ">and sf.PROD_HIER=#{brandCode,jdbcType=VARCHAR}</if>
+            <if test="buy_type_auth_role == '10110100'.toString()  or  buy_type_auth_role == '10100001'.toString()">
+              <if test="srcOrgType1 != null">
+                AND sf.ZDEPTMNT IN
+                <foreach collection="srcOrgType1" item="srcOrgType" open="(" separator="," close=")">
+                  #{srcOrgType}
+                </foreach>
+              </if>
+              <if test="srcOrgType2 != null">
+                AND sf.SALES_GRP IN
+                <foreach collection="srcOrgType2" item="srcOrgType" open="(" separator="," close=")">
+                  #{srcOrgType}
+                </foreach>
+              </if>
+            </if>
+          </if>
+        </if>
+        AND sfh.is_handler IS NOT NULL
+        GROUP BY sf.ZARTICLE) t
+        LEFT JOIN goods g
+        ON t.goodsCode=g.goods_code -->
+        
+        <!-- ORDER BY is_handler ASC, CONVERT(feedbackNum,DECIMAL) DESC -->
+        
+        UNION
+        
+        SELECT
+			CONCAT(
+				t.REQUEST,
+				'#',
+				t.DATAPAKID,
+				'#',
+				t.RECORD
+			) AS id,
+			t.dataDate,
+			t.goodsCode,
+			t.categoryCode,
+			t.brandCode,
+			t.feedbackNum,
+			g.goods_name AS goodsName,
+        <if test="isHandler == null" > '2' AS is_handler</if>
+		FROM
+			(
+				SELECT
+					sf.REQUEST,
+					sf.DATAPAKID,
+					sf.RECORD,
+					sf.CALDAY AS dataDate,
+					sf.ZARTICLE AS goodsCode,
+					sf.PROD_HIER AS brandCode,
+					sf.ZMAT_CAT AS categoryCode,
+					FORMAT(
+						CASE SUM(sf.ZKI01153)
+						WHEN 0 THEN
+							100
+						ELSE
+							(SUM(sf.ZINV_QTY)) / (SUM(sf.ZKI01153)) * 100
+						END,
+						2
+					) AS feedbackNum
+				FROM
+					zmm_ds62 sf
+				<!-- LEFT JOIN sapfeedback_handler sfh ON sfh.REQUEST = sf.REQUEST
+				AND sfh.DATAPAKID = sf.DATAPAKID
+		AND sfh.RECORD = sf.RECORD -->
+        WHERE sf.CALDAY =#{dataDate,jdbcType=DATE}
+         <!-- AND NOT EXISTS (
+			SELECT
+				*
+			FROM
+				sapfeedback_handler sfh
+			WHERE
+				sfh.REQUEST = sf.REQUEST
+			AND sfh.DATAPAKID = sf.DATAPAKID
+			AND sfh.RECORD = sf.RECORD
+		) -->
+		
+        <if test="buyType!=null">
+          <if test="buyType == '1'.toString() ">
+            and sf.ZPUR_TYPE='W'
+            <if test="categoryCode != null ">and sf.ZMAT_CAT= #{categoryCode,jdbcType=VARCHAR}</if>
+            <if test="brandCode != null ">and sf.PROD_HIER=#{brandCode,jdbcType=VARCHAR}</if>
+          </if>
+          <if test="buyType == '0'.toString() ">
+            AND sf.ZPUR_TYPE !='W'
+            <if test="categoryCode != null ">and sf.ZMAT_CAT= #{categoryCode,jdbcType=VARCHAR}</if>
+            <if test="brandCode != null ">and sf.PROD_HIER=#{brandCode,jdbcType=VARCHAR}</if>
+            <if test="buy_type_auth_role == '10110100'.toString()  or  buy_type_auth_role == '10100001'.toString()">
+              <if test="srcOrgType1 != null">
+                AND sf.ZDEPTMNT IN
+                <foreach collection="srcOrgType1" item="srcOrgType" open="(" separator="," close=")">
+                  #{srcOrgType}
+                </foreach>
+              </if>
+              <if test="srcOrgType2 != null">
+                AND sf.SALES_GRP IN
+                <foreach collection="srcOrgType2" item="srcOrgType" open="(" separator="," close=")">
+                  #{srcOrgType}
+                </foreach>
+              </if>
+            </if>
+          </if>
+        </if>
+        GROUP BY sf.ZARTICLE) t
+        LEFT JOIN goods g
+        ON t.goodsCode=g.goods_code
+<!--         ORDER BY is_handler ASC, CONVERT(feedbackNum,DECIMAL) DESC -->
+        ) m
+        ORDER BY CONVERT(m.feedbackNum,DECIMAL) DESC
+      </if>
+    </if>
+  </select> 
+
+<select id="divisionSum" parameterType="map" resultType="map">
+ SELECT * FROM (
+ SELECT CONCAT(sf.REQUEST,'#',sf.DATAPAKID,'#',sf.RECORD) AS id,
+  sf.CALDAY AS dataDate,sf.ZDEPTMNT AS divisionCode,
+  sf.ZARTICLE AS goodsCode,sf.ZMAT_CAT AS categoryCode,
+  sf.PROD_HIER AS brandCode,sf.FLAG AS feedbackStatus,
+  floor(sf.ZINV_QTY) AS stock,floor(sf.ZKI01153) AS saleNum,sf.SALES_GRP AS divisionName,
+  '' is_handler
+  FROM zmm_ds62 sf
+  WHERE sf.CALDAY='2000-01-01'
+
+       <!-- 总部领导 -->
+      <if test="buy_type_auth_role == '11111100'.toString()">
+      UNION ALL
+        SELECT CONCAT(t.REQUEST,'#',t.DATAPAKID,'#',t.RECORD) AS id ,
+        t.dataDate,t.divisionCode,t.goodsCode,t.categoryCode,t.brandCode,
+        t.feedbackStatus,t.stock,t.saleNum, d.division_desc AS divisionName,'2' is_handler FROM (
+        SELECT sf.REQUEST,sf.DATAPAKID,sf.RECORD,
+        sf.CALDAY AS dataDate,sf.ZDEPTMNT AS divisionCode,
+        sf.ZARTICLE AS goodsCode,sf.PROD_HIER AS brandCode,
+        sf.ZMAT_CAT AS categoryCode,sf.FLAG AS feedbackStatus,
+        floor(sf.ZINV_QTY) AS stock,floor(sf.ZKI01153) AS saleNum
+        FROM zmm_ds62 sf
+        WHERE sf.CALDAY=#{dataDate,jdbcType=DATE}
+        <if test="buyType != null">
+          <if test="buyType == '1'.toString() ">
+                  AND sf.ZPUR_TYPE='W'
+          </if>
+          <if test="buyType == '0'.toString() ">
+                  AND sf.ZPUR_TYPE!='W'
+          </if>
+        </if>
+        AND sf.ZMAT_CAT= #{categoryCode,jdbcType=VARCHAR}
+        AND sf.PROD_HIER=#{brandCode,jdbcType=VARCHAR}
+        AND sf.ZARTICLE=#{goodsCode,jdbcType=VARCHAR}
+        ) t
+        LEFT JOIN division d
+        ON t.divisionCode=d.division_code
+      </if>
+      <!-- 总部业务 -->
+      <if test="buy_type_auth_role == '11001110'.toString()">
+     <!--  UNION ALL
+        SELECT CONCAT(t.REQUEST,'#',t.DATAPAKID,'#',t.RECORD) AS id ,
+        t.dataDate,t.divisionCode,t.goodsCode,t.categoryCode,t.brandCode,
+        t.feedbackStatus,t.stock,t.saleNum, d.division_desc AS divisionName FROM (
+        SELECT sf.REQUEST,sf.DATAPAKID,sf.RECORD,
+        sf.CALDAY AS dataDate,sf.ZDEPTMNT AS divisionCode,
+        sf.ZARTICLE AS goodsCode,sf.PROD_HIER AS brandCode,
+        sf.ZMAT_CAT AS categoryCode,sf.FLAG AS feedbackStatus,
+        floor(sf.ZINV_QTY) AS stock,floor(sf.ZKI01153) AS saleNum
+        FROM zmm_ds62 sf
+        LEFT JOIN sapfeedback_handler sfh
+        ON sfh.REQUEST=sf.REQUEST
+        AND sfh.DATAPAKID=sf.DATAPAKID
+        AND sfh.RECORD=sf.RECORD
+        WHERE sf.CALDAY=#{dataDate,jdbcType=DATE}
+        <if test="buyType != null">
+          <if test="buyType == '1'.toString() ">
+                  AND sf.ZPUR_TYPE='W'
+          </if>
+          <if test="buyType == '0'.toString() ">
+                  AND sf.ZPUR_TYPE!='W'
+          </if>
+        </if>
+        AND sf.ZMAT_CAT= #{categoryCode,jdbcType=VARCHAR}
+        AND sf.PROD_HIER=#{brandCode,jdbcType=VARCHAR}
+        AND sf.ZARTICLE=#{goodsCode,jdbcType=VARCHAR}
+        AND sfh.is_handler IS
+        NULL
+        ) t
+        LEFT JOIN division d
+        ON t.divisionCode=d.division_code -->
+        
+         UNION ALL
+         		SELECT
+		CONCAT(
+			t.REQUEST,
+			'#',
+			t.DATAPAKID,
+			'#',
+			t.RECORD
+		) AS id,
+		t.dataDate,
+		t.divisionCode,
+		t.goodsCode,
+		t.categoryCode,
+		t.brandCode,
+		t.feedbackStatus,
+		t.stock,
+		t.saleNum,
+		d.division_desc AS divisionName,
+		'2' AS is_handler
+	FROM
+		(
+			SELECT
+				sf.REQUEST,
+				sf.DATAPAKID,
+				sf.RECORD,
+				sf.CALDAY AS dataDate,
+				sf.ZDEPTMNT AS divisionCode,
+				sf.ZARTICLE AS goodsCode,
+				sf.PROD_HIER AS brandCode,
+				sf.ZMAT_CAT AS categoryCode,
+				sf.FLAG AS feedbackStatus,
+				floor(sf.ZINV_QTY) AS stock,
+				floor(sf.ZKI01153) AS saleNum,
+			  sfh.is_handler
+			FROM
+				zmm_ds62 sf
+			LEFT JOIN sapfeedback_handler sfh ON sfh.REQUEST = sf.REQUEST
+			AND sfh.DATAPAKID = sf.DATAPAKID
+			AND sfh.RECORD = sf.RECORD
+        WHERE sf.CALDAY=#{dataDate,jdbcType=DATE}
+        <if test="buyType != null">
+          <if test="buyType == '1'.toString() ">
+                  AND sf.ZPUR_TYPE='W'
+          </if>
+          <if test="buyType == '0'.toString() ">
+                  AND sf.ZPUR_TYPE!='W'
+          </if>
+        </if>
+        AND sf.ZMAT_CAT= #{categoryCode,jdbcType=VARCHAR}
+        AND sf.PROD_HIER=#{brandCode,jdbcType=VARCHAR}
+        AND sf.ZARTICLE=#{goodsCode,jdbcType=VARCHAR}
+        AND sfh.is_handler IS
+        NULL
+        ) t
+        LEFT JOIN division d
+        ON t.divisionCode=d.division_code
+        
+         UNION all
+
+	SELECT
+		CONCAT(
+			t.REQUEST,
+			'#',
+			t.DATAPAKID,
+			'#',
+			t.RECORD
+		) AS id,
+		t.dataDate,
+		t.divisionCode,
+		t.goodsCode,
+		t.categoryCode,
+		t.brandCode,
+		t.feedbackStatus,
+		t.stock,
+		t.saleNum,
+     	d.division_desc AS divisionName,
+		CONCAT(t.is_handler,'')
+	FROM
+		(
+			SELECT
+				sf.REQUEST,
+				sf.DATAPAKID,
+				sf.RECORD,
+				sf.CALDAY AS dataDate,
+				sf.ZDEPTMNT AS divisionCode,
+				sf.ZARTICLE AS goodsCode,
+				sf.PROD_HIER AS brandCode,
+				sf.ZMAT_CAT AS categoryCode,
+				sf.FLAG AS feedbackStatus,
+				floor(sf.ZINV_QTY) AS stock,
+				floor(sf.ZKI01153) AS saleNum,
+			  sfh.is_handler
+			FROM
+				zmm_ds62 sf
+			LEFT JOIN sapfeedback_handler sfh ON sfh.REQUEST = sf.REQUEST
+			AND sfh.DATAPAKID = sf.DATAPAKID
+			AND sfh.RECORD = sf.RECORD
+        WHERE sf.CALDAY=#{dataDate,jdbcType=DATE}
+        <if test="buyType != null">
+          <if test="buyType == '1'.toString() ">
+                  AND sf.ZPUR_TYPE='W'
+          </if>
+          <if test="buyType == '0'.toString() ">
+                  AND sf.ZPUR_TYPE!='W'
+          </if>
+        </if>
+        AND sf.ZMAT_CAT= #{categoryCode,jdbcType=VARCHAR}
+        AND sf.PROD_HIER=#{brandCode,jdbcType=VARCHAR}
+        AND sf.ZARTICLE=#{goodsCode,jdbcType=VARCHAR}
+        AND sfh.is_handler IS not
+        NULL
+        ) t
+        LEFT JOIN division d
+        ON t.divisionCode=d.division_code
+        <!-- ORDER BY is_handler ASC -->
+      </if>
+      <!-- 分部领导 -->
+      <if test="buy_type_auth_role == '10110100'.toString()">
+      <if test="srcOrgType1 != null">
+          UNION ALL
+          SELECT CONCAT(t.REQUEST,'#',t.DATAPAKID,'#',t.RECORD) AS id ,
+          t.dataDate, t.divisionCode,t.goodsCode,t.categoryCode,t.brandCode,
+          t.feedbackStatus,t.stock,t.saleNum, d.division_desc AS
+          divisionName, '2' is_handler FROM (
+          SELECT sf.REQUEST,sf.DATAPAKID,sf.RECORD,sf.CALDAY AS dataDate,
+          sf.ZDEPTMNT AS divisionCode, sf.ZARTICLE AS goodsCode,
+          sf.PROD_HIER AS brandCode ,sf.ZMAT_CAT AS categoryCode,
+          sf.FLAG AS feedbackStatus,floor(sf.ZINV_QTY) AS stock,floor(sf.ZKI01153) AS saleNum
+          FROM zmm_ds62 sf
+          WHERE sf.CALDAY =#{dataDate,jdbcType=DATE}
+          AND sf.ZPUR_TYPE !='W'
+          AND sf.ZMAT_CAT= #{categoryCode,jdbcType=VARCHAR}
+          AND sf.PROD_HIER=#{brandCode,jdbcType=VARCHAR}
+          AND sf.ZARTICLE=#{goodsCode,jdbcType=VARCHAR}
+          AND sf.ZDEPTMNT IN
+          <foreach collection="srcOrgType1" item="srcOrgType" open="(" separator="," close=")">
+            #{srcOrgType}
+          </foreach>
+          ) t
+          LEFT JOIN division d
+          ON t.divisionCode=d.division_code
+        </if>
+        <if test="srcOrgType2 != null">
+          UNION ALL
+          SELECT CONCAT(t.REQUEST,'#',t.DATAPAKID,'#',t.RECORD) AS id ,
+          t.dataDate,t.divisionCode,t.goodsCode,t.categoryCode,t.brandCode,
+          t.feedbackStatus,t.stock,t.saleNum,
+          d.second_division_des AS divisionName ,'2' is_handler FROM (
+          SELECT sf.REQUEST,sf.DATAPAKID,sf.RECORD,sf.CALDAY AS dataDate,
+          sf.SALES_GRP AS divisionCode, sf.ZARTICLE AS goodsCode,sf.PROD_HIER AS brandCode,
+          sf.ZMAT_CAT AS categoryCode,sf.FLAG AS feedbackStatus,
+          floor(sf.ZINV_QTY) AS stock,floor(sf.ZKI01153) AS saleNum
+          FROM zmm_ds62 sf
+          WHERE sf.CALDAY =#{dataDate,jdbcType=DATE}
+          AND sf.ZPUR_TYPE !='W'
+          AND sf.ZMAT_CAT= #{categoryCode,jdbcType=VARCHAR}
+          AND sf.PROD_HIER=#{brandCode,jdbcType=VARCHAR}
+          AND sf.ZARTICLE=#{goodsCode,jdbcType=VARCHAR}
+          AND sf.SALES_GRP IN
+          <foreach collection="srcOrgType2" item="srcOrgType" open="(" separator="," close=")">
+            #{srcOrgType}
+          </foreach>
+          ) t
+          LEFT JOIN second_division d
+          ON t.divisionCode=d.second_division_code
+        </if>
+      </if>
+      <!-- 分部业务 -->
+      <if test="buy_type_auth_role == '10100001'.toString()">
+      <if test="srcOrgType1 != null">
+          UNION ALL
+          SELECT CONCAT(t.REQUEST,'#',t.DATAPAKID,'#',t.RECORD) AS id ,
+          t.dataDate, t.divisionCode,t.goodsCode,t.categoryCode,t.brandCode,
+          t.feedbackStatus,t.stock,t.saleNum, d.division_desc AS
+          divisionName ,'2' is_handler FROM (
+          SELECT sf.REQUEST,sf.DATAPAKID,sf.RECORD,sf.CALDAY AS dataDate,
+          sf.ZDEPTMNT AS divisionCode, sf.ZARTICLE AS goodsCode,
+          sf.PROD_HIER AS brandCode ,sf.ZMAT_CAT AS categoryCode,
+          sf.FLAG AS feedbackStatus,floor(sf.ZINV_QTY) AS stock,floor(sf.ZKI01153) AS saleNum
+          FROM zmm_ds62 sf
+          LEFT JOIN
+          sapfeedback_handler sfh
+          ON sfh.REQUEST=sf.REQUEST
+          AND sfh.DATAPAKID=sf.DATAPAKID
+          AND sfh.RECORD=sf.RECORD
+          WHERE sf.CALDAY =#{dataDate,jdbcType=DATE}
+          AND sf.ZPUR_TYPE !='W'
+          AND sf.ZMAT_CAT= #{categoryCode,jdbcType=VARCHAR}
+          AND sf.PROD_HIER=#{brandCode,jdbcType=VARCHAR}
+          AND sf.ZARTICLE=#{goodsCode,jdbcType=VARCHAR}
+          AND sf.ZDEPTMNT IN
+          <foreach collection="srcOrgType1" item="srcOrgType" open="(" separator="," close=")">
+            #{srcOrgType}
+          </foreach>
+          AND sfh.is_handler IS NULL
+          ) t
+          LEFT JOIN division d
+          ON t.divisionCode=d.division_code
+          
+           UNION ALL
+          SELECT CONCAT(t.REQUEST,'#',t.DATAPAKID,'#',t.RECORD) AS id ,
+          t.dataDate, t.divisionCode,t.goodsCode,t.categoryCode,t.brandCode,
+          t.feedbackStatus,t.stock,t.saleNum, d.division_desc AS
+          divisionName, CONCAT(t.is_handler,'') FROM (
+          SELECT sf.REQUEST,sf.DATAPAKID,sf.RECORD,sf.CALDAY AS dataDate,
+          sf.ZDEPTMNT AS divisionCode, sf.ZARTICLE AS goodsCode,
+          sf.PROD_HIER AS brandCode ,sf.ZMAT_CAT AS categoryCode,
+          sf.FLAG AS feedbackStatus,floor(sf.ZINV_QTY) AS stock,floor(sf.ZKI01153) AS saleNum,sfh.is_handler
+          FROM zmm_ds62 sf
+          LEFT JOIN
+          sapfeedback_handler sfh
+          ON sfh.REQUEST=sf.REQUEST
+          AND sfh.DATAPAKID=sf.DATAPAKID
+          AND sfh.RECORD=sf.RECORD
+          WHERE sf.CALDAY =#{dataDate,jdbcType=DATE}
+          AND sf.ZPUR_TYPE !='W'
+          AND sf.ZMAT_CAT= #{categoryCode,jdbcType=VARCHAR}
+          AND sf.PROD_HIER=#{brandCode,jdbcType=VARCHAR}
+          AND sf.ZARTICLE=#{goodsCode,jdbcType=VARCHAR}
+          AND sf.ZDEPTMNT IN
+          <foreach collection="srcOrgType1" item="srcOrgType" open="(" separator="," close=")">
+            #{srcOrgType}
+          </foreach>
+          AND sfh.is_handler IS NOT NULL
+          ) t
+          LEFT JOIN division d
+          ON t.divisionCode=d.division_code
+        </if>
+        <if test="srcOrgType2 != null">
+          UNION ALL
+          SELECT CONCAT(t.REQUEST,'#',t.DATAPAKID,'#',t.RECORD) AS id ,
+          t.dataDate,t.divisionCode,t.goodsCode,t.categoryCode,t.brandCode,
+          t.feedbackStatus,t.stock,t.saleNum,
+          d.second_division_des AS divisionName FROM (
+          SELECT sf.REQUEST,sf.DATAPAKID,sf.RECORD,sf.CALDAY AS dataDate,
+          sf.SALES_GRP AS divisionCode, sf.ZARTICLE AS goodsCode,sf.PROD_HIER AS brandCode,
+          sf.ZMAT_CAT AS categoryCode,sf.FLAG AS feedbackStatus,
+          floor(sf.ZINV_QTY) AS stock,floor(sf.ZKI01153) AS saleNum
+          FROM zmm_ds62 sf
+          LEFT JOIN sapfeedback_handler sfh
+          ON sfh.REQUEST=sf.REQUEST
+          AND sfh.DATAPAKID=sf.DATAPAKID
+          AND sfh.RECORD=sf.RECORD
+          WHERE sf.CALDAY =#{dataDate,jdbcType=DATE}
+          AND sf.ZPUR_TYPE !='W'
+          AND sf.ZMAT_CAT= #{categoryCode,jdbcType=VARCHAR}
+          AND sf.PROD_HIER=#{brandCode,jdbcType=VARCHAR}
+          AND sf.ZARTICLE=#{goodsCode,jdbcType=VARCHAR}
+          AND sf.SALES_GRP IN
+          <foreach collection="srcOrgType2" item="srcOrgType" open="(" separator="," close=")">
+            #{srcOrgType}
+          </foreach>
+          AND sfh.is_handler IS NULL
+          ) t
+          LEFT JOIN second_division d
+          ON t.divisionCode=d.second_division_code
+        </if>
+      </if>
+      ) mm
+      ORDER BY mm.is_handler ASC
+</select> 
+
+</mapper>

@@ -1,0 +1,96 @@
+APP原型
+http://modao.io/app/brbjIzaA2yrFPrlygkHH
+密码：147258
+
+------------------------------------------------------------------------------------------------------------------
+
+redis-cli.exe -h 127.0.0.1 -p 6379
+
+GMKQ  ftp:10.2.0.157 用户名/密码： rm /rm
+
+------------------------------------------------------------------------------------------------------------------
+gsm
+
+测试环境：http://10.128.16.218:8088/gsm/n/navigation/gotoMainPage
+生产环境：http://gsm.gome.inc/
+测试服务器
+	IP：10.128.16.218
+	登录：tomcat/tomcat
+	/home/tomcat/tomcat-6.0.41  这个tomcat
+
+oauth
+http://10.128.16.218:8088/oauth/oauth/token?client_id=gsmclient&client_secret=gsmpwd&grant_type=password&scope=read,write&username=18634319002&password=123
+token:e8f6d711-128e-4370-b6c5-bb5103e4772f
+http://10.128.16.218:8088/oauth/validatetoken/loadAuthentication.json?access_token=e8f6d711-128e-4370-b6c5-bb5103e4772f
+------------------------------------------------------------------------------------------------------------------
+svn:
+GSM 缺断货反馈  http://svn.gome.inc/rss/GSM1114080002
+
+
+项目编号					工程代码		项目名称			实施库访问地址
+GMHX1114070001				GMHX			恒信售后			http://svn.gome.inc/rss/GMHX1114070001
+ASS1114080001				ASS				售后APP				http://svn.gome.inc/rss/ASS1114080001
+MTMS1114060001				MTMS			物流APP				http://svn.gome.inc/rss/MTMS1114060001
+LMIS1214090001				LMIS			物流LMIS			http://svn.gome.inc/rss/LMIS1214090001
+GMGS1114010001				GMGS			工商管理系统		http://svn.gome.inc/rss/GMGS1114010001
+GMKQ1214110001				GMKQ			考勤系统			http://svn.gome.inc/rss/GMKQ1214110001
+YGZZ1114060001				YGZZ			E激励系统			http://svn.gome.inc/rss/YGZZ1114060001
+GSM1114090001				GSM				移动办公			http://svn.gome.inc/rss/GSM1114090001
+RPT1114030001				RPT				销售报表			http://svn.gome.inc/rss/RPT1114030001
+HELPER1114040001			HELPER			国美助手			http://svn.gome.inc/rss/HELPER1114040001
+WECHART1114010001			WECHART			微信				http://svn.gome.inc/rss/WECHART1114010001
+SHREDIS1114010001			SHRDS			售后缓存服务器		http://svn.gome.inc/rss/SHREDIS1114010001
+COMMONSERVICE1114050001		COMMONSERVICE	通用服务			http://svn.gome.inc/rss/COMMONSERVICE1114050001
+COMPAREPRICE1114050001		COMPAREPRICE	国美比价服务器端	http://svn.gome.inc/rss/COMPAREPRICE1114050001
+COMMONLIB1114050001			COMMONLIB		第三方开源库		http://svn.gome.inc/rss/COMMONLIB1114050001
+
+账号：gongzhibin
+密码：gongzhibin
+------------------------------------------------------------------------------------------------------------------
+网络文档 \\10.2.2.171
+
+APP接口：
+1、接收手机端参数->解密->取accesstoken获取员工信息->判断accesstoken是否失效->处理具体业务->构造返回结果(json)->记日志
+------------------------------------------------------------------------------------------------------------------
+ECC接口：
+销售任务拆分
+http://10.2.31.25:8080/saletarget/n/api/xml
+MD112
+MD113
+MD114
+MD005
+MM086	
+缺断货反馈
+http://10.2.31.50:8080/storefeedback/n/ecc/saveXML	
+MD103
+MD014
+MD001
+MD112
+MD113
+MD114
+MD005
+------------------------------------------------------------------------------------------------------------------
+国美各个大区人数(架构调整前)
+华北大区：24979
+东北大区：11315
+华东一区：13881
+华东二区：8464
+西部大区：18268
+华南一区：17144
+华南二区：11706
+电器总部：1760
+------------------------------------------------------------------------------------------------------------------
+考勤系统
+负载均衡：10.128.22.132
+数据库：
+主库：10.128.35.17 kaoqin   kaoqin
+部署节点
+10.128.36.24:8011    job节点
+10.128.36.24:8012
+10.128.36.24:8013
+10.128.36.25:8021
+10.128.36.25:8022
+10.128.36.25:8023
+------------------------------------------------------------------------------------------------------------------
+
+

@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="Mapper.FeedbackRecord">
+  <resultMap id="BaseResultMap" type="com.gome.storefeedback.entity.FeedbackRecord">
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="feedback_person_employee_id" property="feedbackPersonEmployeeId" jdbcType="VARCHAR" />
+    <result column="feedback_person_employee_name" property="feedbackPersonEmployeeName" jdbcType="VARCHAR" />
+    <result column="feedback_person_id" property="feedbackPersonId" jdbcType="VARCHAR" />
+    <result column="feedback_content" property="feedbackContent" jdbcType="VARCHAR" />
+    <result column="feedback_time" property="feedbackTime" jdbcType="TIMESTAMP" />
+    <result column="feedback_id" property="feedbackId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, feedback_person_employee_id, feedback_person_employee_name, feedback_person_id,
+    feedback_content, feedback_time, feedback_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select
+    <include refid="Base_Column_List" />
+    from feedback_record
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from feedback_record
+    where id =
+    #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.gome.storefeedback.entity.FeedbackRecord">
+    insert into feedback_record
+    (id, feedback_person_employee_id, feedback_person_employee_name,
+    feedback_person_id, feedback_content, feedback_time,
+    feedback_id)
+    values (#{id,jdbcType=VARCHAR}, #{feedbackPersonEmployeeId,jdbcType=VARCHAR},
+    #{feedbackPersonEmployeeName,jdbcType=VARCHAR},
+    #{feedbackPersonId,jdbcType=VARCHAR}, #{feedbackContent,jdbcType=VARCHAR}, #{feedbackTime,jdbcType=TIMESTAMP},
+    #{feedbackId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.gome.storefeedback.entity.FeedbackRecord">
+    insert into feedback_record
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="feedbackPersonEmployeeId != null">
+        feedback_person_employee_id,
+      </if>
+      <if test="feedbackPersonEmployeeName != null">
+        feedback_person_employee_name,
+      </if>
+      <if test="feedbackPersonId != null">
+        feedback_person_id,
+      </if>
+      <if test="feedbackContent != null">
+        feedback_content,
+      </if>
+      <if test="feedbackTime != null">
+        feedback_time,
+      </if>
+      <if test="feedbackId != null">
+        feedback_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="feedbackPersonEmployeeId != null">
+        #{feedbackPersonEmployeeId,jdbcType=VARCHAR},
+      </if>
+      <if test="feedbackPersonEmployeeName != null">
+        #{feedbackPersonEmployeeName,jdbcType=VARCHAR},
+      </if>
+      <if test="feedbackPersonId != null">
+        #{feedbackPersonId,jdbcType=VARCHAR},
+      </if>
+      <if test="feedbackContent != null">
+        #{feedbackContent,jdbcType=VARCHAR},
+      </if>
+      <if test="feedbackTime != null">
+        #{feedbackTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="feedbackId != null">
+        #{feedbackId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="update" parameterType="com.gome.storefeedback.entity.FeedbackRecord">
+    update feedback_record
+    <set>
+      <if test="feedbackPersonEmployeeId != null">
+        feedback_person_employee_id =
+        #{feedbackPersonEmployeeId,jdbcType=VARCHAR},
+      </if>
+      <if test="feedbackPersonEmployeeName != null">
+        feedback_person_employee_name =
+        #{feedbackPersonEmployeeName,jdbcType=VARCHAR},
+      </if>
+      <if test="feedbackPersonId != null">
+        feedback_person_id = #{feedbackPersonId,jdbcType=VARCHAR},
+      </if>
+      <if test="feedbackContent != null">
+        feedback_content = #{feedbackContent,jdbcType=VARCHAR},
+      </if>
+      <if test="feedbackTime != null">
+        feedback_time = #{feedbackTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="feedbackId != null">
+        feedback_id = #{feedbackId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gome.storefeedback.entity.FeedbackRecord">
+    update
+    feedback_record
+    set feedback_person_employee_id = #{feedbackPersonEmployeeId,jdbcType=VARCHAR},
+    feedback_person_employee_name = #{feedbackPersonEmployeeName,jdbcType=VARCHAR},
+    feedback_person_id = #{feedbackPersonId,jdbcType=VARCHAR},
+    feedback_content = #{feedbackContent,jdbcType=VARCHAR},
+    feedback_time = #{feedbackTime,jdbcType=TIMESTAMP},
+    feedback_id = #{feedbackId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="list" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from feedback_record
+<where>
+    <if test="null != feedbackId and '' != feedbackId">
+      feedback_id = #{feedbackId}
+    </if>
+    <if test="null != feedbackPersonId and '' != feedbackPersonId">
+      and feedback_person_id = #{feedbackPersonId}
+    </if>
+    <if test="null != feedbackPersonEmployeeName and '' != feedbackPersonEmployeeName">
+      and feedback_person_employee_name like "%${feedbackPersonEmployeeName}%"
+    </if>
+    </where>
+   ORDER BY feedback_time DESC
+  </select>
+</mapper>

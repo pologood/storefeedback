@@ -1,0 +1,9 @@
+项目svn:
+http://svn.gome.inc/rss/GSM1114080002/04_软件实现/trunk/gsm_server/storefeedback20150720
+数据库svn:
+http://svn.gome.inc/rss/GSM1114080002/02_软件设计/门店缺断货（storefeedback）/数据库设计
+
+=================说明==========
+storefeedback：一期同步提交
+storefeedback20150401：一期异步提交+一期优化
+storefeedback20150720：一期异步提交+一期优化+二期

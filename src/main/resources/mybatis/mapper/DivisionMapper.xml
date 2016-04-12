@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="Mapper.Division" >
+  <resultMap id="BaseResultMap" type="com.gome.storefeedback.entity.Division" >
+    <id column="division_code" property="division_code" jdbcType="VARCHAR" />
+    <result column="division_desc" property="division_desc" jdbcType="VARCHAR" />
+    <result column="region_code" property="region_code" jdbcType="VARCHAR" />
+    <result column="update_flag" property="update_flag" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    division_code, division_desc, region_code, update_flag
+  </sql>
+  <!-- 主键查询 -->
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from division
+    where division_code = #{division_code,jdbcType=VARCHAR}
+  </select>
+  <!-- 批量查询 -->
+  <select id="list" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from division
+    <where>
+      <if test="null != division_code and '' != division_code"> division_code = #{division_code}</if>
+      <if test="null != division_desc and '' != division_desc">and division_desc like "%"#{division_desc,jdbcType=VARCHAR}"%"</if>
+       <if test="null != update_flag and '' != update_flag">and update_flag = #{update_flag}</if>
+       <if test="null != region_code and '' != region_code">and region_code = #{region_code}</if>
+    </where>
+  </select>
+  <!-- 删除 -->
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from division
+    where division_code = #{division_code,jdbcType=VARCHAR}
+  </delete>
+  <!-- 添加 -->
+  <insert id="insert" parameterType="com.gome.storefeedback.entity.Division" >
+    insert into division (division_code, division_desc, region_code, 
+      update_flag)
+    values (#{division_code,jdbcType=VARCHAR}, #{division_desc,jdbcType=VARCHAR}, #{region_code,jdbcType=VARCHAR}, 
+      #{update_flag,jdbcType=VARCHAR})
+  </insert>
+  <!-- 批量插入 -->
+  <insert id="batchInsert" parameterType="list">
+    insert into division (<include refid="Base_Column_List" />)
+    values
+    <foreach collection="list" item="item" separator=",">
+    (#{item.division_code,jdbcType=VARCHAR}, #{item.division_desc,jdbcType=VARCHAR},
+    #{item.region_code,jdbcType=VARCHAR},
+    #{item.update_flag,jdbcType=VARCHAR})
+    </foreach>
+  </insert>
+  <!-- 暂时没用 -->
+  <insert id="insertSelective" parameterType="com.gome.storefeedback.entity.Division" >
+    insert into division
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="division_code != null" >
+        division_code,
+      </if>
+      <if test="division_desc != null" >
+        division_desc,
+      </if>
+      <if test="region_code != null" >
+        region_code,
+      </if>
+      <if test="update_flag != null" >
+        update_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="division_code != null" >
+        #{division_code,jdbcType=VARCHAR},
+      </if>
+      <if test="division_desc != null" >
+        #{division_desc,jdbcType=VARCHAR},
+      </if>
+      <if test="region_code != null" >
+        #{region_code,jdbcType=VARCHAR},
+      </if>
+      <if test="update_flag != null" >
+        #{update_flag,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <!-- 暂时没用 -->
+  <update id="updateByPrimaryKeySelective" parameterType="com.gome.storefeedback.entity.Division" >
+    update division
+    <set >
+      <if test="division_desc != null" >
+        division_desc = #{division_desc,jdbcType=VARCHAR},
+      </if>
+      <if test="region_code != null" >
+        region_code = #{region_code,jdbcType=VARCHAR},
+      </if>
+      <if test="update_flag != null" >
+        update_flag = #{update_flag,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where division_code = #{division_code,jdbcType=VARCHAR}
+  </update>
+  <!-- 更新 -->
+  <update id="update" parameterType="com.gome.storefeedback.entity.Division" >
+    update division
+    set division_desc = #{division_desc,jdbcType=VARCHAR},
+      region_code = #{region_code,jdbcType=VARCHAR},
+      update_flag = #{update_flag,jdbcType=VARCHAR}
+    where division_code = #{division_code,jdbcType=VARCHAR}
+  </update>
+</mapper>

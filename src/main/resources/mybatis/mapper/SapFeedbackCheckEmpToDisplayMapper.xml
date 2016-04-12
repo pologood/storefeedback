@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="Mapper.SapFeedbackCheckEmpToDisplayMapper">
+  <resultMap id="BaseResultMap" type="com.gome.storefeedback.entity.SapFeedbackCheckEmp">
+    <result property="request" column="REQUEST" jdbcType="VARCHAR" />
+    <result property="datapakid" column="DATAPAKID" jdbcType="DOUBLE" />
+    <result property="record" column="RECORD" jdbcType="INTEGER" />
+    <result property="secondDivisionCode" column="SALES_GRP" jdbcType="VARCHAR" />
+    <result property="divisionCode" column="ZDEPTMNT" jdbcType="VARCHAR" />
+    <result property="regionCode" column="ZREGION" jdbcType="VARCHAR" />
+    <result property="category2Code" column="RPA_WGH2" jdbcType="VARCHAR" />
+    <result property="categoryCode" column="ZMAT_CAT" jdbcType="VARCHAR" />
+    <result property="brandCode" column="PROD_HIER" jdbcType="VARCHAR" />
+    <result property="goodsCode" column="ZARTICLE" jdbcType="VARCHAR" />
+    <result property="dataDate" column="CALDAY" jdbcType="DATE" />
+    <result property="stock" column="ZINV_QTY" jdbcType="DOUBLE" />
+    <result property="unit" column="UNIT" jdbcType="VARCHAR" />
+    <result property="saleIncome" column="ZKI01148" jdbcType="DOUBLE" />
+    <result property="saleNum" column="ZKI01153" jdbcType="DOUBLE" />
+    <result property="buyType" column="ZPUR_TYPE" jdbcType="VARCHAR" />
+    <result property="feedbackRate" column="ZRATE" jdbcType="DOUBLE" />
+    <result property="feedbackStatus" column="FLAG" jdbcType="VARCHAR" />
+    <result property="stockAmountWithTax" column="ZINV_AMB" jdbcType="DOUBLE" />
+    <result property="currency" column="CURRENCY" jdbcType="VARCHAR" />
+    <result property="empNumber" column="EMP_NUMBER" jdbcType="VARCHAR" />
+    <result property="roleId" column="ROLE_ID" jdbcType="INTEGER" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    REQUEST,
+    DATAPAKID,
+    RECORD,
+    SALES_GRP,
+    ZDEPTMNT,
+    ZREGION,
+    RPA_WGH2,
+    ZMAT_CAT,
+    PROD_HIER,
+    ZARTICLE,
+    CALDAY,
+    ZINV_QTY,
+    UNIT,
+    ZKI01148,
+    ZKI01153,
+    ZPUR_TYPE,
+    ZRATE,
+    FLAG,
+    ZINV_AMB,
+    CURRENCY,
+    EMP_NUMBER,
+    ROLE_ID
+  </sql>
+  
+    
+  <sql id="buyTypeDicai">
+    (ZPUR_TYPE IN ('1','2','3','4','5','6','7','D','X') OR ZPUR_TYPE IS NULL)
+  </sql>
+
+  <sql id="WhereByPK">
+    where REQUEST = #{request,jdbcType=VARCHAR}
+    and DATAPAKID = #{datapakid,jdbcType=DOUBLE}
+    and
+    RECORD=#{record,jdbcType=INTEGER}
+  </sql>
+
+  <select id="getAllDisplayByEmp" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from zmm_ds62_check_display
+    <where>
+      <if test="request!=null">REQUEST=#{request,jdbcType=VARCHAR}</if>
+      <if test="datapakid!=null"> and DATAPAKID=#{datapakid,jdbcType=DOUBLE}</if>
+      <if test="record!=null"> and RECORD=#{record,jdbcType=INTEGER}</if>
+      <if test="secondDivisionCode!=null"> and SALES_GRP=#{secondDivisionCode,jdbcType=VARCHAR}</if>
+      <if test="divisionCode!=null"> and ZDEPTMNT=#{divisionCode,jdbcType=VARCHAR}</if>
+      <if test="regionCode!=null"> and ZREGION=#{regionCode,jdbcType=VARCHAR}</if>
+      <if test="category2Code!=null"> and RPA_WGH2=#{category2Code,jdbcType=VARCHAR}</if>
+      <if test="categoryCode!=null"> and ZMAT_CAT=#{categoryCode,jdbcType=VARCHAR}</if>
+      <if test="brandCode!=null"> and PROD_HIER=#{brandCode,jdbcType=VARCHAR}</if>
+      <if test="goodsCode!=null"> and ZARTICLE=#{goodsCode,jdbcType=VARCHAR}</if>
+      <if test="dataDate!=null"> and CALDAY=#{dataDate,jdbcType=DATE}</if>
+      <if test="stock!=null"> and ZINV_QTY=#{stock,jdbcType=DOUBLE}</if>
+      <if test="unit!=null"> and UNIT=#{unit,jdbcType=VARCHAR}</if>
+      <if test="saleIncome!=null"> and ZKI01148=#{saleIncome,jdbcType=DOUBLE}</if>
+      <if test="saleNum!=null"> and ZKI01153=#{saleNum,jdbcType=DOUBLE}</if>
+      
+      <if test="buyType != null">
+        <if test="buyType == '1' "> and ZPUR_TYPE = 'W' </if>
+        <if test="buyType == '0' ">       
+            and <include refid="buyTypeDicai"></include>
+        </if>
+      </if>
+      
+      <if test="feedbackRate!=null"> and ZRATE=#{feedbackRate,jdbcType=DOUBLE}</if>
+      <if test="feedbackStatus!=null"> and FLAG=#{feedbackStatus,jdbcType=VARCHAR}</if>
+      <if test="stockAmountWithTax!=null"> and ZINV_AMB=#{stockAmountWithTax,jdbcType=DOUBLE}</if>
+      <if test="currency!=null"> and CURRENCY=#{currency,jdbcType=VARCHAR}</if>
+      <if test="empNumber != null">
+        and EMP_NUMBER = #{empNumber,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+
+
+
+</mapper>
